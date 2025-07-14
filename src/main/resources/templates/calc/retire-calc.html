@@ -283,6 +283,8 @@ input[type=range]::-moz-range-thumb {
 	    <li>부족 자금: <span id="shortAmt"></span> 만원</li>
     </ul>
 </div>
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script th:src="@{/js/chatbot.js}"></script>
 	<script>
 		//슬라이드 실시간 값 반영
 		const sliders = [
