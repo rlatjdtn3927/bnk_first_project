@@ -20,11 +20,11 @@ public class FaqController {
 
     @GetMapping("/faq")
     public Page<FaqDto> getFaqs(
-            @RequestParam String mainType,
-            @RequestParam(required = false) String subType,
-            @RequestParam(required = false) String keyword,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+    		@RequestParam("mainType") String mainType,
+            @RequestParam(value = "subType", required = false) String subType,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size	
     ) {
         Pageable pageable = PageRequest.of(page, size);
 
