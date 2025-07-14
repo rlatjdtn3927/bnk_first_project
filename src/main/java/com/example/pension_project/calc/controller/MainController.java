@@ -16,4 +16,9 @@ public class MainController {
 		return "calc/retire-calc";
 	}
 	
+	@GetMapping("/oper-guide")
+	public String operGuide() {
+		return "oper-guide";
+	}
+	
 }

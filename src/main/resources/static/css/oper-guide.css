@@ -1,0 +1,212 @@
+body {
+	font-family: 'Pretendard', sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #222;
+}
+
+.tab-container {
+	max-width: 1200px;
+	margin: 70px auto 0;
+	padding: 0 20px;
+	text-align: center;
+}
+
+.tab-title {
+	font-size: 28px;
+	font-weight: 700;
+	margin-bottom: 30px;
+	color: #111;
+}
+
+.tab-menu {
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	background-color: #f9f9f9;
+	border-bottom: 1px solid #ccc;
+	max-width: 1200px;
+	margin: 0 auto;
+	overflow-x: auto; /* 스크롤 허용 */
+	-webkit-overflow-scrolling: touch;
+	flex-wrap: nowrap; /* 줄바꿈 방지 */
+}
+
+.tab-menu button {
+	flex: 1 1 25%; /* 각 버튼 너비 고정 (4개 탭 기준) */
+	padding: 14px 10px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 700;
+	color: #333;
+	border-bottom: 3px solid transparent;
+	transition: all 0.3s ease;
+	min-width: 25%; /* 모바일에서도 한 줄에 네 개 유지 */
+	text-align: center;
+	font-family: 'Pretendard', sans-serif;
+}
+
+.tab-menu button.active {
+	color: #c30d23;
+	font-family: 'Pretendard', sans-serif;
+	border-bottom: 3px solid #c30d23;
+	font-weight: 800;
+	background-color: #fff;
+}
+
+.tab-menu button:hover {
+	background-color: #eee;
+}
+
+/*자산운용 프로세스*/
+.section {
+  display: none;
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  line-height: 1.7;
+  text-align: left;
+  position: relative;
+}
+
+.section h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #111;
+}
+
+.section ul {
+	list-style-type: disc;
+	padding-left: 50px;
+	font-size: 18px;
+	color: #333;
+}
+
+.section-content {
+	max-width: 1000px;
+	margin: 60px auto;
+	padding: 40px 20px;
+	font-family: 'Pretendard', sans-serif;
+	color: #222;
+	line-height: 1.7;
+}
+
+.image-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: flex-start;
+  	margin: 20px 0 30px 20px;
+}
+
+.responsive-img {
+	max-width: 100%;
+	height: auto;
+	flex: 1 1 300px; /* 최소 너비 300px, 넘으면 줄바꿈 */
+	object-fit: contain;
+}
+
+.small-img {
+	width: 45%;
+	max-width: 500px;    /* 최대 크기 제한 */
+	min-width: 280px;    /* 너무 작게는 안 줄어들게 */
+	height: auto;
+}
+
+/*자산운용 프로세스 - 안내*/
+.notice-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 0 auto;
+  max-width: 1100px;
+  width: 100%;
+  background-color: #f9f9f9;
+  font-size: 14px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  margin-top: 40px;
+  margin-bottom: 50px;
+}
+
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.notice-content {
+  display: none;
+  padding: 0 16px 16px 16px;
+  color: #333;
+}
+
+.notice-content ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.notice-content li {
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  /* 제목: 줄바꿈 없이 글자 크기만 축소 */
+  .section h2 {
+    font-size: clamp(18px, 5vw, 24px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* 이미지 wrapper: 세로로 쌓임 */
+  .image-wrapper {
+    display: block;
+    border: none;
+    align-items: center;
+    margin-left: 20px;
+  }
+
+  /* 이미지: 줄바꿈 시점(768px)부터 고정된 크기 유지 */
+  .small-img {
+    width: 320px;
+    max-width: 90%;
+    min-width: unset;
+    object-fit: contain;
+    border: none;
+  }
+
+  /* 안내 박스도 살짝 축소 */
+  .notice-box {
+    width: 90%;
+    font-size: 13px;
+  }
+
+  .notice-header {
+    padding: 12px;
+  }
+
+  .notice-content {
+    padding: 0 12px 12px 12px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

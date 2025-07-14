@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>퇴직연금 가이드</title>
+<link rel="stylesheet" th:href="@{/css/header.css}" />
+<link rel="stylesheet" th:href="@{/css/footer.css}" />
+<link rel="stylesheet" th:href="@{/css/oper-guide.css}" />
+</head>
+
+<body>
+<!-- header -->
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+<!-- 경로 표시 -->
+<div th:replace="~{fragments/location :: location(category1='퇴직연금 가이드', category2='자산운용 가이드')}"></div>
+
+<!-- 탭 메뉴 -->
+<div class="tab-container">
+  <h1 class="tab-title">퇴직연금 제도란</h1>
+
+  <div class="tab-menu">
+    <button class="active" onclick="showTab('process', this)">자산운용 프로세스</button>
+    <button onclick="showTab('basic', this)">자산운용 기본원칙</button>
+    <button onclick="showTab('limit', this)">투자한도 제한</button>
+  </div>
+</div>
+
+<!-- 탭 콘텐츠 -->
+<div class="section" id="process" style="display: block;">
+	<h2>퇴직연금 자산운용 주체는 누구일까요?</h2>
+  	<!-- 이미지 -->
+  	<div class="image-wrapper">
+    	<img th:src="@{/images/guide1.PNG}" alt="DB의 자산운용 주체는 기업" height="170" class="responsive-img small-img" />
+    	<img th:src="@{/images/guide2.PNG}" alt="DB의 자산운용 주체는 기업" class="responsive-img small-img" />
+  	</div>
+  	<ul>
+    	<li> 퇴직연금 제도 형태별로 적립금 자산운용의 주체가 다릅니다.</li>
+    	<li> 확정급여형 제도에서는 사용자가 자산운용의 주체이며 자산운용 권한과 최종 책임도 사용자에세 있습니다.</li>
+    	<li> 반면에 확정기여형 및 개인형 퇴직연금제도에서는 개인 가입자가 자산운용의 권한 및 책임을 가지게 됩니다.</li>
+  	</ul>
+	<!-- 안내 -->
+	<div class="notice-box">
+	  	<div class="notice-header" onclick="toggleNotice()">
+		  	<span>안내</span>
+		  	<span id="toggle-icon">＋</span>
+	  	</div>
+	  	<div class="notice-content" id="notice-content">
+	  		<ul>
+	  			<li> 집합투자상품은 예금자보호법에 따라 보호되지 않습니다.</li>
+	  			<li> 집합투자상품은 실적배당상품이므로 운용결과에 따라 투자원금의 손실이 발생할 수 있으며, 그 손실은 투자자에게 귀속됩니다.</li>
+	  			<li> 집합투자상품을 가입하시기 전에 투자대상, 환매방법 및 보수 등에 관하여 (간이)투자설명서를 반드시 읽어보시기 바랍니다.</li>
+	  			<li> 당사는 금융투자상품에 관하여 충분히 설명할 의무가 있으며, 투자자는 투자에 앞서 그러한 설명을 충분히 들으시기 바랍니다.</li>
+	  		</ul>
+	  	</div>
+	</div>
+</div>
+
+
+
+<!-- footer -->
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
+
+<script>
+	function toggleNotice() {
+		const content = document.getElementById("notice-content");
+		const icon = document.getElementById("toggle-icon");
+		const isVisible = content.style.display === "block";
+		
+		content.style.display = isVisible ? "none" : "block";
+		icon.textContent = isVisible ? "＋" : "－";
+	}
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
