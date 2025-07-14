@@ -1,0 +1,29 @@
+/* /static/css/footer.css */
+.main-footer {
+  background-color: #5f584a;
+  color: #d8d6ce;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+  padding: 20px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+.footer-links,
+.footer-contact,
+.footer-copy {
+  margin-bottom: 8px;
+}
+
+.footer-contact {
+  font-weight: 500;
+}
+
+.footer-copy {
+  font-size: 13px;
+  color: #c8c6bd;
+}

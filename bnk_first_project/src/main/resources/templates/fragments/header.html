@@ -1,0 +1,143 @@
+<header class="main-header" th:fragment="mainHeader" xmlns:th="http://www.thymeleaf.org">
+    <div class="header-container">
+        <h1 class="logo">
+            <a href="/"><img th:src="@{/images/logo.png}" alt="BNK 퇴직연금" /></a>
+        </h1>
+
+        <nav class="main-nav">
+            <ul class="nav-list">
+                <li class="nav-item" data-menu="menu1"><a href="#">상품 안내</a></li>
+                <li class="nav-item" data-menu="menu2"><a href="/retirement-pension">퇴직연금 이해하기</a></li>
+                <li class="nav-item" data-menu="menu3"><a href="#">퇴직연금 가이드</a></li>
+                <li class="nav-item" data-menu="menu4"><a href="#">자료실</a></li>
+                <li class="nav-item" data-menu="menu5"><a href="#">공시</a></li>
+            </ul>
+        </nav>
+
+        <div class="header-right">
+            <a href="#" class="login-link">로그인</a>
+            <button class="hamburger-menu" aria-label="전체 메뉴 열기">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- PC용: hover 시 해당 항목만 표시 -->
+    <div class="submenu-box">
+        <ul id="menu1" class="submenu">
+            <li><a href="#">상품안내1</a></li>
+            <li><a href="#">상품안내2</a></li>
+        </ul>
+        <ul id="menu2" class="submenu">
+            <li><a href="/retirement-pension">제도 안내</a></li>
+            <li><a href="/retriement-type">제도의 종류</a></li>
+            <li><a href="/faq">자주하는 질문</a></li>
+        </ul>
+        <ul id="menu3" class="submenu">
+            <li><a href="#">운용 가이드</a></li>
+            <li><a href="#">수익률 관리 가이드</a></li>
+            <li><a href="#">연금 시뮬레이션</a></li>
+        </ul>
+        <ul id="menu4" class="submenu">
+            <li><a href="#">규약 신고</a></li>
+            <li><a href="#">매뉴얼 주요 서식</a></li>
+        </ul>
+        <ul id="menu5" class="submenu">
+            <li><a href="#">적립금 운용 금액 수익률</a></li>
+            <li><a href="#">수수료</a></li>
+            <li><a href="#">적립금 운용방법</a></li>
+            <li><a href="#">운용자산 자산 관리 약관</a></li>
+        </ul>
+    </div>
+
+    <!-- PC 전용 전체 사이트맵 -->
+    <div class="desktop-sitemap">
+        <div class="sitemap-header">
+            <h2>전체 메뉴</h2>
+            <button class="sitemap-close">×</button>
+        </div>
+        <div class="sitemap-grid">
+            <div class="sitemap-group">
+                <h3>상품 안내</h3>
+                <a href="#">상품안내1</a>
+                <a href="#">상품안내2</a>
+            </div>
+            <div class="sitemap-group">
+                <h3>퇴직연금 이해하기</h3>
+                <a href="/retirement-pension">제도 안내</a>
+                <a href="/retriement-type">제도의 종류</a>
+                <a href="/faq">자주하는 질문</a>
+            </div>
+            <div class="sitemap-group">
+                <h3>퇴직연금 가이드</h3>
+                <a href="#">운용 가이드</a>
+                <a href="#">수익률 관리 가이드</a>
+                <a href="#">연금 시뮬레이션</a>
+            </div>
+            <div class="sitemap-group">
+                <h3>자료실</h3>
+                <a href="#">규약 신고</a>
+                <a href="#">매뉴얼 주요 서식</a>
+            </div>
+            <div class="sitemap-group">
+                <h3>공시</h3>
+                <a href="#">적립금 운용 금액 수익률</a>
+                <a href="#">수수료</a>
+                <a href="#">적립금 운용방법</a>
+                <a href="#">운용자산 자산 관리 약관</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 모바일용 전체 메뉴: 아코디언 구조 -->
+    <div class="mobile-sitemap">
+        <div class="sitemap-header">
+            <h2>전체 메뉴</h2>
+            <button class="sitemap-close">×</button>
+        </div>
+        <ul class="sitemap-list">
+            <li class="accordion-item">
+                <strong class="accordion-title">상품 안내</strong>
+                <ul class="accordion-content">
+                    <li><a href="#">상품안내1</a></li>
+                    <li><a href="#">상품안내2</a></li>
+                </ul>
+            </li>
+            <li class="accordion-item">
+                <strong class="accordion-title">퇴직연금 이해하기</strong>
+                <ul class="accordion-content">
+                    <li><a href="/retirement-pension">제도 안내</a></li>
+                    <li><a href="/retriement-type">제도의 종류</a></li>
+                    <li><a href="/faq">자주하는 질문</a></li>
+                </ul>
+            </li>
+            <li class="accordion-item">
+                <strong class="accordion-title">퇴직연금 가이드</strong>
+                <ul class="accordion-content">
+                    <li><a href="#">운용 가이드</a></li>
+                    <li><a href="#">수익률 관리 가이드</a></li>
+                    <li><a href="#">연금 시뮬레이션</a></li>
+                </ul>
+            </li>
+            <li class="accordion-item">
+                <strong class="accordion-title">자료실</strong>
+                <ul class="accordion-content">
+                    <li><a href="#">규약 신고</a></li>
+                    <li><a href="#">매뉴얼 주요 서식</a></li>
+                </ul>
+            </li>
+            <li class="accordion-item">
+                <strong class="accordion-title">공시</strong>
+                <ul class="accordion-content">
+                    <li><a href="#">적립금 운용 금액 수익률</a></li>
+                    <li><a href="#">수수료</a></li>
+                    <li><a href="#">적립금 운용방법</a></li>
+                    <li><a href="#">운용자산 자산 관리 약관</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <script th:src="@{/js/header.js}" defer></script>
+</header>
+

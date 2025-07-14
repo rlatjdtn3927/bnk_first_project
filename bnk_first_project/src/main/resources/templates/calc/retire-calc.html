@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>은퇴 자금 계산기</title>
+</head>
+<style>
+/*전체 배경은 회색*/
+body {
+	font-family: 'Pretendard', sans-serif;
+	margin: 0;
+	padding: 0 45px;
+	background-color: #f5f5f5;
+}
+
+.title {
+	text-align: center;
+}
+
+/*휜색 카드 느낌*/
+.input-block {
+	background-color: #fff;
+	padding: 40px 30px;
+	border-radius: 16px;
+	max-width: 750px;
+	margin: 30px auto;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.03);
+}
+
+h2 {
+	margin-left: 25px;
+}
+
+.input-row {
+	display: flex;
+	justify-content: center;
+	gap: 45px;
+	flex-wrap: wrap; /* 화면 작아지면 줄바꿈 */
+}
+/*
+.age-section, .single-section {
+	
+}
+*/
+.two-section label, .single-section label {
+	display: block;
+	margin-bottom: 20px;
+	font-size: 18px;
+	margin-left: 90px;
+}
+
+.bold {
+	font-weight: bold;
+	font-size: 25px;
+	margin-left: 6px;
+}
+
+.slider-box {
+	display: flex;
+	justify-content: relative;
+	align-items: center;
+	margin-top: 10px;
+}
+
+/*단일 슬라이더 너비*/
+.slider-box.single input[type="range"] {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 100%;
+}
+
+/*두 개의 슬라이드 너비*/
+.slider-box.half input[type="range"] {
+  	appearance: none;
+	-webkit-appearance: none;
+  	width: 300px;
+	height: 8px;
+	border-radius: 5px;
+	background: #f5f5f5;
+	outline: none;
+}
+
+/* 슬라이더 채워지는 왼쪽 트랙 색상 */
+input[type="range"]::-webkit-slider-runnable-track {
+	height: 10px;
+	border-radius: 5px;
+	background: #f5f5f5;
+}
+
+input[type=range]::-moz-range-track {
+	height: 10px;
+	border-radius: 5px;
+	background: #f5f5f5;
+}
+
+/* 슬라이더 핸들 (WebKit) */
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 34px;
+	height: 24px;
+	background: white;
+	border-radius: 40%;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	margin-top: -10px;
+}
+
+input[type=range]::-moz-range-thumb {
+	height: 24px;
+	width: 24px;
+	background: white;
+	border-radius: 50%;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+	border: none;
+}
+
+.range-label {
+	display: flex;
+	justify-content: space-between;
+	color: #555;
+	margin-top: 5px;
+}
+
+/*button*/
+.presets {
+	margin-top: 10px;
+	display: flex;
+	gap: 10px;
+}
+
+.presets button {
+	padding: 10px 13px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	background: #fff;
+	cursor: pointer;
+}
+
+.presets button.active {
+	background: #4b84ca;
+	color: #fff;
+	border-color: #4b84ca;
+}
+
+/*결과보기 버튼*/
+.actions {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.actions button {
+	margin-bottom: 100px;
+	padding: 13px 26px;
+	border: none;
+	border-radius: 6px;
+	background: #4b84ca;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+</style>
+<body>
+<div id="inputSection">
+	<header>
+		<h1 class="title">은퇴 자금 계산기</h1>
+	</header>
+
+	<!-- 01 -->
+	<section class="input-block">
+		<h2>01. 현재 나이와 예상하는 은퇴나이를 입력해 주세요</h2>
+		<br>
+		<div class="input-row">
+			<div class="two-section">
+				<label>현재나이 <span class="bold"><span id="curAgeVal">35</span>세</span></label>
+				<div class="slider-box half">
+					<input type="range" id="curAge" name="curAge" min="20" max="65" value="35" />
+				</div>
+				<div class="range-label">
+					<span>20세</span><span>65세</span>
+				</div>
+			</div>
+			<div class="two-section">
+				<label>은퇴나이 <span class="bold"><span id="retAgeVal">50</span>세</span></label>
+				<div class="slider-box half">
+					<input type="range" id="retAge" name="retAge" min="50" max="85" value="50" />
+				</div>
+				<div class="range-label">
+					<span>50세</span> <span>85세</span>
+				</div>
+			</div>
+		</div>
+	</section> <!-- section: block -->
+
+	<!-- 02 -->
+	<section class="input-block">
+		<h2>02. 예상하는 기대수명을 입력해 주세요</h2>
+	    <div class="single-section">
+	      <label>기대수명 <span class="bold"><span id="lifeExpVal">82</span>세</span></label>
+	      <div class="slider-box single">
+	        <input type="range" id="lifeExp" min="55" max="120" value="82" />
+	      </div>
+	      <div class="range-label"><span>55세</span><span>120세</span></div>
+	    </div>
+	</section>
+	
+	<!-- 03 -->
+	<section class="input-block">
+		<h2>03. 현재 월 생활비 정보를 입력해 주세요</h2>
+	    <div class="single-section">
+	      <label>월 생활비 <span class="bold"><span id="curExpVal">140</span>만원</span></label>
+	      <input type="number" id="curExp" value="140" min="0" style="width:80px;"/> 만원
+	      <div class="presets">
+	        <button type="button" class="preset" data-target="curExp" data-value="100">100만원</button>
+	        <button type="button" class="preset" data-target="curExp" data-value="200">200만원</button>
+	        <button type="button" class="preset" data-target="curExp" data-value="300">300만원</button>
+	      </div>
+	    </div>
+	</section>
+	
+	<!-- 04 -->
+	<section class="input-block">
+		<h2>04. 추가로 저축할 기간과 월 저축금액을 입력해 주세요</h2>
+	    <div class="input-row">
+	      <div class="single-section">
+	        <label>저축기간 <span class="bold"><span id="saveYearsVal">10</span>년</span></label>
+	        <input type="number" id="saveYears" value="10" min="0" style="width:60px;"/> 년
+	        <div class="presets">
+	          <button type="button" class="preset" data-target="saveYears" data-value="5">5년</button>
+	          <button type="button" class="preset" data-target="saveYears" data-value="10">10년</button>
+	          <button type="button" class="preset" data-target="saveYears" data-value="20">20년</button>
+	          <button type="button" class="preset" data-target="saveYears" data-value="30">30년</button>
+	        </div>
+	      </div>
+	      <div class="single-section">
+	        <label>월 저축금액 <span class="bold"><span id="saveAmtVal">100</span>만원</span></label>
+	        <input type="number" id="saveAmt" value="100" min="0" style="width:80px;"/> 만원
+	        <div class="presets">
+	          <button type="button" class="preset" data-target="saveAmt" data-value="10">10만원</button>
+	          <button type="button" class="preset" data-target="saveAmt" data-value="50">50만원</button>
+	          <button type="button" class="preset" data-target="saveAmt" data-value="100">100만원</button>
+	          <button type="button" class="preset" data-target="saveAmt" data-value="300">300만원</button>
+	        </div>
+	      </div>
+	    </div>
+	</section>
+	
+	<!-- 05 -->
+	<section class="input-block">
+		<h2>05. 예상하는 투자수익률과 물가상승률을 입력해 주세요</h2>
+	    <div class="input-row">
+	      <div class="two-section">
+	        <label>투자수익률 <span class="bold"><span id="yieldVal">4.0</span>%</span></label>
+	        <div class="slider-box half">
+	          <input type="range" id="yieldRate" min="0" max="20" step="0.1" value="4.0" />
+	        </div>
+	        <div class="range-label"><span>0%</span><span>20%</span></div>
+	      </div>
+	      <div class="two-section">
+	        <label>물가상승률 <span class="bold"><span id="infVal">3.0</span>%</span></label>
+	        <div class="slider-box half">
+	          <input type="range" id="infRate" min="0" max="20" step="0.1" value="3.0" />
+	        </div>
+	        <div class="range-label"><span>0%</span><span>20%</span></div>
+	      </div>
+	    </div>
+	</section>
+	
+	<div class="actions">
+    	<button id="calcBtn">결과보기</button>
+  	</div>
+</div> 
+
+<!-- 결과 영역 (처음에는 숨김) -->
+<div id="resultSection" style="display:none; margin-top:30px;">
+	<h2>은퇴 자금 계산 결과</h2>
+    <ul>
+    	<li>현재 총 생활비: <span id="curTotalExp"></span> 만원</li>
+	    <li>은퇴 후 총 생활비: <span id="retTotalExp"></span> 만원</li>
+	    <li>준비 가능 자금: <span id="availAmt"></span> 만원</li>
+	    <li>필요 은퇴 자금: <span id="needAmt"></span> 만원</li>
+	    <li>부족 자금: <span id="shortAmt"></span> 만원</li>
+    </ul>
+</div>
+	<script>
+		//슬라이드 실시간 값 반영
+		const sliders = [
+			{ id: 'curAge', label: 'curAgeVal'},
+			{ id: 'retAge', label: 'retAgeVal' },
+			{ id: 'lifeExp', label: 'lifeExpVal' },
+			{ id: 'yieldRate', label: 'yieldVal' },
+			{ id: 'infRate', label: 'infVal' }
+		];
+		
+		sliders.forEach(({id, label}) => {
+			const slider = document.getElementById(id);
+			const display = document.getElementById(label);
+			
+			slider.addEventListener('input', () => {
+				display.textContent = slider.value;
+			});
+		});
+		
+		//버튼 클릭시 input 반영
+		const presetButtons = document.querySelectorAll('.preset');
+		presetButtons.forEach(btn => {
+			btn.addEventListener('click', () => {
+				const targetId = btn.dataset.target;
+				const value = btn.dataset.value;
+				
+				const input = document.getElementById(targetId);
+				input.value = value;
+				
+				//관련 label도 갱신
+				const label = document.getElementById(`${targetId}Val`);
+				if (label) label.textContent = value;
+			});
+		});
+		
+		//결과보기 버튼 클릭 시 서버에 데이터 전송 
+		document.getElementById("calcBtn").addEventListener("click", async () => {
+			const inputData = {
+				curAge: parseInt(document.getElementById('curAge').value),
+				retireAge: parseInt(document.getElementById('retAge').value),
+				lifeExp: parseInt(document.getElementById('lifeExp').value),
+				curExp: parseInt(document.getElementById('curExp').value),
+				retExp: Math.round(parseInt(document.getElementById('curExp').value) * 0.7),
+				saveYears: parseInt(document.getElementById('saveYears').value),
+				saveAmt: parseInt(document.getElementById('saveAmt').value),
+				yieldRate: parseFloat(document.getElementById('yieldRate').value),
+				infRate: parseFloat(document.getElementById('infRate').value)
+			};
+			
+			const response = await fetch('/retire/retire-calc', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(inputData)
+			});
+			
+			const result = await response.json();
+			
+			// 결과값 렌더링
+		    document.getElementById("curTotalExp").textContent = result.curTotalExp;
+		    document.getElementById("retTotalExp").textContent = result.retTotalExp;
+		    document.getElementById("availAmt").textContent = result.availAmt;
+		    document.getElementById("needAmt").textContent = result.needAmt;
+		    document.getElementById("shortAmt").textContent = result.shortAmt;
+		    
+		 	// 입력폼 숨기고 결과 영역만 보이게
+		    document.getElementById("inputSection").style.display = "none";
+		    document.getElementById("resultSection").style.display = "block";
+		});
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

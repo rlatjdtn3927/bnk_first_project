@@ -1,0 +1,242 @@
+/* Pretendard 기본 적용 */
+body, button, input {
+  font-family: 'Pretendard', sans-serif;
+  color: #1e1e1e;
+  margin: 0;
+  padding: 0;
+}
+
+/* FAQ 컨테이너 */
+.faq-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 70px 20px 60px;
+  min-height: 100vh;
+}
+
+/* 제목 */
+h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+/* 검색 영역 */
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 30px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  padding: 12px 18px;
+  font-size: 15px;
+  background: transparent;
+  outline: none;
+}
+
+.search-box button {
+  background: #d22;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  border-left: 1px solid #ddd;
+  white-space: nowrap;
+}
+
+.search-box button:hover {
+  background: #bb0000;
+}
+
+
+/* 상단 탭 */
+.type-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  position: relative;
+  padding: 6px 0;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  color: #d22;
+  font-weight: 700;
+}
+
+.tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: #d22;
+}
+
+/* 서브 카테고리 */
+.sub-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.sub-tabs button {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  font-size: 14px;
+  color: #555;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+  border-radius: 6px;
+}
+
+.sub-tabs button:hover {
+  background: #f2f2f2;
+}
+
+.sub-tabs button.active {
+  background: #2f4858;
+  color: white;
+  font-weight: 600;
+}
+
+/* FAQ 아코디언 */
+.accordion {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px 40px 20px 20px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border: 1px solid #eee;
+}
+
+.accordion::after {
+  content: "▾";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #888;
+  transition: transform 0.3s ease;
+}
+
+.accordion.open::after {
+  transform: translateY(-50%) rotate(-180deg);
+}
+
+.accordion:hover {
+  background: #f9f9f9;
+}
+
+.panel {
+  max-height: 0;
+  overflow: hidden;
+  background: #fff;
+  transition: max-height 0.4s ease;
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #333;
+}
+
+.panel.open {
+  padding: 16px 20px;
+  max-height: 500px;
+}
+
+/* 페이지네이션 */
+#pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 40px 0 20px;
+}
+
+#pagination button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #555;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+#pagination button.active {
+  font-weight: bold;
+  color: #d22;
+}
+
+/* 모바일 */
+@media screen and (max-width: 768px) {
+  .faq-container {
+    padding: 80px 16px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .search-box {
+      max-width: 90%;
+    }
+
+    .search-box input {
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+
+    .search-box button {
+      padding: 10px 16px;
+      font-size: 14px;
+    }
+
+  .type-tabs {
+    gap: 20px;
+  }
+
+  .sub-tabs {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 8px 4px;
+  }
+
+  .sub-tabs button {
+    white-space: nowrap;
+  }
+}

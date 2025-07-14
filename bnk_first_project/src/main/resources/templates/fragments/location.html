@@ -1,0 +1,86 @@
+<!-- fragments/location.html -->
+<div th:fragment="location(category1, category2)" xmlns:th="http://www.thymeleaf.org">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <div style="height: 70px;"></div> <!-- 헤더 여백 -->
+
+  <div class="breadcrumb-wrapper">
+    <div class="breadcrumb-container">
+      <div class="breadcrumb">
+        <span class="home">
+          <a th:href="@{/}">
+            <i class="fas fa-home"></i>
+          </a>
+        </span>
+        <span th:if="${category1 != null}">
+          <i class="fas fa-chevron-right"></i>
+          <span th:text="${category1}">카테고리1</span>
+        </span>
+        <span th:if="${category2 != null}">
+          <i class="fas fa-chevron-right"></i>
+          <span th:text="${category2}">카테고리2</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .breadcrumb-wrapper {
+      background-color: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+      font-size: 14px;
+      font-family: 'Pretendard', sans-serif;
+    }
+
+    .breadcrumb-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      color: #444;
+    }
+
+    .breadcrumb a {
+      color: #444;
+      text-decoration: none;
+    }
+
+    .breadcrumb .fas.fa-home {
+      color: #bbb; /* 연한 회색 */
+    }
+
+    .breadcrumb i.fas.fa-chevron-right {
+      font-size: 12px;
+      color: #ccc;
+      margin: 0 4px;
+    }
+
+    @media (max-width: 768px) {
+      .breadcrumb-wrapper {
+        padding: 12px 0;
+        font-size: 13px;
+      }
+
+      .breadcrumb-container {
+        padding: 0 15px;
+      }
+
+      .breadcrumb {
+        white-space: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .breadcrumb span {
+        flex-shrink: 0;
+      }
+    }
+  </style>
+</div>

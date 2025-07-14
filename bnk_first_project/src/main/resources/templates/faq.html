@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>자주하는 질문</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+  <link rel="stylesheet" th:href="@{/css/faq.css}" />
+
+</head>
+<body>
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+<div th:replace="~{fragments/location :: location(category1='퇴직연금 이해하기', category2='자주하는 질문')}"></div>
+
+<div class="faq-container">
+
+
+<h2>자주하는 질문</h2>
+
+<div class="search-box">
+  <input type="text" id="search-input" placeholder="검색어를 입력하세요" />
+  <button onclick="searchFaqs()">검색</button>
+</div>
+
+<!-- 상단 탭 -->
+<div class="type-tabs">
+  <button class="tab-btn active" onclick="loadFaqs('기업형 DC/DB', '전체', 0)" id="tab-dcdb">기업형 DC/DB</button>
+  <button class="tab-btn" onclick="loadFaqs('개인형 IRP', '전체', 0)" id="tab-irp">개인형 IRP</button>
+</div>
+
+
+<!-- 서브 카테고리 -->
+<div class="sub-tabs" id="category-tabs"></div>
+
+
+<!-- FAQ 리스트 -->
+<div id="faq-list"></div>
+
+<!-- 페이지네이션 -->
+<div id="pagination"></div>
+
+</div> <!-- 전체 컨테이너 닫는 div -->
+
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
+<script th:src="@{/js/faq.js}" defer></script>
+
+</body>
+</html>

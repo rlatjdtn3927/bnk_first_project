@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>퇴직연금 제도란</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+  <link rel="stylesheet" th:href="@{/css/retirement-pension.css}" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- 헤더 -->
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+
+<!-- 경로 표시 -->
+<div th:replace="~{fragments/location :: location(category1='퇴직연금 이해하기', category2='퇴직연금 제도란')}"></div>
+
+<!-- 탭 메뉴 -->
+<div class="tab-container">
+  <h1 class="tab-title">퇴직연금 제도란</h1>
+
+  <div class="tab-menu">
+    <button class="active" onclick="showTab('guide', this)">제도안내</button>
+    <button onclick="showTab('background', this)">제도 도입배경</button>
+    <button onclick="showTab('structure', this)">운영구조</button>
+    <button onclick="showTab('procedure', this)">도입절차</button>
+  </div>
+</div>
+
+<!-- 탭 콘텐츠 -->
+<div class="section" id="guide" style="display: block;">
+  <h2>퇴직연금 제도</h2>
+  <p>
+    근로자가 퇴직 후 안정적인 노후 생활을 할 수 있도록, 재직 중 사용자가 일정 금액을 사외에 적립하고
+    퇴직 시 연금 또는 일시금으로 지급하는 제도입니다.
+  </p>
+  <div class="image-wrapper">
+    <img th:src="@{/images/rp1.png}" alt="퇴직연금 구조도" class="responsive-img" />
+  </div>
+</div>
+
+<!-- 도입배경 -->
+<div class="section" id="background">
+  <h2>제도 도입배경</h2>
+
+  <div class="sub-section">
+    <h3>노동시장의 변화</h3>
+    <p>
+      퇴직금 제도는 잦은 이직, 중간정산, 생활자금 소진 등 노동시장의 변화로 노후 소득 재원 역할을 수행하지 못하고 있습니다.<br>
+      특히 퇴직급여가 사내에 예치되어 사업장 도산이나 폐업 시 근로자 퇴직금을 보장할 수 없습니다.
+    </p>
+  </div>
+
+  <div class="sub-section">
+    <h3>퇴직금제도의 한계</h3>
+    <div class="limitation-circles">
+      <div class="circle">노후자금<br>기능상실</div>
+      <div class="circle">기업도산 시<br>수급권 보장 취약</div>
+      <div class="circle">기업의 재무관리<br>어려움</div>
+    </div>
+  </div>
+
+  <div class="sub-section">
+    <h3>사회환경의 변화</h3>
+    <p>우리나라 평균수명은 83.5세로 은퇴 후 노후 기간은 계속해서 길어지고 있습니다.</p>
+
+    <div class="chart-section">
+      <div class="chart-box">
+        <h4><strong>평균수명 증가 추이</strong></h4>
+        <canvas id="lifeExpectancyChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h4><strong>65세 이상 인구 비중 추이</strong></h4>
+        <canvas id="elderlyRateChart"></canvas>
+      </div>
+    </div>
+
+    <p class="chart-caption">
+      2050년이 되면 65세 이상 노인 인구가 전체 인구의 40%로 증가, 노후생활 재원을 직접 마련해야 할 필요성이 강조되고 있는 상황입니다.
+    </p>
+  </div>
+</div>
+
+
+
+<div class="section" id="structure" style="display: none;">
+  <h2>운영구조</h2>
+  <p class="structure-desc">
+    기업은 퇴직연금사업자와 운용관리계약∙자산관리계약을 각각 체결하며, 퇴직연금사업자는 운용상품을 제시하고,<br>
+    사용자 또는 근로자의 운용지시에 따라 적립금을 운용∙관리합니다.
+  </p>
+
+  <div class="structure-flow">
+    <h3>퇴직연금 운영 흐름</h3>
+    <ol>
+      <li>기업은 노사합의에 따라 규약을 작성하고 노동부에 신고합니다.</li>
+      <li>기업과 근로자는 금융기관의 안내를 받아 제도와 적립금 운용방법을 결정합니다.</li>
+      <li>기업은 자산관리기관에 부담금을 납입합니다.</li>
+      <li>사용자(DB) 또는 근로자(DC)는 금융상품을 선택하여 운용지시를 합니다.</li>
+      <li>운용관리기관은 자산관리기관에 운용지시를 전달하고, 자산관리기관은 해당 지시에 따라 금융상품을 운용합니다.</li>
+      <li>근로자가 퇴직하면 자산관리기관은 퇴직급여를 연금 또는 일시금으로 직접 지급합니다.</li>
+    </ol>
+  </div>
+
+  <div class="structure-image">
+    <img src="/images/rp2.png" alt="퇴직연금 운영구조도" />
+  </div>
+
+  <div class="structure-role-boxes">
+    <div class="structure-role">
+      <h4>운용관리 기관</h4>
+      <p class="role-desc">
+        고객의 의사결정에 필요한 정보를 제공하며, 제도 설계 등 퇴직연금 제도 운용에 필요한 업무를 지원합니다.
+      </p>
+      <ul>
+        <li>적립금 운용방법 제시 (상품제공기관)</li>
+        <li>① 은행상품, ② 증권회사 상품, ③ 보험회사 상품, ④ 자산운용회사 상품</li>
+        <li>연금제도 설계</li>
+        <li>기록관리</li>
+      </ul>
+    </div>
+    <div class="structure-role">
+      <h4>자산관리 기관</h4>
+      <p class="role-desc">
+        고객의 운용지시 이행과 지급, 입/출금 등을 지원합니다.
+      </p>
+      <ul>
+        <li>신탁회사 (은행, 증권회사)</li>
+        <li>보험회사</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="section" id="procedure" style="display: none;">
+  <h2>도입절차</h2>
+  <p>
+    기업은 퇴직연금 제도 설계를 시작으로, 노사 합의, 금융기관과 계약 체결, 제도 시행 등 순서로 도입절차를 진행합니다.
+  </p>
+
+  <div class="procedure-steps-modern">
+    <div class="step-card">
+      <div class="step-icon"><img src="/images/icon_step1.png" alt="설계 아이콘"></div>
+      <div class="step-info">
+        <div class="step-badge">STEP 01</div>
+        <h4>퇴직연금제도 설계</h4>
+        <p>기업의 인력 구성, 임금체계, 재정상태 등을 반영하여 적합한 퇴직연금 제도를 설계합니다. <br>
+          설명회나 컨설팅을 통해 확정급여형(DB), 확정기여형(DC) 중 적절한 제도를 선택합니다.</p>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-icon"><img src="/images/icon_step2.png" alt="규약 작성 아이콘"></div>
+      <div class="step-info">
+        <div class="step-badge">STEP 02</div>
+        <h4>퇴직연금규약 작성 및 신고</h4>
+        <p>노사합의에 따라 퇴직연금규약을 작성하고, 관할 지방노동관서에 신고합니다. <br>
+          규약에는 제도 유형, 부담금 수준, 운용 방식 등이 포함되며 근로자 대표가 없는 경우에는 근로자 과반수의 동의를 받아야 합니다.</p>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-icon"><img src="/images/icon_step3.png" alt="계약 체결 아이콘"></div>
+      <div class="step-info">
+        <div class="step-badge">STEP 03</div>
+        <h4>계약체결 및 제도시행</h4>
+        <p>퇴직연금사업자(운용관리기관, 자산관리기관)와 계약을 체결하고 제도를 시행합니다. <br>
+          제도 운영을 위한 안내자료 배포 및 가입자 등록을 통해 실질적인 운영이 개시됩니다.</p>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-icon"><img src="/images/icon_step4.png" alt="부담금 납입 아이콘"></div>
+      <div class="step-info">
+        <div class="step-badge">STEP 04</div>
+        <h4>부담금 납입</h4>
+        <p>사용자는 규약에 따라 정기적으로 부담금을 납입합니다. <br>
+          확정급여형(DB)은 기업이 전액 부담하며, 확정기여형(DC)은 근로자의 임금에서 일정 비율을 공제하여 함께 적립합니다.</p>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-icon"><img src="/images/icon_step5.png" alt="적립금 운용 아이콘"></div>
+      <div class="step-info">
+        <div class="step-badge">STEP 05</div>
+        <h4>적립금 운용</h4>
+        <p>확정급여형(DB)은 기업이 금융상품을 선택하여 운용하며, 확정기여형(DC)은 근로자가 스스로 운용상품을 선택합니다. <br>
+          운용 결과에 따라 퇴직금 수령액이 달라지며, 운용 상황은 연 1회 이상 설명회를 통해 안내됩니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- 푸터 -->
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
+
+<!-- 탭 및 차트 스크립트 -->
+<script th:src="@{/js/header.js}" defer></script>
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+    document.querySelectorAll('.tab-menu button').forEach(b => b.classList.remove('active'));
+
+    document.getElementById(id).style.display = 'block';
+    btn.classList.add('active');
+
+    if (id === 'background' && !window.backgroundChartsDrawn) {
+      drawBackgroundCharts();
+      window.backgroundChartsDrawn = true;
+    }
+  }
+
+  function drawBackgroundCharts() {
+    const ctx1 = document.getElementById('lifeExpectancyChart').getContext('2d');
+    const ctx2 = document.getElementById('elderlyRateChart').getContext('2d');
+
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: ['2000', '2005', '2010', '2015', '2020'],
+        datasets: [{
+          label: '평균수명 (세)',
+          data: [76, 78.2, 80.2, 82.1, 83.5],
+          borderColor: 'rgba(54, 162, 235, 1)',
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 5,
+          pointHoverRadius: 7
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.parsed.y}세`
+            }
+          }
+        },
+        scales: {
+          y: {
+            min: 75,
+            max: 85,
+            title: { display: true, text: '세' },
+            ticks: { stepSize: 1 }
+          },
+          x: {
+            title: { display: true, text: '연도' }
+          }
+        }
+      }
+    });
+
+    new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: ['2014', '2020', '2030', '2040', '2050'],
+        datasets: [{
+          label: '65세 이상 인구 비율 (%)',
+          data: [12, 15.7, 25.5, 34.4, 40.1],
+          backgroundColor: 'rgba(186, 85, 211, 0.6)',
+          borderColor: 'rgba(186, 85, 211, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.parsed.y}%`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 50,
+            title: { display: true, text: '%' }
+          },
+          x: {
+            title: { display: true, text: '연도' }
+          }
+        }
+      }
+    });
+  }
+</script>
+</body>
+</html>

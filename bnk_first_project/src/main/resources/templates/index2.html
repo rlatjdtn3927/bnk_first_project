@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>메인 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+</head>
+<body>
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+
+<main>
+    <section class="banner-wrapper">
+        <div class="banner">배너</div>
+    </section>
+
+    <div class="main-inner">
+        <!-- 통합검색 -->
+        <section class="search-section">
+            <div class="search-box">
+                <div class="search-text">
+                    <i class="fas fa-magnifying-glass search-icon"></i>
+                    <span class="text">“디폴트옵션”을 검색해보세요.</span>
+                </div>
+                <img src="/images/search_characters.png" alt="검색 캐릭터" class="search-characters">
+            </div>
+        </section>
+        <section class="card-section">
+            <h2 class="section-title">퇴직연금을 가입해보세요</h2>
+            <div class="card-wrapper">
+                <div class="info-card">
+                    <div class="card-content">
+                        <h3>소득이 있다면 누구라도</h3>
+                        <p>절세혜택 받고 노후자금 마련하는 적립IRP</p>
+                        <a href="#" class="card-link">바로가기 &gt;</a>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-content">
+                        <h3>곧 퇴직 예정이라면</h3>
+                        <p>연금으로 받고 최대 40%까지 퇴직소득세를 절세하는 퇴직IRP</p>
+                        <a href="#" class="card-link">바로가기 &gt;</a>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="card-content">
+                        <h3>퇴직급여를 운영하고 싶다면</h3>
+                        <p>투자성향에 맞는 상품운용으로 수익률을 높이는 확정기여형DC</p>
+                        <a href="#" class="card-link">바로가기 &gt;</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <div class="guide-cards">
+                <div class="guide-card">
+                    <p class="guide-subtitle">사전지정운용제도</p>
+                    <p class="guide-title">디폴트 옵션</p>
+                    <span class="guide-arrow">→</span>
+                    <img src="/images/why1.png" alt="디폴트 옵션 캐릭터">
+                </div>
+                <div class="guide-card">
+                    <p class="guide-subtitle">퇴직연금 Q & A</p>
+                    <p class="guide-title">자주하는 질문</p>
+                    <span class="guide-arrow">→</span>
+                    <img src="/images/why2.png" alt="자주하는 질문 캐릭터">
+                </div>
+                <div class="guide-card">
+                    <p class="guide-subtitle">퇴직연금 기업뱅킹</p>
+                    <p class="guide-title"><strong>(DB/DC)</strong> 조작 가이드</p>
+                    <span class="guide-arrow">→</span>
+                    <img src="/images/why3.png" alt="조작 가이드 캐릭터">
+                </div>
+            </div>
+
+            <div class="guide-info">
+                <h2 class="section-title">Why 부산은행</h2>
+                <h3>퇴직연금일까요?</h3>
+            </div>
+        </section>
+        <section class="notice-guide-section">
+            <div class="notice-box">
+                <div class="notice-header">
+                    <h2>공지사항 TOP 5</h2>
+                    <a href="#" class="more-link">더보기 &gt;</a>
+                </div>
+                <ul class="notice-list">
+                    <li>
+                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
+                        <p class="notice-date">2025.06.09</p>
+                    </li>
+                    <li>
+                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
+                        <p class="notice-date">2025.06.09</p>
+                    </li>
+                    <li>
+                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
+                        <p class="notice-date">2025.06.09</p>
+                    </li>
+                    <li>
+                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
+                        <p class="notice-date">2025.06.09</p>
+                    </li>
+                    <li>
+                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
+                        <p class="notice-date">2025.06.09</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="guide-box">
+                <h2>퇴직연금 이해하기</h2>
+
+                <a href="#" class="guide-item yellow">
+                    <span class="item-text">연금 제도란</span>
+                    <img src="/images/icon_money.png" alt="연금 제도 아이콘" class="item-img" />
+                </a>
+
+                <a href="#" class="guide-item purple">
+                    <span class="item-text">연금 종류</span>
+                    <img src="/images/icon_pig.png" alt="연금 종류 아이콘" class="item-img" />
+                </a>
+
+                <a href="#" class="guide-item green">
+                    <span class="item-text">가입 프로세스</span>
+                    <img src="/images/icon_hand.png" alt="가입 프로세스 아이콘" class="item-img" />
+                </a>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
+</body>
+</html>

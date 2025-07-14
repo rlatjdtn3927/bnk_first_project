@@ -1,0 +1,559 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pretendard', sans-serif;
+}
+
+/* 공통 중앙 정렬 wrapper */
+.main-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* 배너 */
+.banner-wrapper {
+  width: 100%;
+  margin-top: 70px;
+  box-sizing: border-box;
+}
+
+.banner {
+  width: 100%;
+  background-color: #f6dada;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 300;
+  color: #333;
+}
+
+/* 통합 검색 영역 */
+.search-section {
+  margin-top: 40px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  border-radius: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 30px 40px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.search-text {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  color: #222;
+  z-index: 1;
+}
+
+.search-icon {
+  font-size: 20px;
+  color: #e30000;
+  margin-right: 10px;
+}
+
+
+/* 캐릭터 이미지 */
+.search-characters {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-40%, -60%);
+  width: 480px;
+  z-index: 2;
+}
+
+
+/* 반응형 모바일 */
+@media screen and (max-width: 768px) {
+  .search-characters {
+    width: 380px;
+  }
+
+  .search-box {
+      padding-top: 150px;
+      border-radius: 40px;
+      padding: 30px 24px;
+    }
+}
+
+
+
+/* 퇴직연금 가입 영역 */
+/* 전체 섹션 */
+.card-section {
+  margin: 80px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.card-section h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #111;
+}
+
+/* 카드 감싸는 영역 */
+.card-wrapper {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* 개별 카드 */
+.info-card {
+  flex: 1 1 calc(33.333% - 14px);
+  min-width: 280px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  box-sizing: border-box;
+  display: flex;
+  padding: 24px;
+  transition: box-shadow 0.3s ease;
+  height: 220px;
+}
+
+.info-card:hover {
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* 카드 내부 콘텐츠 */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #000;
+}
+
+.card-content p {
+  font-size: 14px;
+  color: #555;
+  flex-grow: 1;
+  line-height: 1.5;
+}
+
+/* 바로가기 링크 */
+.card-link {
+  font-size: 14px;
+  color: #222;
+  text-decoration: none;
+  font-weight: 500;
+  align-self: flex-end;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+  .card-wrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .info-card {
+    flex: 1 1 100%;
+    height: auto;
+  }
+
+  .card-content h3 {
+    font-size: 17px;
+  }
+
+  .card-content p,
+  .card-link {
+    font-size: 13px;
+  }
+}
+
+
+/* ------------------------- */
+/* 공통 제목 스타일          */
+/* ------------------------- */
+.section-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+/* ------------------------- */
+/* ① 퇴직연금 카드 영역      */
+/* ------------------------- */
+.card-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  border-bottom: 2px solid #ddd;
+}
+
+.card-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.info-card {
+  flex: 1 1 300px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.card-content h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.card-content p {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.card-link {
+  font-size: 14px;
+  color: #222;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+/* ------------------------- */
+/* ② Why 부산은행 영역       */
+/* ------------------------- */
+.guide-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  padding: 60px 20px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 2px solid #ddd;
+}
+
+.guide-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  flex: 1 1 65%;
+  min-width: 300px;
+}
+
+.guide-card {
+  position: relative;
+  flex: 1 1 200px;
+  background-color: #f5f9ff;
+  border-radius: 16px;
+  padding: 20px;
+  padding-bottom: 100px; /* 이미지 영역 확보 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+  min-height: 220px;
+}
+
+.guide-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.guide-subtitle {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.guide-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.guide-arrow {
+  font-size: 20px;
+  color: #ccc;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  transition: color 0.2s;
+}
+
+.guide-card:hover .guide-arrow {
+  color: #e30000;
+}
+
+.guide-card img {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 75px;
+  height: auto;
+  z-index: 0;
+}
+
+.guide-info {
+  flex: 0 0 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  text-align: left;
+}
+
+.guide-info .section-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.guide-info h3 {
+  font-size: 24px;
+  color: #666;
+  margin: 0;
+}
+
+/* ------------------------- */
+/* 반응형 대응             */
+/* ------------------------- */
+@media screen and (max-width: 768px) {
+
+  /* 카드 섹션 (info-card) */
+  .card-wrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .card-content h3 {
+    font-size: 16px;
+  }
+
+  .card-content p {
+    font-size: 14px;
+  }
+
+  .card-link {
+    font-size: 13px;
+  }
+
+  /* 가이드 섹션 (guide-card) */
+  .guide-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 16px;
+    gap: 20px;
+  }
+
+  .guide-info {
+    order: -1;
+    text-align: center;
+    padding: 0;
+  }
+
+  .guide-cards {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .guide-card {
+    width: 100%;
+    min-height: 200px;
+    padding: 16px;
+    padding-bottom: 100px;
+    text-align: left;
+  }
+
+  .guide-card img {
+    right: 16px;
+    bottom: 16px;
+    width: 65px;
+  }
+
+  .guide-arrow {
+    top: 16px;
+    right: 16px;
+  }
+}
+
+.notice-guide-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  box-sizing: border-box;
+  gap: 40px;
+  position: relative;
+}
+
+/* 중앙 세로선 */
+.notice-guide-section::before {
+  content: "";
+  position: absolute;
+  top: 60px;
+  bottom: 80px;
+  left: 58%;
+  width: 1px;
+  background-color: #ddd;
+}
+/* 공지사항 */
+.notice-box {
+  flex: 0 0 58%;
+  padding-right: 40px;
+  box-sizing: border-box;
+}
+
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.notice-header h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.notice-header .more-link {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+.notice-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notice-list li {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.notice-title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.notice-date {
+  font-size: 14px;
+  color: #999;
+  margin-top: 4px;
+}
+
+/* 퇴직연금 이해하기 */
+.guide-box {
+  flex: 0 0 42%;
+  box-sizing: border-box;
+}
+
+.guide-box h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 24px;
+}
+
+.guide-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-height: 80px;
+}
+
+.guide-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.item-text {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.item-img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+/* 배경색 클래스 */
+.yellow {
+  background-color: #fdf8e3;
+}
+.purple {
+  background-color: #f6f1fd;
+}
+.green {
+  background-color: #eefaf2;
+}
+
+/* 반응형 처리 */
+@media screen and (max-width: 1024px) {
+  .notice-guide-section {
+    flex-direction: column;
+  }
+
+  .notice-guide-section::before {
+    display: none;
+  }
+
+  .notice-box,
+  .guide-box {
+    width: 100%;
+    padding: 0;
+  }
+}
