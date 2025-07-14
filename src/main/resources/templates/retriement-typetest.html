@@ -2,12 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>퇴직연금 제도의 종류</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <link rel="stylesheet" th:href="@{/css/footer.css}" />
   <link rel="stylesheet" th:href="@{/css/retirement-type.css}" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css">
 </head>
 <body>
 
@@ -29,49 +28,53 @@
   </div>
 
   <div class="tab-content">
+    <!-- DB 탭 -->
     <div class="section" id="db" style="display: block;">
       <h2>확정급여형(DB: Defined Benefit Plan)</h2>
       <p>확정급여형 퇴직연금은 근로자가 지급받을 급여의 수준이 사전에 결정되는 퇴직연금제도입니다.</p>
       <p>(급여수준 : 근속년수 x 30일분의 평균임금)</p>
-
       <ul>
-        <li>적립금 운용에 대한 책임은 기업에 있으며, 운용에 대한 결과는 기업에 귀속됩니다.</li>
+        <li>적립금 운용에 대한 책임은 기업에 있으며, 운용 결과는 기업에 귀속됩니다.</li>
         <li>운용실적에 따라 기업의 부담금이 변동됩니다.</li>
         <li>퇴직금제도와 유사하지만, 근로자가 연금으로 수령할 수 있습니다.</li>
         <li>금융상품을 기업이 직접 선택할 수 있습니다.</li>
         <li>퇴직연금의 재정건전성을 위해 최저적립금 수준이 정해져 있습니다.</li>
-        <li>급여지급시 개인형 퇴직연금제도로 이전됩니다.</li>
+        <li>급여 지급 시 개인형 퇴직연금제도로 이전됩니다.</li>
       </ul>
 
-      <!-- 표 + 흐름도 -->
       <div class="db-flow-section">
-		  <table class="db-flow-table">
-		    <thead>
-		      <tr>
-		        <th>상품선택</th>
-		        <th>자산운용의 책임</th>
-		        <th>운용의 결과</th>
-		      </tr>
-		    </thead>
-		    <tbody>
-		      <tr>
-		        <td>기업</td>
-		        <td>기업</td>
-		        <td>기업에 귀속</td>
-		      </tr>
-		    </tbody>
-		  </table>
-		
-		  <div class="flow-horizontal">
-		    <div class="flow-step-box">기업 <span>기업이 적립</span></div>
-		    <div class="arrow-right" data-text="부담금 변동"></div>
-		    <div class="flow-step-box">퇴직연금 사업자 <span>기업이 직접 운용 및 관리</span></div>
-		    <div class="arrow-right" data-text="퇴직급여 사전확정"></div>
-		    <div class="flow-step-box">근로자 <span>일시금 또는 연금 수령</span></div>
-		  </div>
-		</div>
+        <table class="db-flow-table">
+          <thead>
+            <tr>
+              <th>상품선택</th>
+              <th>자산운용의 책임</th>
+              <th>운용의 결과</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>기업</td>
+              <td>기업</td>
+              <td>기업에 귀속</td>
+            </tr>
+          </tbody>
+        </table>
 
+        <div class="flow-horizontal">
+          <div class="flow-step-box">기업 <span>기업이 적립</span></div>
+          <div class="arrow-right" data-text="부담금 변동"></div>
+          <div class="flow-step-box">퇴직연금 사업자 <span>운용 및 관리</span></div>
+          <div class="arrow-right" data-text="급여 사전확정"></div>
+          <div class="flow-step-box">근로자 <span>연금 수령</span></div>
+        </div>
 
+        <button class="toggle-helper-btn" onclick="showCuteBubble('db')">더 쉽게 이해하기</button>
+        <div class="cute-bubble-wrapper" id="bubble-db" style="display: none;">
+          <img src="/images/character_angelk.png" alt="캐릭터" class="cute-character" />
+          <div class="speech-bubble" id="text-db"></div>
+        </div>
+      </div>
+      
       <!-- 제도 도입 효과 -->
       <div class="effect-benefit-section">
         <h3 class="effect-title">제도 도입 효과</h3>
@@ -117,22 +120,83 @@
         </div>
       </div>
     </div>
+
+    <!-- DC 탭 -->
+    <div class="section" id="dc" style="display: none;">
+      <h2>확정기여형(DC: Defined Contribution Plan)</h2>
+      <p>기업이 일정 금액을 적립하면 근로자가 자산 운용을 결정하는 퇴직연금 제도입니다.</p>
+      <p>(적립금 수준 : 사용자 부담금 = 연간 임금의 일정 비율)</p>
+      <ul>
+        <li>적립금 운용에 대한 책임은 근로자에게 있습니다.</li>
+        <li>운용실적에 따라 퇴직급여 수준이 달라집니다.</li>
+        <li>사용자는 일정한 금액만 부담하면 됩니다.</li>
+        <li>운용성과는 근로자 본인에게 귀속됩니다.</li>
+        <li>투자 대상은 근로자가 선택할 수 있습니다.</li>
+      </ul>
+
+      <div class="db-flow-section">
+        <div class="flow-horizontal">
+          <div class="flow-step-box">기업 <span>일정 금액 납입</span></div>
+          <div class="arrow-right" data-text="운용 책임 없음"></div>
+          <div class="flow-step-box">근로자 <span>직접 운용</span></div>
+          <div class="arrow-right" data-text="운용 성과 귀속"></div>
+          <div class="flow-step-box">근로자 <span>연금 수령</span></div>
+        </div>
+
+        <button class="toggle-helper-btn" onclick="showCuteBubble('dc')">더 쉽게 이해하기</button>
+        <div class="cute-bubble-wrapper" id="bubble-dc" style="display: none;">
+          <img src="/images/character_angelk.png" alt="캐릭터" class="cute-character" />
+          <div class="speech-bubble" id="text-dc"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IRP 탭 -->
+    <div class="section" id="irp" style="display: none;">
+      <h2>개인형 IRP</h2>
+      <p>콘텐츠 준비 중입니다.</p>
+    </div>
+
+    <!-- 제도간 비교 탭 -->
+    <div class="section" id="compare" style="display: none;">
+      <h2>제도 간 비교</h2>
+      <p>콘텐츠 준비 중입니다.</p>
+    </div>
   </div>
 </div>
 
 <!-- 푸터 -->
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 
-<!-- 탭 스크립트 -->
-<script th:src="@{/js/header.js}" defer></script>
+<!-- JS -->
 <script>
-  function showTab(id, btn) {
-    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-    document.querySelectorAll('.tab-menu button').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).style.display = 'block';
-    btn.classList.add('active');
-  }
-</script>
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('.tab-menu button').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) target.style.display = 'block';
+  btn.classList.add('active');
+}
 
+function showCuteBubble(target) {
+  const config = {
+    db: { id: 'bubble-db', textId: 'text-db', msg: '확정급여형(DB)은 회사가 퇴직금 액수를 보장해주는 제도예요!' },
+    dc: { id: 'bubble-dc', textId: 'text-dc', msg: '확정기여형(DC)은 내가 직접 운용해서 수익에 따라 퇴직금이 달라져요!' }
+  };
+  const bubble = document.getElementById(config[target].id);
+  const text = document.getElementById(config[target].textId);
+  bubble.style.display = 'flex';
+  text.innerHTML = '';
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < config[target].msg.length) {
+      text.innerHTML += config[target].msg[i] === '\n' ? '<br>' : config[target].msg[i];
+      i++;
+    } else {
+      clearInterval(interval);
+    }
+  }, 50);
+}
+</script>
 </body>
 </html>
