@@ -179,93 +179,122 @@ body {
   height: auto;
 }
 
-/* 도입 배경 탭 */
+/* 도입 배경 탭 개선 */
 .sub-section {
   margin-bottom: 60px;
 }
 
 .sub-section h3 {
   font-size: 20px;
-  font-weight: 600;
-  color: #111;
-  border-left: 4px solid #D22;
-  padding-left: 12px;
-  margin-bottom: 15px;
+  font-weight: 700;
+  color: #222;
+  position: relative;
+  padding-left: 16px;
+  margin-bottom: 16px;
 }
 
+.sub-section h3::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 5px;
+  height: 80%;
+  background-color: #D22;
+  border-radius: 2px;
+}
+
+/* 본문 문단 */
 .sub-section p {
   font-size: 16px;
-  color: #444;
+  color: #333;
   line-height: 1.8;
   text-align: justify;
   margin-bottom: 30px;
 }
 
+/* === 원형 한계 요소 === */
 .limitation-circles {
   display: flex;
-  justify-content: space-around;
-  gap: 40px;
-  margin: 40px 0;
+  justify-content: center;
+  gap: 32px;
+  margin: 30px 0;
   flex-wrap: wrap;
 }
 
 .circle {
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 10px;
   color: #222;
-  background-color: #f1f1f1;
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
 }
 
-.circle:nth-child(1) { background-color: #98BEF6; }
-.circle:nth-child(2) { background-color: #FBE9A9; }
-.circle:nth-child(3) { background-color: #B5EAD7; }
+.circle:hover {
+  transform: scale(1.05);
+}
 
+/* 지정된 컬러 */
+.circle:nth-child(1) { background-color: #F1E1C3; }
+.circle:nth-child(2) { background-color: #E8DFD4; }
+.circle:nth-child(3) { background-color: #FBE577; }
+
+/* === 차트 영역 === */
 .chart-section {
   display: flex;
   gap: 40px;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 30px;
 }
 
 .chart-box {
   flex: 1 1 45%;
-  min-width: 320px;
-  max-width: 500px;
+  min-width: 300px;
+  max-width: 480px;
+  padding: 0;
 }
 
 .chart-box h4 {
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   text-align: center;
+  color: #333;
 }
 
+/* 차트 자체 */
 canvas {
   width: 100% !important;
   height: auto !important;
+  background: none !important; /* 배경 제거 */
+  border-radius: 0;
 }
 
+/* 차트 하단 설명 */
 .chart-caption {
-  text-align: left;
+  text-align: justify;
   font-size: 14px;
-  color: #555;
-  margin-top: 30px;
+  color: #444;
+  margin-top: 20px;
   padding-left: 4px;
 }
 
+/* === 반응형 === */
 @media screen and (max-width: 768px) {
   .circle {
-    width: 100px;
-    height: 100px;
-    font-size: 13px;
+    width: 90px;
+    height: 90px;
+    font-size: 12.5px;
   }
 
   .chart-section {
@@ -273,7 +302,6 @@ canvas {
     gap: 20px;
   }
 }
-
 
 /* 운영구조 */
 .structure-desc {
