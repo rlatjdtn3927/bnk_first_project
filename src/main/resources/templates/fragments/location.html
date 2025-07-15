@@ -16,10 +16,10 @@
           <i class="fas fa-chevron-right"></i>
           <span th:text="${category1}">카테고리1</span>
         </span>
-        <span th:if="${category2 != null}">
-          <i class="fas fa-chevron-right"></i>
-          <span th:text="${category2}">카테고리2</span>
-        </span>
+        <span th:if="${category2 != null and !#strings.isEmpty(category2)}">
+		  <i class="fas fa-chevron-right"></i>
+		  <span th:text="${category2}">카테고리2</span>
+		</span>
       </div>
     </div>
   </div>
