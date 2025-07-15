@@ -25,5 +25,9 @@ public class FaqTestController {
     public String retriementTypePage(){
         return "retriement-type";
     }
-
+    
+    @GetMapping("/retriement-typetest")
+    public String retriementTypeTest(){
+        return "retriement-typetest";
+    }
 }
