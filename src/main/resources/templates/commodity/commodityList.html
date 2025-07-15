@@ -11,19 +11,28 @@
     <style>
         /* ---------- layout wrappers ---------- */
         body {
-            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
             background: #fff;
             color: #222;
             line-height: 1.5;
+			font-family: 'Pretendard', sans-serif;
+			margin: 0;
+			padding: 0;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1500px;
             margin: 80px auto 60px;
             padding: 0 1.25rem;
         }
 
         /* ---------- buttons (tab) ---------- */
+        
+        .choice {
+        	display: flex;
+        	flex-direction: row;
+        	justify-content: space-between;
+        }
+        
         #buttons {
             display: flex;
             flex-wrap: wrap;
@@ -86,7 +95,7 @@
             padding: .75rem 1rem;
             max-height: 260px;
             overflow-y: auto;
-            min-width: 180px;
+            min-width: 170px;
         }
         .dropdown-options label {
             display: block;
@@ -107,7 +116,7 @@
         /* ---------- cards grid ---------- */
         #commodity_main {
             display: grid;
-            grid-template-columns: repeat(auto-fill,minmax(530px,1fr));
+            grid-template-columns: 1fr;
             gap: 1.5rem;
         }
 
@@ -125,12 +134,12 @@
             font-weight: 600;
             font-size: 1.1rem;
             margin-bottom: .4rem;
-            color: #d63b00; /* highlight similar to 게시물 스샷 */
+            color: #000000;
         }
 
         .fund-sub {
             font-size: .8rem;
-            color: #757575;
+            color: #D71921;
             margin-bottom: .7rem;
         }
 
@@ -153,6 +162,7 @@
             display: block;
         }
         .metric-box .value {
+        	color: #D71921;
             font-size: .9rem;
             font-weight: 600;
         }
@@ -165,6 +175,7 @@
 <body>
 <div th:replace="~{fragments/header :: mainHeader}"></div>
 
+
 <div class="container">
 
 	<h1>퇴직연금 상품찾기</h1>
@@ -172,16 +183,19 @@
 	
 
     <!-- ---------- Tabs ---------- -->
-    <div id="buttons">
-        <button class="commodity-button active" id="fundBtn">펀드</button>
-        <button class="commodity-button" id="etfBtn">ETF</button>
-        <button class="commodity-button" id="tdfBtn">TDF</button>
-        <button class="commodity-button" id="defaultBtn">디폴트 옵션</button>
-        <button class="commodity-button" id="guaranteeBtn">원리금 상품</button>
+    <div class="choice">
+	    <div id="buttons">
+	        <button class="commodity-button active" id="fundBtn">펀드</button>
+	        <button class="commodity-button" id="etfBtn">ETF</button>
+	        <button class="commodity-button" id="tdfBtn">TDF</button>
+	        <button class="commodity-button" id="defaultBtn">디폴트옵션</button>
+	        <button class="commodity-button" id="guaranteeBtn">예금</button>
+	    </div>
+	
+	    <!-- ---------- Filters ---------- -->
+	    <form class="selectors" onsubmit="return false;"> </form>
     </div>
 
-    <!-- ---------- Filters ---------- -->
-    <form class="selectors" onsubmit="return false;"> </form>
 
     <!-- ---------- Results ---------- -->
     <main id="commodity_main"></main>
@@ -292,6 +306,7 @@
     }
 
     /* unified fetch + render */
+    // 카테고리 변경 시에는 폼 초기화 및 폼 변경
     const fetchAndRender = (url, body=null) => {
     	const form = qs(".selectors");
     	
@@ -386,7 +401,8 @@
 	            <button type="button" class="dropdown-toggle" id="searchBtn">검색</button> `; break;
 	        default: form.innerHTML = '';
 		}
-			
+		
+		if(body != null) {
 	    	// dropdowns open/close
 	    	document.querySelectorAll('.dropdown-box').forEach(box => {
 	    	    box.querySelector('.dropdown-toggle').addEventListener('click', () => box.classList.toggle('open'));
@@ -398,34 +414,43 @@
 	            const types      = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(e=>e.value);
 	            const channelInp = qs('input[name="channel"]:checked');
 	            const channel    = channelInp && channelInp.value==='온라인전용' ? 2 : 1;
-	
+
 	            const body = { channel, riskGrade: riskGrades.length?riskGrades:null, category: types.length?types:null };
-	
+
 	            let url='', isGet=false;
 	            switch(currentTab){
 	                case 'fund':      url='/commodity/fund'; break;
 	                case 'etf':       url='/commodity/etf';  break;
 	                case 'tdf':       url='/commodity/tdf';  break;
-	                case 'default':   url=`/commodity/default?channel=${channel}`; isGet=true; break;
-	                case 'guarantee': url=`/commodity/guarantee?channel=${channel}`; isGet=true; break;
+	                case 'default':   url='/commodity/default'; isGet=true; break;
+	                case 'guarantee': url='/commodity/guarantee'; isGet=true; break;
 	            }
-	            isGet ? fetchAndRender(url) : fetchAndRender(url, body);
-	        });
-	    	
-	        clearMain();
-	        (body?postJson(url,body):getJson(url))
-	            .then(renderJson)
-	            .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
+	            isGet ? searchAndRender(url) : searchAndRender(url, body);
+	        });	
+		}
+    	
+        clearMain();
+        (body?postJson(url,body):getJson(url))
+            .then(renderJson)
+            .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
 
     };
+    
+    // 검색 시에는 폼 초기화 되면 안됨.
+    function searchAndRender(url, body=null) {
+        clearMain();
+        (body?postJson(url,body):getJson(url))
+            .then(renderJson)
+            .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
+    }
 
     /* tab listeners */
     const tabMap = [
         ['fundBtn','fund','/commodity/fund','POST'],
         ['etfBtn','etf','/commodity/etf','POST'],
         ['tdfBtn','tdf','/commodity/tdf','POST'],
-        ['defaultBtn','default','/commodity/default?channel=1','GET'],
-        ['guaranteeBtn','guarantee','/commodity/guarantee?channel=1','GET'],
+        ['defaultBtn','default','/commodity/default','GET'],
+        ['guaranteeBtn','guarantee','/commodity/guarantee','GET'],
     ];
 
     tabMap.forEach(([btnId,tab,url,method])=>{
