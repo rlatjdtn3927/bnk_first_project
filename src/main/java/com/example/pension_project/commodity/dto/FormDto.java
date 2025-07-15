@@ -9,8 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FormDto {
-    private Integer riskGrade;
-    private String category;
+    private Integer[] riskGrade;
+    private String[] category;
     private Integer channel;
     private Integer interPeriod;
 }

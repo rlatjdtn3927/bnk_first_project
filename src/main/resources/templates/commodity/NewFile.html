@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>CommodityPage</title>
+
+    <!-- external css -->
+    <link rel="stylesheet" th:href="@{/css/header.css}" />
+    <link rel="stylesheet" th:href="@{/css/footer.css}" />
+
+    <style>
+        /* ---------- layout wrappers ---------- */
+        body {
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background: #f7f7f9;
+            color: #222;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 80px auto 60px;
+            padding: 0 1.25rem;
+        }
+
+        /* ---------- buttons (tab) ---------- */
+        #buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .commodity-button {
+            padding: .55rem 1.25rem;
+            border: 1px solid #ddd;
+            background: #fff;
+            border-radius: 6px;
+            font-size: .95rem;
+            transition: all .2s;
+            cursor: pointer;
+        }
+        .commodity-button:hover {
+            background: #f0f0f0;
+        }
+        .commodity-button.active {
+            background: #ff4800;
+            color: #fff;
+            border-color: #ff4800;
+        }
+
+        /* ---------- filter dropdowns ---------- */
+        .selectors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .75rem;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .dropdown-box {
+            position: relative;
+        }
+        .dropdown-toggle {
+            padding: .55rem 1rem;
+            font-size: .9rem;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            min-width: 160px;
+            text-align: center;
+        }
+        .dropdown-options {
+            position: absolute;
+            top: calc(100% + .25rem);
+            left: 0;
+            z-index: 20;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0,0,0,.06);
+            display: none;
+            padding: .75rem 1rem;
+            max-height: 260px;
+            overflow-y: auto;
+            min-width: 180px;
+        }
+        .dropdown-options label {
+            display: block;
+            font-size: .87rem;
+            margin-bottom: .35rem;
+        }
+        /* show helper */
+        .dropdown-box.open .dropdown-options {display: block;}
+
+        /* ---------- search button ---------- */
+        #searchBtn {
+            background: #ff4800;
+            color: #fff;
+            border: none;
+        }
+        #searchBtn:hover {
+            opacity: .9;
+        }
+
+        /* ---------- fund cards ---------- */
+        #commodity_main {
+            display: grid;
+            grid-template-columns: repeat(auto-fill,minmax(530px,1fr));
+            gap: 1.5rem;
+        }
+
+        .fund-card {
+            background: #fff;
+            border: 1px solid #e5e5e7;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,.05);
+            padding: 1.25rem 1.5rem;
+        }
+
+        .fund-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: .4rem;
+            color: #d63b00; /* highlight similar to screenshot */
+        }
+
+        .fund-sub {
+            font-size: .8rem;
+            color: #757575;
+            margin-bottom: .7rem;
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            gap: .5rem;
+        }
+        .metric-box {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: .55rem 0;
+            text-align: center;
+        }
+        .metric-box .label {
+            font-size: .7rem;
+            color: #888;
+            margin-bottom: .15rem;
+            display: block;
+        }
+        .metric-box .value {
+            font-size: .9rem;
+            font-weight: 600;
+        }
+
+        /* scrollbars (optional) */
+        ::-webkit-scrollbar {width: 8px;}
+        ::-webkit-scrollbar-thumb {background: #ccc;border-radius: 4px;}
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+
+<div class="container">
+
+    <!-- ---------- Tabs ---------- -->
+    <div id="buttons">
+        <button class="commodity-button active" id="fundBtn">펀드</button>
+        <button class="commodity-button" id="etfBtn">ETF</button>
+        <button class="commodity-button" id="tdfBtn">TDF</button>
+        <button class="commodity-button" id="defaultBtn">디폴트옵션</button>
+        <button class="commodity-button" id="guaranteeBtn">예금</button>
+    </div>
+
+    <!-- ---------- Filters ---------- -->
+    <form class="selectors" onsubmit="return false;">
+        <!-- 위험등급 -->
+        <div class="dropdown-box" id="riskBox">
+            <button type="button" class="dropdown-toggle">위험등급 선택 ▼</button>
+            <div class="dropdown-options">
+                <label><input type="checkbox" name="riskGrade" value="1"/> 매우 높은 위험 (1등급)</label>
+                <label><input type="checkbox" name="riskGrade" value="2"/> 높은 위험 (2등급)</label>
+                <label><input type="checkbox" name="riskGrade" value="3"/> 다소 높은 위험 (3등급)</label>
+                <label><input type="checkbox" name="riskGrade" value="4"/> 보통 위험 (4등급)</label>
+                <label><input type="checkbox" name="riskGrade" value="5"/> 낮은 위험 (5등급)</label>
+                <label><input type="checkbox" name="riskGrade" value="6"/> 매우 낮은 위험 (6등급)</label>
+            </div>
+        </div>
+
+        <!-- 펀드유형 -->
+        <div class="dropdown-box" id="typeBox">
+            <button type="button" class="dropdown-toggle">펀드 유형 선택 ▼</button>
+            <div class="dropdown-options">
+                <label><input type="checkbox" name="type" value="MMF"/> MMF</label>
+                <label><input type="checkbox" name="type" value="채권형"/> 채권형</label>
+                <label><input type="checkbox" name="type" value="채권혼합형"/> 채권혼합형</label>
+                <label><input type="checkbox" name="type" value="주식혼합형"/> 주식혼합형</label>
+                <label><input type="checkbox" name="type" value="주식형"/> 주식형</label>
+                <label><input type="checkbox" name="type" value="파생상품형"/> 파생상품형</label>
+                <label><input type="checkbox" name="type" value="재간접"/> 재간접</label>
+            </div>
+        </div>
+
+        <!-- 채널구분 -->
+        <div class="dropdown-box" id="channelBox">
+            <button type="button" class="dropdown-toggle">채널 구분 ▼</button>
+            <div class="dropdown-options">
+                <label><input type="radio" name="channel" value="전체" checked/> 전체</label>
+                <label><input type="radio" name="channel" value="온라인전용"/> 온라인전용</label>
+            </div>
+        </div>
+
+        <button type="button" class="dropdown-toggle" id="searchBtn">검색</button>
+    </form>
+
+    <!-- ---------- Results ---------- -->
+    <main id="commodity_main"></main>
+
+</div>
+
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
+
+<script>
+    /* helpers */
+    function qs(selector, scope = document) {return scope.querySelector(selector);} // shorthand
+
+    // dropdowns (toggle open)
+    document.querySelectorAll('.dropdown-box').forEach(box => {
+        box.querySelector('.dropdown-toggle').addEventListener('click', () => {
+            box.classList.toggle('open');
+        });
+    });
+
+    // tab highlighting helper
+    function setActiveTab(id) {
+        document.querySelectorAll('#buttons .commodity-button').forEach(btn => btn.classList.remove('active'));
+        qs('#' + id).classList.add('active');
+    }
+
+    // ------------------------------------------- ajax ------------------------------------------------------------------
+    let currentTab = 'fund';
+    const commodityMain = qs('#commodity_main');
+
+    document.addEventListener('DOMContentLoaded', () => {
+        fetchAndRender('/commodity/fund', { channel: 1 });
+    });
+
+    /* request helpers */
+    function postJson(url, body) {
+        return fetch(url, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        }).then(r => r.json());
+    }
+    function getJson(url) {
+        return fetch(url).then(r => r.json());
+    }
+
+    /* render helpers */
+    function clearMain() { commodityMain.innerHTML = ''; }
+
+    function renderJson(data) {
+        clearMain();
+        const arr = Array.isArray(data) ? data : [data];
+        arr.forEach(item => commodityMain.appendChild(createFundCard(item)));
+    }
+
+    function createFundCard(f) {
+        const wrap = document.createElement('div');
+        wrap.className = 'fund-card';
+        wrap.innerHTML = `
+            <div class="fund-name">${f.prodName}</div>
+            <div class="fund-sub">${f.risk} | <span>${f.fundTypeCd}</span> | ${f.manager}</div>
+            <div class="fund-sub" style="font-size:.75rem;color:#999;">• 기준가: ${parseFloat(f.nav).toLocaleString()} | • 설정일: ${formatDate(f.setDate)} | • 총 보수: ${f.totalFee}%</div>
+            <div class="metric-grid">
+                ${metricBox(f.oneMonth, '1개월')}
+                ${metricBox(f.threeMonth, '3개월')}
+                ${metricBox(f.sixMonth, '6개월')}
+                ${metricBox(f.year, '12개월')}
+                ${metricBox(f.accum, '누적')}
+            </div>`;
+        return wrap;
+    }
+    function metricBox(val, label) {
+        return `<div class="metric-box"><span class="value">${Number(val).toFixed(2)}%</span><span class="label">(${label})</span></div>`;
+    }
+    function formatDate(str) {
+        if(!str) return '';
+        return `${str.substring(0,4)}-${str.substring(4,6)}-${str.substring(6)}`;
+    }
+
+    /* unified fetch + render */
+    function fetchAndRender(url, body = null) {
+        clearMain();
+        const promise = body ? postJson(url, body) : getJson(url);
+        promise.then(renderJson).catch(err => {
+            commodityMain.innerHTML = `<p style="color:red;">${err.message}</p>`;
+        });
+    }
+
+    /* search */
+    qs('#searchBtn').addEventListener('click', () => {
+        const riskGrades = Array.from(document.querySelectorAll('input[name="riskGrade"]:checked')).map(e => +e.value);
+        const types      = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(e => e.value);
+        const channelInp = qs('input[name="channel"]:checked');
+        const channel    = channelInp && channelInp.value === '온라인전용' ? 2 : 1;
+
+        const body = { channel, riskGrade: riskGrades.length ? riskGrades : null, category: types.length ? types : null };
+
+        let url   = '';
+        let isGet = false;
+        switch(currentTab) {
+            case 'fund':       url = '/commodity/fund'; break;
+            case 'etf':        url = '/commodity/etf';  break;
+            case 'tdf':        url = '/commodity/tdf';  break;
+            case 'default':    url = `/commodity/default?channel=${channel}`; isGet = true; break;
+            case 'guarantee':  url = `/commodity/guarantee?channel=${channel}`; isGet = true; break;
+        }
+        isGet ? fetchAndRender(url) : fetchAndRender(url, body);
+    });
+
+    /* tab listeners */
+    qs('#fundBtn').addEventListener('click', () => { currentTab='fund'; setActiveTab('fundBtn'); fetchAndRender('/commodity/fund', {channel:1}); });
+    qs('#etfBtn').addEventListener('click', () => { currentTab='etf';  setActiveTab('etfBtn');  fetchAndRender('/commodity/etf',  {channel:1}); });
+    qs('#tdfBtn').addEventListener('click', () => { currentTab='tdf';  setActiveTab('tdfBtn');  fetchAndRender('/commodity/tdf',  {channel:1}); });
+    qs('#defaultBtn').addEventListener('click', () => { currentTab='default'; setActiveTab('defaultBtn'); fetchAndRender('/commodity/default?channel=1'); });
+    qs('#guaranteeBtn').addEventListener('click', () => { currentTab='guarantee'; setActiveTab('guaranteeBtn'); fetchAndRender('/commodity/guarantee?channel=1'); });
+</script>
+
+</body>
+</html>
