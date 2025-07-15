@@ -223,15 +223,188 @@
     
 
     <!-- IRP 탭 -->
-    <div class="section" id="irp" style="display: none;">
-      <h2>개인형 IRP</h2>
-      <p>콘텐츠 준비 중입니다.</p>
-    </div>
+	<div class="section" id="irp" style="display: none;">
+	  <h2>개인형 IRP(IRP: Individual Retirement Pension)</h2>
+	
+	  <!-- 제도 개요 -->
+	  <p>
+	    개인형 IRP는 근로자, 자영업자, 퇴직자 등 소득이 있는 개인이 가입하여 퇴직금과 추가 납입금을 적립·운용해
+	    노후에 연금 또는 일시금으로 수령할 수 있는 퇴직연금제도입니다.
+	  </p>
+	
+	  <!-- 흐름도 이미지 -->
+	  <div class="irp-image-wrapper">
+	    <img src="/images/irp1.png" alt="IRP 흐름도" class="irp-flow-image" />
+	  </div>
+	
+	  <!-- 캐릭터 말풍선 -->
+	  <div class="irp-helper-section">
+		  <button class="toggle-helper-btn" onclick="showCuteBubble('irp')">더 쉽게 이해하기</button>
+		  <div class="cute-bubble-wrapper" id="bubble-irp" style="display: none;">
+		    <img src="/images/character_angelk.png" alt="캐릭터" class="cute-character" />
+		    <div class="speech-bubble" id="text-irp"></div>
+		  </div>
+		</div>
+	
+	  
+	
+	  <!-- 개인형 IRP 안내 -->
+	  <section class="irp-contribution">
+	    <h2>개인형 IRP의 안내</h2>
+	
+	    <!-- 퇴직금 -->
+	    <div class="info-group">
+	      <h4>퇴직금</h4>
+	      <ul class="irp-desc-list">
+	        <li>퇴직급여제도의 일시금을 수령할 사람이 가입합니다.</li>
+	        <li>퇴직연금제도(DB, DC등)의 퇴직급여 지급은 가입자의 개인형IRP로 의무이전됩니다. (단, 55세 이상 퇴직, 300만원 이하는 예외)</li>
+	        <li>근로자는 퇴직 전 개인형IRP를 미리 개설하여 퇴직급여 지급을 위한 준비를 해야합니다.</li>
+	        <li>퇴직소득세 과세이연 : 퇴직금을 IRP로 이전하면, 퇴직소득세 납부가 이연되어 세전 퇴직금을 원금으로 하여 운용하는 효과가 있습니다.</li>
+	      </ul>
+	    </div>
+	    
+	    <!-- 퇴직금 흐름도 -->
+	  <div class="irp-flow-block blue-theme">
+	    <div class="irp-flow-box">
+	      <strong>퇴직 예정 근로자</strong>
+	      <span>개인형 IRP 계좌 개설</span>
+	    </div>
+	    <div class="irp-flow-box">
+	      <strong>사용자</strong>
+	      <span>DB, DC 급여 신청 시 IRP 계좌로 입금 요청</span>
+	    </div>
+	    <div class="irp-flow-box">
+	      <strong>DB, DC 사업자</strong>
+	      <span>퇴직급여 IRP 계좌로 이전</span>
+	    </div>
+	    <div class="irp-flow-box last">
+	      <strong>IRP 가입자</strong>
+	      <span>계약 체결 또는 적립 운용</span>
+	    </div>
+	  </div>
+	
+	    <!-- 개인부담금 -->
+	    <div class="info-group">
+	      <h4>개인부담금</h4>
+	      <ul class="irp-desc-list">
+	        <li>17.7.26부터 모든 취업자(근로자, 자영업자 등)는 개인형IRP에 가입하여 본인 부담금으로 적립이 가능합니다.</li>
+	        <li>연간 1,800만원 한도로 불입 가능하며 다른 세액공제 상품(연금저축, DC추가입금 등)합산하여 연간 900만원까지 세액공제가 가능합니다.</li>
+	        <li>별도로 ISA만기자금을 만료일로부터 60일 이내에 납입시 납입금액의 10%(최대 300만원) 추가 세액공제 가능합니다.</li>
+	      </ul>
+	    </div>
+	  </section>
+	
+	  <!-- 개인부담금 흐름도 -->
+	  <div class="irp-flow-block brown-theme">
+	    <div class="irp-flow-box">
+	      <strong>개인형 IRP 가입자격</strong>
+	      <span>근로자, 자영업자, 공무원 등 (자격확인서류 필요)</span>
+	    </div>
+	    <div class="irp-flow-box">
+	      <strong>IRP 사업자</strong>
+	      <span>가입 자격 확인하여 개인형IRP 신규</span>
+	    </div>
+	    <div class="irp-flow-box">
+	      <strong>IRP 가입자</strong>
+	      <span>연간 1,800만원 한도 입금</span>
+	    </div>
+	    <div class="irp-flow-bottom-box-wrap">
+	      <div class="irp-bottom-box">연금 수령 시<br><span>연금소득세 징구</span></div>
+	      <div class="irp-bottom-box">일시금 해지 시<br><span>(기타소득세 징구)</span></div>
+	    </div>
+	  </div>
+	</div>
 
     <!-- 제도간 비교 탭 -->
     <div class="section" id="compare" style="display: none;">
       <h2>제도 간 비교</h2>
-      <p>콘텐츠 준비 중입니다.</p>
+      <div class="compare-table-wrapper">
+  <div class="compare-header-row">
+    <div class="compare-title"></div>
+    <div class="compare-head">확정급여형(DB)</div>
+    <div class="compare-head">확정기여형(DC)</div>
+    <div class="compare-head">개인형 퇴직연금(IRP)</div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-title">개념</div>
+    <div class="compare-col">
+      - 퇴직 시 지급할 급여수준 및 내용을 노사 간 사전에 확정<br>
+      - 근로자 퇴직 시 사용자는 사전에 약정된 퇴직급여를 지급
+    </div>
+    <div class="compare-col">
+      - 기업이 부담할 부담금 수준은 사전에 확정<br>
+      - 근로자 퇴직 시 적립금 운용 결과에 따라 퇴직급여 수령
+    </div>
+    <div class="compare-col">
+      - 퇴직금이나 일시금, 소득이 있는 근로자가 본인 부담금으로 적립 가능<br>
+      - 10인 미만 사업장 적용을 위한 특례제도<br>
+      - 퇴직금 수령자의 일시금 이전 등에도 사용
+    </div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-title">적립금 운용주체</div>
+    <div class="compare-col">사용자</div>
+    <div class="compare-col">근로자</div>
+    <div class="compare-col">근로자</div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-title">기업부담</div>
+    <div class="compare-col">
+      적립금 운용성과에 따라 기업의 부담금 변동 (운용 수익률이 높을 경우 기업부담 증가 가능)
+    </div>
+    <div class="compare-col">
+      매년 기업의 부담금은 근로자 임금의 일정비율로 확정 (예: 연간 임금 총액의 1/12)
+    </div>
+    <div class="compare-col">없음 (단, 기업형 IRP는 DC와 동일)</div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-title">퇴직급여</div>
+    <div class="compare-col">
+      확정 (근무기간과 퇴직 시 임금 수준에 따라 결정)
+    </div>
+    <div class="compare-col">
+      변동 (운용성과에 따라 퇴직금이 달라짐)
+    </div>
+    <div class="compare-col">
+      변동 (운용성과에 따라 퇴직금 수준이 달라짐)
+    </div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-title">세액공제 혜택</div>
+    <div class="compare-col">없음</div>
+    <div class="compare-col">있음 (가입자 추가부담금에 한함)</div>
+    <div class="compare-col">있음 (가입자 추가부담금에 한함)</div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-title">중도인출</div>
+    <div class="compare-col">불가</div>
+    <div class="compare-col">사유 충족 시 가능</div>
+    <div class="compare-col">사유 충족 시 가능</div>
+  </div>
+
+  <div class="compare-row">
+    <div class="compare-title">적합한 기업·근로자</div>
+    <div class="compare-col">
+      도산 위험이 없고, 장기 고용이 보장된 안정된 기업
+    </div>
+    <div class="compare-col">
+      - 연봉제 도입 기업<br>
+      - 이직률이 높은 기업<br>
+      - 직장 이동이 잦은 근로자
+    </div>
+    <div class="compare-col">
+      - 소규모 기업 근로자<br>
+      - 퇴직금 수령자 및 DB, DC 가입 근로자
+    </div>
+  </div>
+</div>
+
     </div>
   </div>
 </div>
@@ -250,24 +423,40 @@ function showTab(id, btn) {
 }
 
 function showCuteBubble(target) {
-  const config = {
-    db: { id: 'bubble-db', textId: 'text-db', msg: '확정급여형(DB)은 회사가 퇴직금 액수를 보장해주는 제도예요!' },
-    dc: { id: 'bubble-dc', textId: 'text-dc', msg: '확정기여형(DC)은 내가 직접 운용해서 수익에 따라 퇴직금이 달라져요!' }
-  };
-  const bubble = document.getElementById(config[target].id);
-  const text = document.getElementById(config[target].textId);
-  bubble.style.display = 'flex';
-  text.innerHTML = '';
-  let i = 0;
-  const interval = setInterval(() => {
-    if (i < config[target].msg.length) {
-      text.innerHTML += config[target].msg[i] === '\n' ? '<br>' : config[target].msg[i];
-      i++;
-    } else {
-      clearInterval(interval);
-    }
-  }, 50);
-}
+	  const config = {
+	    db: { id: 'bubble-db', textId: 'text-db', msg: '확정급여형(DB)은 회사가 퇴직금 액수를 보장해주는 제도예요!' },
+	    dc: { id: 'bubble-dc', textId: 'text-dc', msg: '확정기여형(DC)은 내가 직접 운용해서 수익에 따라 퇴직금이 달라져요!' },
+	    irp: {
+	      id: 'bubble-irp',
+	      textId: 'text-irp',
+	      msg: 'IRP는 퇴직금도 옮기고, 내가 직접 납입도 하며, 연금 또는 일시금으로 수령하는 만능 계좌예요!'
+	    }
+	  };
+
+	  const bubble = document.getElementById(config[target].id);
+	  const text = document.getElementById(config[target].textId);
+	  const character = bubble ? bubble.querySelector('img') : null;
+
+	  if (bubble) bubble.style.display = 'flex';
+	  if (text) text.innerHTML = '';
+
+	  if (character) {
+	    character.classList.remove('irp-character');
+	    void character.offsetWidth; // 강제 재렌더링
+	    character.classList.add('irp-character');
+	  }
+
+	  let i = 0;
+	  const interval = setInterval(() => {
+	    if (i < config[target].msg.length) {
+	      text.innerHTML += config[target].msg[i];
+	      i++;
+	    } else {
+	      clearInterval(interval);
+	    }
+	  }, 40);
+	}
+
 </script>
 </body>
 </html>

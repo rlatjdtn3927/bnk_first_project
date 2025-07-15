@@ -386,3 +386,196 @@ body {
 	  transform-origin: left center;
 	}
 	
+	
+	
+
+/* 개인형 IRP */
+
+.irp-image-wrapper {
+  margin: 40px 0 20px;
+  text-align: center;
+}
+.irp-flow-image {
+  width: 750px;
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* 공통 흐름도 */
+.irp-flow-block {
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.irp-flow-box {
+  background: #f0f5ff;
+  border: 2px solid #a7c7ff;
+  padding: 20px 30px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 40px;
+  text-align: center;
+  font-family: 'Pretendard', sans-serif;
+  position: relative;
+}
+
+.irp-flow-box strong {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #244c99;
+}
+
+.irp-flow-box span {
+  display: block;
+  margin-top: 6px;
+  font-size: 15px;
+  color: #444;
+}
+
+.irp-flow-box:not(.last)::after {
+  content: '';
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 44px;
+  background-color: #a7c7ff;
+}
+
+/* 갈색 테마 (개인부담금 흐름도) */
+.irp-flow-block.brown-theme .irp-flow-box {
+  background: #fff3e6;
+  border-color: #e0aa71;
+}
+.irp-flow-block.brown-theme .irp-flow-box strong {
+  color: #8a4d00;
+}
+
+/* 흐름도 마지막 단계: 연금 / 일시금 */
+.irp-flow-bottom-box-wrap {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.irp-bottom-box {
+  background-color: #bb4d00;
+  color: white;
+  border-radius: 50px;
+  padding: 20px 30px;
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  min-width: 180px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.irp-bottom-box span {
+  display: block;
+  margin-top: 5px;
+  font-size: 14px;
+  font-weight: normal;
+  color: #ffebd5;
+}
+
+/* 안내 리스트 */
+.irp-contribution {
+  margin-top: 60px;
+}
+
+.info-group {
+  margin-bottom: 40px;
+}
+
+.info-group h4 {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.irp-desc-list {
+  padding-left: 20px;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.8;
+  list-style-type: disc;
+}
+
+.irp-helper-section {
+  text-align: center;
+  margin: 30px 0;
+}
+
+
+
+/* 제도 간 비교 */
+.compare-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid #333;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 40px 0;
+  overflow-x: auto;
+}
+
+.compare-header-row,
+.compare-row {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+}
+
+.compare-title {
+  background-color: #f8f8f8;
+  font-weight: 600;
+  min-width: 140px;
+  padding: 16px;
+  border-right: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.compare-head {
+  flex: 1;
+  text-align: center;
+  background-color: #f0f0f0;
+  font-weight: 700;
+  padding: 16px;
+  border-right: 1px solid #ddd;
+}
+
+.compare-col {
+  flex: 1;
+  padding: 16px;
+  border-right: 1px solid #eee;
+  background-color: #fff;
+}
+
+.compare-col:last-child,
+.compare-head:last-child {
+  border-right: none;
+}
+
+.compare-col:hover {
+  background-color: #fefefe;
+}
+
+
+@media (max-width: 768px) {
+  .compare-table-wrapper {
+    font-size: 14px;
+  }
+
+  .compare-title {
+    min-width: 120px;
+  }
+}

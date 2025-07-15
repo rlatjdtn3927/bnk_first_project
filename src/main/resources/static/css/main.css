@@ -72,8 +72,8 @@ body, html {
   position: absolute;
   left: 50%;
   top: 0;
-  transform: translate(-40%, -60%);
-  width: 480px;
+  transform: translate(-50%, -100%);
+  width: 450px;
   z-index: 2;
 }
 
@@ -325,9 +325,9 @@ body, html {
 
 .guide-card img {
   position: absolute;
-  right: 20px;
-  bottom: 20px;
-  width: 75px;
+  right: 5px;
+  bottom: 10px;
+  width: 110px;
   height: auto;
   z-index: 0;
 }
