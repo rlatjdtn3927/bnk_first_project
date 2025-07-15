@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>퇴직연금 제도의 종류</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+  <link rel="stylesheet" th:href="@{/css/retirement-type.css}" />
+</head>
+<body>
+
+<!-- 헤더 -->
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+
+<!-- 위치 표시 -->
+<div th:replace="~{fragments/location :: location(category1='퇴직연금 이해하기', category2='퇴직연금 제도의 종류')}"></div>
+
+<!-- 본문 -->
+<div class="tab-container">
+  <h1 class="tab-title">퇴직연금 제도의 종류</h1>
+
+  <div class="tab-menu">
+    <button class="active" onclick="showTab('db', this)">확정급여형(DB)</button>
+    <button onclick="showTab('dc', this)">확정기여형(DC)</button>
+    <button onclick="showTab('irp', this)">개인형IRP</button>
+    <button onclick="showTab('compare', this)">제도간비교</button>
+  </div>
+
+  <div class="tab-content">
+    <!-- DB 탭 -->
+    <div class="section" id="db" style="display: block;">
+      <h2>확정급여형(DB: Defined Benefit Plan)</h2>
+      <p>확정급여형 퇴직연금은 근로자가 지급받을 급여의 수준이 사전에 결정되는 퇴직연금제도입니다.</p>
+      <p>(급여수준 : 근속년수 x 30일분의 평균임금)</p>
+      <ul>
+        <li>적립금 운용에 대한 책임은 기업에 있으며, 운용 결과는 기업에 귀속됩니다.</li>
+        <li>운용실적에 따라 기업의 부담금이 변동됩니다.</li>
+        <li>퇴직금제도와 유사하지만, 근로자가 연금으로 수령할 수 있습니다.</li>
+        <li>금융상품을 기업이 직접 선택할 수 있습니다.</li>
+        <li>퇴직연금의 재정건전성을 위해 최저적립금 수준이 정해져 있습니다.</li>
+        <li>급여 지급 시 개인형 퇴직연금제도로 이전됩니다.</li>
+      </ul>
+
+      <div class="db-flow-section">
+        <table class="db-flow-table">
+          <thead>
+            <tr>
+              <th>상품선택</th>
+              <th>자산운용의 책임</th>
+              <th>운용의 결과</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>기업</td>
+              <td>기업</td>
+              <td>기업에 귀속</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="flow-horizontal">
+          <div class="flow-step-box">기업 <span>기업이 적립</span></div>
+          <div class="arrow-right" data-text="부담금 변동"></div>
+          <div class="flow-step-box">퇴직연금 사업자 <span>운용 및 관리</span></div>
+          <div class="arrow-right" data-text="급여 사전확정"></div>
+          <div class="flow-step-box">근로자 <span>연금 수령</span></div>
+        </div>
+
+        <button class="toggle-helper-btn" onclick="showCuteBubble('db')">더 쉽게 이해하기</button>
+        <div class="cute-bubble-wrapper" id="bubble-db" style="display: none;">
+          <img src="/images/character_angelk.png" alt="캐릭터" class="cute-character" />
+          <div class="speech-bubble" id="text-db"></div>
+        </div>
+      </div>
+      
+      <!-- 제도 도입 효과 -->
+      <div class="effect-benefit-section">
+        <h3 class="effect-title">제도 도입 효과</h3>
+
+        <div class="benefit-group">
+          <h4 class="effect-subtitle">사용자(기업)</h4>
+          <div class="effect-card-grid">
+            <div class="effect-card">
+              <div class="card-title">법인세 절감</div>
+              <div class="card-desc">부담금을 세법 한도 내에서 전액 손비로 인정받습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">재무구조 개선</div>
+              <div class="card-desc">적립금은 퇴직급여 충당금의 차감계정으로 설정되어 부채비율이 감소됩니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">경영효율 증대</div>
+              <div class="card-desc">정해진 스케줄에 따라 부담금을 납입하므로 비용을 사전에 예측할 수 있고 평준화 할 수 있습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">회계기준 변경에 대응</div>
+              <div class="card-desc">2011년 도입된 K-IFRS 기준의 퇴직급여 부채산출 및 회계 보고서를 은행에서 제공해 드립니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="benefit-group">
+          <h4 class="effect-subtitle">가입자(근로자)</h4>
+          <div class="effect-card-grid">
+            <div class="effect-card">
+              <div class="card-title">퇴직금 제도와 유사</div>
+              <div class="card-desc">퇴직급여 수준이 퇴직급여제도에서 받은 수준과 유사하므로 제도에 따른 혼란이 적습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">수급권 보호</div>
+              <div class="card-desc">사용자는 법이 정한 범위 내에서 일정 수준 이상 적립금을 유지해야 합니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">운용부담 감소</div>
+              <div class="card-desc">사용자의 책임하에 적립금이 운용되므로 가입자(근로자)의 위험 부담이 없습니다.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DC 탭 -->
+    <div class="section" id="dc" style="display: none;">
+      <h2>확정기여형(DC: Defined Contribution Plan)</h2>
+      <p>확정기여형 퇴직연금은 사용자(기업)가 부담해야 할 부담금의 수준이 사전에 결정되는 퇴직연금제도입니다.</p>
+      <p>(예 : 연간 임금총액의 1/12)</p>
+      <ul>
+        <li>적립금 운용에 대한 책임 및 운용 결과는 근로자에 있습니다.</li>
+        <li>운용실적에 따라 근로자의 퇴직급여액이 변동됩니다.</li>
+        <li>근로자는 본인부담으로 추가납입이 가능합니다.</li>
+        <li>급여지급 시 개인형 퇴직연금제도로 이전합니다.</li>
+      </ul>
+
+      <div class="db-flow-section">
+        <table class="db-flow-table">
+          <thead>
+            <tr>
+              <th>상품선택</th>
+              <th>자산운용의 책임</th>
+              <th>운용의 결과</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>근로자</td>
+              <td>근로자</td>
+              <td>근로자에 귀속</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="flow-horizontal">
+          <div class="flow-step-box">기업 <span>기업이 적립</span></div>
+          <div class="arrow-right" data-text="부담금 사전확정"></div>
+          <div class="flow-step-box">퇴직연금 사업자 <span>근로자가 직접 운용 및 관리</span></div>
+          <div class="arrow-right" data-text="급여 사전확정"></div>
+          <div class="flow-step-box">근로자 <span>개인형 퇴직연금제도의 의무이전 일시금 또는 연금 수령</span></div>
+        </div>
+
+        <button class="toggle-helper-btn" onclick="showCuteBubble('dc')">더 쉽게 이해하기</button>
+        <div class="cute-bubble-wrapper" id="bubble-dc" style="display: none;">
+          <img src="/images/character_angelk.png" alt="캐릭터" class="cute-character" />
+          <div class="speech-bubble" id="text-dc"></div>
+        </div>
+      </div>
+      
+      <!-- 제도 도입 효과 -->
+      <div class="effect-benefit-section">
+        <h3 class="effect-title">제도 도입 효과</h3>
+
+        <div class="benefit-group">
+          <h4 class="effect-subtitle">사용자(기업)</h4>
+          <div class="effect-card-grid">
+            <div class="effect-card">
+              <div class="card-title">법인세 절감</div>
+              <div class="card-desc">부담금은 전액 비용처리 됩니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">재무구조 개선</div>
+              <div class="card-desc">퇴직급여의 매년 지급처리로 퇴직부채에 대한 부담이 없습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">관리업무 감소</div>
+              <div class="card-desc">인사/자금 관리의 효율성 및 편리성을 제고할 수 있습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">근로자 교육</div>
+              <div class="card-desc">퇴직연금 운용현황 및 재테크를 위한 금융상품 등에 대한 교육을 통해 근로자들의 재교육 효과를 기대할 수 있습니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="benefit-group">
+          <h4 class="effect-subtitle">가입자(근로자)</h4>
+          <div class="effect-card-grid">
+            <div class="effect-card">
+              <div class="card-title">초과수익 가능성</div>
+              <div class="card-desc">근로자의 투자성향에 따라 초과수익을 기대할 수 있습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">수급권 보호</div>
+              <div class="card-desc">기업의 각 근로자의 연간 임금총액의 1/12 이상을 회계연도 말까지 적립해야 하므로 수급권이 보장됩니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">세액공제</div>
+              <div class="card-desc">사용자의 부담금 외 근로자가 추가로 부담하는 부담금은 연간 900만원까지 세액공제가 가능합니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">중도인출</div>
+              <div class="card-desc">법정사유에 해당될 경우 중도인출이 가능합니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">동산가능</div>
+              <div class="card-desc">다른 회사로 전직시 퇴직금은 새로운 회사에서도 계속 관리할 수 있어 노후자금 마련이 가능하고 최종 은퇴시점까지 퇴직소득세가 이연됩니다.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+
+    <!-- IRP 탭 -->
+    <div class="section" id="irp" style="display: none;">
+      <h2>개인형 IRP</h2>
+      <p>콘텐츠 준비 중입니다.</p>
+    </div>
+
+    <!-- 제도간 비교 탭 -->
+    <div class="section" id="compare" style="display: none;">
+      <h2>제도 간 비교</h2>
+      <p>콘텐츠 준비 중입니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 푸터 -->
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
+
+<!-- JS -->
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('.tab-menu button').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) target.style.display = 'block';
+  btn.classList.add('active');
+}
+
+function showCuteBubble(target) {
+  const config = {
+    db: { id: 'bubble-db', textId: 'text-db', msg: '확정급여형(DB)은 회사가 퇴직금 액수를 보장해주는 제도예요!' },
+    dc: { id: 'bubble-dc', textId: 'text-dc', msg: '확정기여형(DC)은 내가 직접 운용해서 수익에 따라 퇴직금이 달라져요!' }
+  };
+  const bubble = document.getElementById(config[target].id);
+  const text = document.getElementById(config[target].textId);
+  bubble.style.display = 'flex';
+  text.innerHTML = '';
+  let i = 0;
+  const interval = setInterval(() => {
+    if (i < config[target].msg.length) {
+      text.innerHTML += config[target].msg[i] === '\n' ? '<br>' : config[target].msg[i];
+      i++;
+    } else {
+      clearInterval(interval);
+    }
+  }, 50);
+}
+</script>
+</body>
+</html>

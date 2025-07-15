@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
+<!-- layout.html -->
 <body>
-<!-- 기존 layout ... -->
-<script defer src="/js/chatbot.js"></script>
-<th:block th:replace="fragments/chatbot :: none"></th:block>  <!-- ★ -->
+  <h1>메인 페이지</h1>
+
+  <!-- 👇 챗봇 UI 직접 작성 -->
+  <div style="position:fixed;top:32px;right:32px;background:red;color:white;
+              padding:10px;border-radius:8px;z-index:9999;">
+    ✅ 챗봇 직접 삽입됨
+  </div>
 </body>
-</html>
