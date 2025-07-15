@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ETFRepository extends JpaRepository<ETFEntity, String>, FundCustomRepository {
+public interface ETFRepository extends JpaRepository<ETFEntity, String>, FundCustomRepository<ETFEntity> {
 
 }

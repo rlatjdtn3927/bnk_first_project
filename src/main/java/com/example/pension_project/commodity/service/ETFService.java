@@ -18,38 +18,38 @@ public class ETFService {
     private ETFRepository etfRepository;
 
     public List<ETFEntity> fundList(FormDto formDto) {
-        QETFEntity fund = QETFEntity.eTFEntity;
+        QETFEntity etf = QETFEntity.eTFEntity;
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (formDto.getRiskGrade() != null) {
-            builder.and(fund.riskGrade.eq(formDto.getRiskGrade()));
+        if (formDto.getRiskGrade() != null && formDto.getRiskGrade().length > 0) {
+            builder.and(etf.riskGrade.in((Integer[]) formDto.getRiskGrade()));
         }
 
-        if (formDto.getCategory() != null) {
-            builder.and(fund.fundTypeCd.eq(formDto.getCategory()));
+        if (formDto.getCategory() != null && formDto.getCategory().length > 0) {
+            builder.and(etf.fundTypeCd.in((String[]) formDto.getCategory()));
         }
 
         if (formDto.getChannel() != null) {
-            builder.and(fund.channel.eq(formDto.getChannel()));
+            builder.and(etf.channel.eq(formDto.getChannel()));
         }
-
+        
         NumberPath<Double> sortField;
         switch (formDto.getInterPeriod() != null ? formDto.getInterPeriod() : 100) {
             case 1:
-                sortField = fund.oneMonth; // 1개월 수익률 필드
+                sortField = etf.oneMonth; // 1개월 수익률 필드
                 break;
             case 3:
-                sortField = fund.threeMonth; // 3개월 수익률 필드
+                sortField = etf.threeMonth; // 3개월 수익률 필드
                 break;
             case 6:
-                sortField = fund.sixMonth; // 6개월 수익률 필드
+                sortField = etf.sixMonth; // 6개월 수익률 필드
                 break;
             case 12:
-                sortField = fund.year; // 12개월 수익률 필드
+                sortField = etf.year; // 12개월 수익률 필드
                 break;
             case 100:
             default:
-                sortField = fund.accum; // 누적 수익률 필드
+                sortField = etf.accum; // 누적 수익률 필드
                 break;
         }
 

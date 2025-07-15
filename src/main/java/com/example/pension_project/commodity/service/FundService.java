@@ -37,12 +37,12 @@ public class FundService {
         QFundEntity fund = QFundEntity.fundEntity;
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (formDto.getRiskGrade() != null) {
-            builder.and(fund.riskGrade.eq(formDto.getRiskGrade()));
+        if (formDto.getRiskGrade() != null && formDto.getRiskGrade().length > 0) {
+            builder.and(fund.riskGrade.in((Integer[]) formDto.getRiskGrade()));
         }
 
-        if (formDto.getCategory() != null) {
-            builder.and(fund.fundTypeCd.eq(formDto.getCategory()));
+        if (formDto.getCategory() != null && formDto.getCategory().length > 0) {
+            builder.and(fund.fundTypeCd.in((String[]) formDto.getCategory()));
         }
 
         if (formDto.getChannel() != null) {

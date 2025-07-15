@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인 - eApproveSystem</title>
+<style>
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap')
+	;
+
+:root {
+	--primary-color: #4a90e2;
+	--primary-hover-color: #357abd;
+	--background-color: #f7f9fc;
+	--form-background-color: #ffffff;
+	--text-color: #333333;
+	--subtle-text-color: #767676;
+	--border-color: #e0e0e0;
+	--error-color: #d93025;
+	--success-color: #34a853;
+	--certificate-color: #ea4335;
+	--certificate-hover-color: #d33b2c;
+}
+
+body {
+	font-family: 'Noto Sans KR', sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background-color: var(--background-color);
+	margin: 0;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+.login-wrapper {
+	width: 100%;
+	max-width: 420px;
+	padding: 40px;
+	background-color: var(--form-background-color);
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+	text-align: center;
+}
+
+.logo {
+	margin-bottom: 30px;
+}
+
+.logo h1 {
+	font-size: 28px;
+	color: var(--primary-color);
+	margin: 0;
+	font-weight: 700;
+}
+
+.logo p {
+	color: var(--subtle-text-color);
+	font-size: 14px;
+	margin: 8px 0 0 0;
+}
+
+/* 로그인 방식 선택 탭 */
+.login-tabs {
+	display: flex;
+	margin-bottom: 25px;
+	border-radius: 8px;
+	overflow: hidden;
+	border: 1px solid var(--border-color);
+}
+
+.tab-button {
+	flex: 1;
+	padding: 12px 16px;
+	border: none;
+	background-color: #f8f9fa;
+	color: var(--subtle-text-color);
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.3s;
+	border-right: 1px solid var(--border-color);
+}
+
+.tab-button:last-child {
+	border-right: none;
+}
+
+.tab-button.active {
+	background-color: var(--primary-color);
+	color: white;
+}
+
+.tab-button:hover:not(.active) {
+	background-color: #e9ecef;
+}
+
+/* 로그인 폼 컨테이너 */
+.login-content {
+	position: relative;
+	min-height: 280px;
+}
+
+.login-form {
+	display: none;
+}
+
+.login-form.active {
+	display: block;
+}
+
+/* 일반 로그인 폼 */
+.normal-login .input-group {
+	margin-bottom: 20px;
+	text-align: left;
+}
+
+.normal-login .input-group input {
+	width: 100%;
+	padding: 14px;
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	box-sizing: border-box;
+	font-size: 16px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.normal-login .input-group input:focus {
+	outline: none;
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+
+.form-options {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 25px;
+	font-size: 14px;
+}
+
+.form-options .remember-me {
+	display: flex;
+	align-items: center;
+	color: var(--subtle-text-color);
+}
+
+.form-options .remember-me input {
+	margin-right: 8px;
+}
+
+.form-options a {
+	color: var(--primary-color);
+	text-decoration: none;
+}
+
+.form-options a:hover {
+	text-decoration: underline;
+}
+
+.submit-btn {
+	width: 100%;
+	padding: 15px;
+	border: none;
+	border-radius: 8px;
+	background-color: var(--primary-color);
+	color: white;
+	font-size: 18px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin-bottom: 15px;
+}
+
+.submit-btn:hover {
+	background-color: var(--primary-hover-color);
+}
+
+.submit-btn:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+}
+
+/* 공인인증서 로그인 */
+.certificate-login {
+	text-align: center;
+}
+
+.certificate-info {
+	background-color: #f8f9fa;
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	padding: 20px;
+	margin-bottom: 20px;
+}
+
+.certificate-info h3 {
+	margin: 0 0 10px 0;
+	color: var(--text-color);
+	font-size: 16px;
+}
+
+.certificate-info p {
+	margin: 0;
+	color: var(--subtle-text-color);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.certificate-btn {
+	width: 100%;
+	padding: 15px;
+	border: none;
+	border-radius: 8px;
+	background-color: var(--certificate-color);
+	color: white;
+	font-size: 18px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.certificate-btn:hover {
+	background-color: var(--certificate-hover-color);
+}
+
+.certificate-btn::before {
+	content: "📁";
+	margin-right: 8px;
+	font-size: 16px;
+}
+
+.certificate-login-btn {
+	width: 100%;
+	padding: 15px;
+	border: none;
+	border-radius: 8px;
+	background-color: var(--success-color);
+	color: white;
+	font-size: 18px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: background-color 0.3s;
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.certificate-login-btn:hover {
+	background-color: #2d8a47;
+}
+
+.certificate-login-btn::before {
+	content: "🔐";
+	margin-right: 8px;
+	font-size: 16px;
+}
+
+.certificate-login-btn:disabled {
+	background-color: #ccc;
+	cursor: not-allowed;
+}
+
+/* 선택된 파일 정보 표시 */
+.selected-file-info {
+	display: flex;
+	align-items: center;
+	padding: 12px;
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	background-color: #f8f9fa;
+	margin-bottom: 15px;
+}
+
+.file-icon {
+	font-size: 24px;
+	margin-right: 12px;
+}
+
+.file-details {
+	flex: 1;
+	text-align: left;
+}
+
+.file-name {
+	font-weight: 500;
+	color: var(--text-color);
+	font-size: 14px;
+	margin-bottom: 2px;
+}
+
+.file-size {
+	font-size: 12px;
+	color: var(--subtle-text-color);
+}
+
+.file-remove-btn {
+	width: 24px;
+	height: 24px;
+	border: none;
+	border-radius: 50%;
+	background-color: #dc3545;
+	color: white;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.file-remove-btn:hover {
+	background-color: #c82333;
+}
+
+/* 인증서 비밀번호 섹션 */
+.certificate-password-section {
+	margin-bottom: 20px;
+}
+
+.certificate-password-section .input-group {
+	margin-bottom: 0;
+}
+
+.certificate-password-section input {
+	width: 100%;
+	padding: 14px;
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	box-sizing: border-box;
+	font-size: 16px;
+	transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.certificate-password-section input:focus {
+	outline: none;
+	border-color: var(--certificate-color);
+	box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.2);
+}
+
+.certificate-status {
+	padding: 10px;
+	border-radius: 6px;
+	font-size: 14px;
+	margin-bottom: 15px;
+	display: none;
+}
+
+.certificate-status.checking {
+	background-color: #fff3cd;
+	color: #856404;
+	border: 1px solid #ffeaa7;
+	display: block;
+}
+
+.certificate-status.success {
+	background-color: #d4edda;
+	color: #155724;
+	border: 1px solid #c3e6cb;
+	display: block;
+}
+
+.certificate-status.error {
+	background-color: #f8d7da;
+	color: #721c24;
+	border: 1px solid #f5c6cb;
+	display: block;
+}
+
+.error-message {
+	color: var(--error-color);
+	font-size: 14px;
+	margin-bottom: 15px;
+	height: 20px;
+	text-align: center;
+}
+
+.divider {
+	margin: 25px 0;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	color: var(--subtle-text-color);
+	font-size: 12px;
+}
+
+.divider::before, .divider::after {
+	content: '';
+	flex: 1;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.divider:not(:empty)::before {
+	margin-right: .25em;
+}
+
+.divider:not(:empty)::after {
+	margin-left: .25em;
+}
+
+.signup-link {
+	margin-top: 20px;
+	font-size: 14px;
+	color: var(--subtle-text-color);
+}
+
+.signup-link a {
+	color: var(--primary-color);
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.signup-link a:hover {
+	text-decoration: underline;
+}
+
+/* 반응형 디자인 */
+@media ( max-width : 480px) {
+	.login-wrapper {
+		padding: 30px 20px;
+	}
+	.tab-button {
+		padding: 10px 12px;
+		font-size: 13px;
+	}
+}
+</style>
+</head>
+<body>
+	<div class="login-wrapper">
+		<div class="logo">
+			<h1>eApproveSystem</h1>
+			<p>전자결재 시스템에 오신 것을 환영합니다.</p>
+		</div>
+
+		<!-- 로그인 방식 선택 탭 -->
+		<div class="login-tabs">
+			<button type="button" class="tab-button active" data-tab="normal">일반
+				로그인</button>
+			<button type="button" class="tab-button" data-tab="certificate">공인인증서</button>
+		</div>
+
+		<div class="login-content">
+			<!-- 일반 로그인 폼 -->
+			<form id="normal-login-form" class="login-form normal-login active">
+				<div class="input-group">
+					<input type="text" id="username" name="username"
+						placeholder="사용자 이름" required>
+				</div>
+				<div class="input-group">
+					<input type="password" id="password" name="password"
+						placeholder="비밀번호" required>
+				</div>
+				
+				<div id="normal-error-message" class="error-message"></div>
+				<button type="submit" class="submit-btn">로그인</button>
+			</form>
+
+			<!-- 공인인증서 로그인 -->
+			<div id="certificate-login" class="login-form certificate-login">
+				<div class="certificate-info">
+					<h3>인증서 파일 로그인</h3>
+					<p>
+						인증서 텍스트 파일(.txt)을 선택하여<br> 안전하게 로그인하실 수 있습니다.
+					</p>
+				</div>
+
+				<!-- 숨겨진 파일 선택 input -->
+				<input type="file" id="certificate-file" accept=".txt"
+					style="display: none;">
+
+				<!-- 선택된 파일 정보 표시 -->
+				<div id="selected-file-info" class="selected-file-info"
+					style="display: none;">
+					<div class="file-icon">📄</div>
+					<div class="file-details">
+						<div class="file-name" id="file-name"></div>
+						<div class="file-size" id="file-size"></div>
+					</div>
+					<button type="button" class="file-remove-btn" id="remove-file-btn">×</button>
+				</div>
+
+				<!-- 비밀번호 입력 (파일 선택 후 표시) -->
+				<div id="certificate-password-section"
+					class="certificate-password-section" style="display: none;">
+					<div class="input-group">
+						<input type="password" id="certificate-password"
+							placeholder="인증서 비밀번호를 입력하세요" required>
+					</div>
+				</div>
+
+				<div id="certificate-status" class="certificate-status"></div>
+				<div id="certificate-error-message" class="error-message"></div>
+
+				<button type="button" id="certificate-btn" class="certificate-btn">
+					인증서 파일 선택</button>
+
+				<!-- 로그인 버튼 (파일과 비밀번호 입력 후 표시) -->
+				<button type="button" id="certificate-login-btn"
+					class="certificate-login-btn" style="display: none;">인증서로
+					로그인</button>
+
+				<div class="divider">또는</div>
+
+				<button type="button" class="submit-btn"
+					onclick="switchTab('normal')" style="background-color: #6c757d;">
+					일반 로그인으로 변경</button>
+			</div>
+		</div>
+
+		<div class="signup-link">
+			관리자 권한 요청: (내선) 6241 | <a href="#" onclick="showCertificateHelp()">공인인증서
+				도움말</a>
+		</div>
+	</div>
+
+	<script>
+        // 전역 변수
+        let currentTab = 'normal';
+        
+        // DOM 요소들
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const loginForms = document.querySelectorAll('.login-form');
+        const normalLoginForm = document.getElementById('normal-login-form');
+        const certificateLoginDiv = document.getElementById('certificate-login');
+        const normalErrorMessage = document.getElementById('normal-error-message');
+        const certificateErrorMessage = document.getElementById('certificate-error-message');
+        const certificateStatus = document.getElementById('certificate-status');
+        const certificateBtn = document.getElementById('certificate-btn');
+        const certificateFile = document.getElementById('certificate-file');
+        const selectedFileInfo = document.getElementById('selected-file-info');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+        const removeFileBtn = document.getElementById('remove-file-btn');
+        const certificatePasswordSection = document.getElementById('certificate-password-section');
+        const certificatePassword = document.getElementById('certificate-password');
+        const certificateLoginBtn = document.getElementById('certificate-login-btn');
+
+        // 탭 전환 함수
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // 탭 버튼 활성화 상태 변경
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === tab) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // 로그인 폼 표시/숨김
+            loginForms.forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            if (tab === 'normal') {
+                normalLoginForm.classList.add('active');
+                clearMessages();
+            } else if (tab === 'certificate') {
+                certificateLoginDiv.classList.add('active');
+                clearMessages();
+                resetCertificateUI();
+            }
+        }
+
+        // 메시지 초기화
+        function clearMessages() {
+            normalErrorMessage.textContent = '';
+            certificateErrorMessage.textContent = '';
+            certificateStatus.className = 'certificate-status';
+            certificateStatus.style.display = 'none';
+        }
+
+        // 인증서 관련 UI 초기화
+        function resetCertificateUI() {
+            selectedFileInfo.style.display = 'none';
+            certificatePasswordSection.style.display = 'none';
+            certificateLoginBtn.style.display = 'none';
+            certificateBtn.style.display = 'block';
+            certificatePassword.value = '';
+            certificateBtn.textContent = '공인인증서 파일 선택';
+        }
+
+        // 파일 크기 포맷팅
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 탭 버튼 이벤트 리스너
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                switchTab(button.dataset.tab);
+            });
+        });
+
+        // 일반 로그인 폼 처리
+        normalLoginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('remember-me').checked;
+
+            const memberDto = {
+                username: username,
+                password: password,
+                rememberMe: rememberMe
+            };
+
+            try {
+                normalErrorMessage.textContent = '';
+                
+                const response = await fetch('/member/logincheck', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(memberDto)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // 로그인 성공 시
+                    normalErrorMessage.style.color = 'var(--success-color)';
+                    normalErrorMessage.textContent = '로그인 성공! 페이지를 이동합니다...';
+                    
+                    // 사용자 정보 저장 (세션 스토리지)
+                    if (rememberMe) {
+                        localStorage.setItem('username', username);
+                    } else {
+                        sessionStorage.setItem('username', username);
+                    }
+                    
+                    setTimeout(() => {
+                        location.href = '/approval';
+                    }, 1000);
+                } else {
+                    normalErrorMessage.style.color = 'var(--error-color)';
+                    normalErrorMessage.textContent = result.message || '로그인에 실패했습니다.';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                normalErrorMessage.style.color = 'var(--error-color)';
+                normalErrorMessage.textContent = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
+            }
+        });
+
+        // 공인인증서 파일 선택 버튼 클릭
+        certificateBtn.addEventListener('click', () => {
+            certificateFile.click();
+        });
+
+        // 파일 선택 이벤트
+        certificateFile.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            
+            if (file) {
+                // 파일 확장자 검증
+                const allowedExtensions = ['.txt'];
+                const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+                
+                if (!allowedExtensions.includes(fileExtension)) {
+                    certificateErrorMessage.textContent = '텍스트 파일만 업로드 가능합니다. (.txt 파일만 지원)';
+                    certificateFile.value = '';
+                    return;
+                }
+                
+                // 파일 크기 검증 (5MB 제한)
+                if (file.size > 5 * 1024 * 1024) {
+                    certificateErrorMessage.textContent = '파일 크기가 너무 큽니다. (최대 5MB)';
+                    certificateFile.value = '';
+                    return;
+                }
+                
+                // 파일 정보 표시
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                selectedFileInfo.style.display = 'flex';
+                certificatePasswordSection.style.display = 'block';
+                certificateBtn.style.display = 'none';
+                
+                certificateErrorMessage.textContent = '';
+                
+                // 비밀번호 입력 필드에 포커스
+                setTimeout(() => {
+                    certificatePassword.focus();
+                }, 100);
+            }
+        });
+
+        // 파일 제거 버튼
+        removeFileBtn.addEventListener('click', () => {
+            certificateFile.value = '';
+            resetCertificateUI();
+            clearMessages();
+        });
+
+        // 인증서 비밀번호 입력 이벤트
+        certificatePassword.addEventListener('input', () => {
+            if (certificatePassword.value.trim().length > 0 && certificateFile.files[0]) {
+                certificateLoginBtn.style.display = 'block';
+            } else {
+                certificateLoginBtn.style.display = 'none';
+            }
+        });
+
+        // 인증서 로그인 버튼 클릭
+        certificateLoginBtn.addEventListener('click', async () => {
+            const file = certificateFile.files[0];
+            const password = certificatePassword.value;
+            
+            if (!file || !password) {
+                certificateErrorMessage.textContent = '인증서 파일과 비밀번호를 모두 입력해주세요.';
+                return;
+            }
+            
+            try {
+                certificateErrorMessage.textContent = '';
+                certificateStatus.className = 'certificate-status checking';
+                certificateStatus.textContent = '공인인증서를 검증하는 중입니다...';
+                certificateLoginBtn.disabled = true;
+                certificateLoginBtn.textContent = '인증 중...';
+
+                // 파일을 FormData로 변환하여 서버에 전송
+                await authenticateWithCertificate(file, password);
+
+            } catch (error) {
+                console.error('Certificate login error:', error);
+                showCertificateError(error.message || '공인인증서 로그인 중 오류가 발생했습니다.');
+            } finally {
+                certificateLoginBtn.disabled = false;
+                certificateLoginBtn.innerHTML = '인증서로 로그인';
+            }
+        });
+
+        // 공인인증서 인증 처리 함수
+        async function authenticateWithCertificate(file, password) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = async function(e) {
+                    try {
+                        const formData = new FormData();
+                        formData.append('certificateFile', file);
+                        formData.append('password', password);
+                        formData.append('timestamp', new Date().getTime());
+                        console.log('서버에 인증서 파일 전송');
+                        // 서버에 인증서 파일과 비밀번호 전송
+                        const response = await fetch('/member/certificateLogin', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (response.ok) {
+                            certificateStatus.className = 'certificate-status success';
+                            certificateStatus.textContent = '인증서 인증이 완료되었습니다.';
+                            
+                            // 사용자 정보 저장
+                            sessionStorage.setItem('username', result.username || 'MASTER');
+                            sessionStorage.setItem('loginMethod', 'certificate');
+                            
+                            setTimeout(() => {
+                                location.href = '/approval';
+                            }, 1500);
+                            
+                            resolve(result);
+                        } else {
+                            throw new Error(result.message || '인증서 검증에 실패했습니다.');
+                        }
+                    } catch (error) {
+                        reject(error);
+                    }
+                };
+                
+                reader.onerror = function() {
+                    reject(new Error('파일을 읽는 중 오류가 발생했습니다.'));
+                };
+                
+                reader.readAsArrayBuffer(file);
+            });
+        }
+
+  
+        // 공인인증서 에러 표시
+        function showCertificateError(message) {
+            certificateStatus.className = 'certificate-status error';
+            certificateStatus.textContent = message;
+            certificateErrorMessage.textContent = '다시 시도하거나 일반 로그인을 이용해주세요.';
+        }
+
+        // 비밀번호 찾기
+        function showForgotPassword() {
+            alert('비밀번호 찾기 기능은 관리자(내선 6241)에게 문의해주세요.');
+        }
+
+        // 공인인증서 도움말
+        function showCertificateHelp() {
+            const helpMessage = `
+인증서 파일 로그인 도움말:
+
+1. 지원 파일 형식: .txt (텍스트 파일)
+2. 최대 파일 크기: 5MB
+3. 유효한 인증서 내용:
+   - MASTER_CERTIFICATE_2024 (비밀번호: 1234)
+   - ADMIN_ACCESS_TOKEN_2024 (비밀번호: 1234)
+   
+
+문제가 지속되면 IT 지원팀(내선 6241)에 문의하세요.
+
+지원 브라우저: Chrome, Firefox, Safari, Edge
+            `;
+            alert(helpMessage);
+        }
+
+        // 페이지 로드 시 저장된 사용자명 복원
+        window.addEventListener('load', () => {
+            const savedUsername = localStorage.getItem('username') || sessionStorage.getItem('username');
+            if (savedUsername) {
+                document.getElementById('username').value = savedUsername;
+                document.getElementById('remember-me').checked = !!localStorage.getItem('username');
+            }
+        });
+
+    </script>
+</body>
+</html>
