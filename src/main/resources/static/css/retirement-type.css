@@ -1,12 +1,8 @@
-
-/* Pretendard 기본 설정 */
 body {
   font-family: 'Pretendard', sans-serif;
   margin: 0;
   padding: 0;
   color: #222;
-  background-color: #fff;
-  line-height: 1.6;
 }
 
 /* 탭 컨테이너 */
@@ -18,47 +14,61 @@ body {
 
 .tab-title {
   font-size: 28px;
-  font-weight: 800;
-  text-align: center;
+  font-weight: 700;
   margin-bottom: 30px;
+  text-align: center;
   color: #111;
 }
 
-/* 탭 메뉴 */
 .tab-menu {
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid #ddd;
-  background-color: #fff;
-  overflow-x: auto;
-  flex-wrap: nowrap;
+  align-items: stretch;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ccc;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: auto; /* 스크롤 허용 */
+  -webkit-overflow-scrolling: touch;
+  flex-wrap: nowrap; /* 줄바꿈 방지 */
 }
+
 .tab-menu button {
-  flex: 1;
-  min-width: 25%;
-  padding: 14px 0;
+  flex: 1 1 25%; /* 각 버튼 너비 고정 (4개 탭 기준) */
+  padding: 14px 10px;
   background: none;
   border: none;
-  font-size: 16px;
-  font-weight: 600;
-  color: #555;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
   border-bottom: 3px solid transparent;
   transition: all 0.3s ease;
+  min-width: 25%; /* 모바일에서도 한 줄에 네 개 유지 */
+  text-align: center;
+  font-family: 'Pretendard', sans-serif;
 }
+
 .tab-menu button.active {
-  color: #D71921;
-  border-bottom: 3px solid #D71921;
+  color: #c30d23;
+  font-family: 'Pretendard', sans-serif;
+  border-bottom: 3px solid #c30d23;
   font-weight: 800;
   background-color: #fff;
 }
 
+.tab-menu button:hover {
+  background-color: #eee;
+}
 /* 탭 콘텐츠 */
 .tab-content .section {
   display: none;
-  padding: 40px 20px;
+  padding: 30px 20px;
   max-width: 1200px;
   margin: 0 auto;
+  line-height: 1.7;
+  text-align: left;
+  position: relative;
 }
 .tab-content .section h2 {
   font-size: 24px;
