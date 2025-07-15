@@ -61,25 +61,31 @@ body {
   background-color: #eee;
 }
 /* 탭 콘텐츠 */
-.tab-content .section {
+.section {
   display: none;
-  padding: 30px 20px;
+  padding: 30px 0px;
   max-width: 1200px;
   margin: 0 auto;
   line-height: 1.7;
   text-align: left;
   position: relative;
 }
-.tab-content .section h2 {
-  font-size: 24px;
+.section h2 {
+  font-size: 28px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
-.tab-content .section p,
-.tab-content .section li {
+.section p{
   font-size: 16px;
   color: #444;
   line-height: 1.8;
+}
+
+.section li {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.8;
+  margin-left: 1.2rem;
 }
 
 /* 표 스타일 */
