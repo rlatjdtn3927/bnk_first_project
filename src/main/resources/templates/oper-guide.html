@@ -44,6 +44,7 @@
     	<img th:src="@{/images/guide1.PNG}" alt="DB의 자산운용 주체는 기업" height="170" class="responsive-img small-img" />
     	<img th:src="@{/images/guide2.PNG}" alt="DC,IRP의 자산운용 주체는 개인" class="responsive-img small-img" />
   	</div>
+  	<br><br>
   	<ul>
     	<li> 퇴직연금 제도 형태별로 적립금 자산운용의 주체가 다릅니다.</li>
     	<li> 확정급여형 제도에서는 사용자가 자산운용의 주체이며 자산운용 권한과 최종 책임도 사용자에세 있습니다.</li>
@@ -71,7 +72,7 @@
 	<h2>퇴직연금의 자산운용 기본원칙은 분산투자와 장기투자입니다.</h2>
   	<!-- 이미지 -->
   	<div class="image-wrapper">
-    	<img th:src="@{/images/guide3.PNG}" alt="분산투자와 장기투자가 적힌 그림" class="responsive-img small-img" />
+    	<img th:src="@{/images/guide3.PNG}" alt="분산투자와 장기투자가 적힌 이미지" class="responsive-img small-img" />
   	</div>
   	<br><hr class="custom-hr">
   	
@@ -79,7 +80,7 @@
   		<!-- 왼쪽은 텍스트 -->
   		<div class="flex-text">
 		  	<h2>분산투자</h2>
-		  	
+		  	<br>
 		  	<h3>대상의 분산</h3>
 			<ul>
 			    <li>분산투자란 1개의 금융상품만으로 운용하는 것이 아니고 몇 개의 상품으로 나누어 운용하는 것을 말합니다.</li>
@@ -105,7 +106,7 @@
 	
 		<div class="flex-text">
 		  	<h2>장기투자</h2>
-		  	
+		  	<br>
 		  	<h3>장기투자</h3>
 			<ul>
 			    <li>주식과 같이 단기적으로는 가격이 급하게 오르거나 내려 가격변동이 심하게 되는 경우가 많이 있으나 장기적으로 보면 가격은 완만하게 등락을 하고 있음을 알 수 있습니다.
@@ -124,6 +125,118 @@
 		</div>
 	</div>
 	<br><br>
+</div>
+
+<!-- 탭 콘텐츠 -->
+<div class="section" id="limit" style="display: block;">
+	
+	<div class="flex-row">
+		<div class="flex-text">
+			<h2>퇴직연금에는 위험 관리를 위한 투자가능 한도가 적용됩니다.</h2><br>
+			<p>퇴직연금 감독규정에서는 제도 별로 투자 가능한 운용방법에 대하여 투자한도를 제한하고 있습니다.<br>
+			이는 위험한 운용방법에 투자를 하였을 때 생길 수 있는 큰 손실을 방지하여 근로자의 퇴직급여 수급권을 보호하기 위한 것입니다.
+			</p>
+		</div>
+	  	<!-- 이미지 -->
+	  	<div class="flex-img">
+	    	<img th:src="@{/images/lock.PNG}" alt="자물쇠 이미지" />
+	  	</div>
+  	</div>
+  	<br><hr class="custom-hr2">
+  	
+  	<h2>원리금비보장 자산 종류별 투자금지 대상</h2>
+  	<br>
+  	<table class="ban-table">
+  		<thead>
+  			<tr>
+  				<th colspan="2">구분</th><th>투자금지대상</th>
+  			</tr>
+  		</thead>
+  		<tbody>
+  			<tr>
+  				<td rowspan="6" class="center">증권</td>
+  				<td class="center">지분증권</td>
+  				<td>비상장주식, 해외 비적격시장 주식, 파생형펀드, 일부특수목적 펀드</td>
+  			</tr>
+  			<tr>
+  				<td class="center">채무증권</td>
+  				<td>투자 부적격등급 채권</td>
+  			</tr>
+  			<tr>
+  				<td class="center">수익증권</td>
+  				<td>파생형 펀드, 투자 부적격 등급 수익증권</td>
+  			</tr>
+  			<tr>
+  				<td class="center">파생결합증권</td>
+  				<td>사모 발행, 최대손실률 +40% 초과</td>
+  			</tr>
+  			<tr>
+  				<td class="center">증권예탁증권</td>
+  				<td>국내 상장되지 않은 증권예탁증권</td>
+  			</tr>
+  			<tr>
+  				<td class="center">투자계약증권</td>
+  				<td>전체 투자 금지</td>
+  			</tr>
+  			<tr>
+  				<td colspan="2" class="center">파생상품</td>
+  				<td>위험 회피 목적 이외의 파생상품 계약</td>
+  			</tr>
+  			<tr>
+  				<td colspan="2" class="center">실적배당형 보험</td>
+  				<td>수익증권과 동일한 기준 적용</td>
+  			</tr>
+  		</tbody>
+  	</table>
+  	
+  	<h2>원리금비보장 자산 운용 규제</h2>
+  	<br>
+  	<table class="ban-table">
+  		<thead>
+  			<tr>
+  				<th colspan="2">구분</th><th>확정급여형(DB)</th><th>확정기여형(DC)/개인형IRP</th>
+  			</tr>
+  		</thead>
+  		<tbody>
+  			<tr class="center">
+  				<td colspan="2" >원리금비보장 자산</td><td colspan="2">총한도 70% 내 투자 가능</td>
+  			</tr>
+  			<tr class="center">
+  				<td rowspan="7">구분</td>
+  				<td>지분증권(예:주식)</td><td></td><td>투자금지</td>
+  			</tr>
+  			<tr class="center">
+  				<td>채무증권(예:채권)</td><td></td><td></td>
+  			</tr>
+  			<tr class="center">
+  				<td>펀드(주식형, 주식혼합형)</td><td></td><td></td>
+  			</tr>
+  			<tr class="center">
+  				<td>파생결합증권(예:ELB)</td><td></td><td>(최대손실 +10% ~ +40%) 투자금지</td>
+  			</tr>
+  			<tr class="center">
+  				<td>사모펀드</td><td></td><td>투자금지</td>
+  			</tr>
+  			<tr class="center">
+  				<td>증권예탁증권</td><td></td><td>투자 금지</td>
+  			</tr>
+  			<tr class="center">
+  				<td>파생상품</td><td colspan="2">헷지(hedge)목적만 허용</td>
+  			</tr>
+  		</tbody>
+  	</table>
+  	
+  	
+	<!-- 투자한도 관련 pdf 파일 -->
+	<div class="notice-box">
+	  	<div class="notice-header" onclick="toggleNotice()">
+		  	<span>퇴직연금가이드북.pdf</span>
+		  	<span id="toggle-icon">＋</span>
+	  	</div>
+	  	<div class="notice-content" id="notice-content">
+	  		
+	  	</div>
+	</div>
 </div>
 
 

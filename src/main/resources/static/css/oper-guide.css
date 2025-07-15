@@ -7,7 +7,7 @@ body {
 
 /*배너*/
 .banner {
-  	background-color: #FFF8F8; /* 연한 베이지 */
+  	background-color: #FFF8F8; /* 연한 핑크 */
   	padding: 10px 20px 50px 20px;
   	display: flex;
   	justify-content: center;
@@ -139,7 +139,6 @@ body {
 .section h2 {
   font-size: 28px;
   font-weight: 700;
-  margin-bottom: 25px;
   color: #111;
 }
 
@@ -152,8 +151,8 @@ body {
 
 .section-content {
 	max-width: 1000px;
-	margin: 60px auto;
-	padding: 40px 20px;
+	/*margin: 60px auto;*/
+	/*padding: 40px 20px;*/
 	font-family: 'Pretendard', sans-serif;
 	color: #222;
 	
@@ -164,7 +163,7 @@ body {
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
-  	margin: 40px 0 40px 20px;
+  	margin: 40px 0 0px 20px;
 }
 
 .responsive-img {
@@ -186,7 +185,7 @@ body {
   border: 1px solid #ddd;
   border-radius: 8px;
   margin: 0 auto;
-  max-width: 1105px;
+  max-width: 1200px;
   width: 100%;
   background-color: #f9f9f9;
   font-size: 14px;
@@ -262,9 +261,8 @@ body {
 }
 
 /*자산운용 기본원칙 탭*/
+/* 공통 - 오른쪽 글, 왼쪽 이미지*/
 .flex-row {
-	margin-top: 45px;
-	margin-bottom: 35px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -288,17 +286,18 @@ body {
 	font-size: 16px;
 }
 
-.flex-text h2 {
+.flex-text h3 {
 	margin-left: 20px;
 }
 
-.flex-text h3 {
-	margin-left: 20px;
+.flex-text p {
+	font-size: 18px;
 }
 
 .flex-img {
 	flex: 0 0 auto; /* 고정 크기 */
   	max-width: 160px;  /* 이미지 최대 너비 줄이기 */
+  	margin-right: 50px;
 }
 
 .flex-img img {
@@ -311,6 +310,14 @@ body {
 	border: none;
 	background-color: #ddd;
 	height: 1px;
+	margin-bottom: 45px;
+	margin-top: 35px;
+}
+.custom-hr2 {
+	border: none;
+	background-color: #ddd;
+	height: 1px;
+	margin-bottom: 45px;
 }
 
 @media (max-width: 768px) {
@@ -336,8 +343,31 @@ body {
 }
 
 
+/*테이블*/
+.ban-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  /*color: #D71921;*/
+}
 
+.ban-table th,
+.ban-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  vertical-align: top;
+}
 
+.ban-table th {
+  background-color: #f7f7f7;
+  border-top: 2px solid #D71921;
+  text-align: center;
+  font-weight: bold;
+}
+
+.center {
+	text-align: center;
+}
 
 
 
