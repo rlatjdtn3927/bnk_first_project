@@ -124,23 +124,39 @@
     <!-- DC 탭 -->
     <div class="section" id="dc" style="display: none;">
       <h2>확정기여형(DC: Defined Contribution Plan)</h2>
-      <p>기업이 일정 금액을 적립하면 근로자가 자산 운용을 결정하는 퇴직연금 제도입니다.</p>
-      <p>(적립금 수준 : 사용자 부담금 = 연간 임금의 일정 비율)</p>
+      <p>확정기여형 퇴직연금은 사용자(기업)가 부담해야 할 부담금의 수준이 사전에 결정되는 퇴직연금제도입니다.</p>
+      <p>(예 : 연간 임금총액의 1/12)</p>
       <ul>
-        <li>적립금 운용에 대한 책임은 근로자에게 있습니다.</li>
-        <li>운용실적에 따라 퇴직급여 수준이 달라집니다.</li>
-        <li>사용자는 일정한 금액만 부담하면 됩니다.</li>
-        <li>운용성과는 근로자 본인에게 귀속됩니다.</li>
-        <li>투자 대상은 근로자가 선택할 수 있습니다.</li>
+        <li>적립금 운용에 대한 책임 및 운용 결과는 근로자에 있습니다.</li>
+        <li>운용실적에 따라 근로자의 퇴직급여액이 변동됩니다.</li>
+        <li>근로자는 본인부담으로 추가납입이 가능합니다.</li>
+        <li>급여지급 시 개인형 퇴직연금제도로 이전합니다.</li>
       </ul>
 
       <div class="db-flow-section">
+        <table class="db-flow-table">
+          <thead>
+            <tr>
+              <th>상품선택</th>
+              <th>자산운용의 책임</th>
+              <th>운용의 결과</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>근로자</td>
+              <td>근로자</td>
+              <td>근로자에 귀속</td>
+            </tr>
+          </tbody>
+        </table>
+
         <div class="flow-horizontal">
-          <div class="flow-step-box">기업 <span>일정 금액 납입</span></div>
-          <div class="arrow-right" data-text="운용 책임 없음"></div>
-          <div class="flow-step-box">근로자 <span>직접 운용</span></div>
-          <div class="arrow-right" data-text="운용 성과 귀속"></div>
-          <div class="flow-step-box">근로자 <span>연금 수령</span></div>
+          <div class="flow-step-box">기업 <span>기업이 적립</span></div>
+          <div class="arrow-right" data-text="부담금 사전확정"></div>
+          <div class="flow-step-box">퇴직연금 사업자 <span>근로자가 직접 운용 및 관리</span></div>
+          <div class="arrow-right" data-text="급여 사전확정"></div>
+          <div class="flow-step-box">근로자 <span>개인형 퇴직연금제도의 의무이전 일시금 또는 연금 수령</span></div>
         </div>
 
         <button class="toggle-helper-btn" onclick="showCuteBubble('dc')">더 쉽게 이해하기</button>
@@ -149,7 +165,62 @@
           <div class="speech-bubble" id="text-dc"></div>
         </div>
       </div>
+      
+      <!-- 제도 도입 효과 -->
+      <div class="effect-benefit-section">
+        <h3 class="effect-title">제도 도입 효과</h3>
+
+        <div class="benefit-group">
+          <h4 class="effect-subtitle">사용자(기업)</h4>
+          <div class="effect-card-grid">
+            <div class="effect-card">
+              <div class="card-title">법인세 절감</div>
+              <div class="card-desc">부담금은 전액 비용처리 됩니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">재무구조 개선</div>
+              <div class="card-desc">퇴직급여의 매년 지급처리로 퇴직부채에 대한 부담이 없습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">관리업무 감소</div>
+              <div class="card-desc">인사/자금 관리의 효율성 및 편리성을 제고할 수 있습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">근로자 교육</div>
+              <div class="card-desc">퇴직연금 운용현황 및 재테크를 위한 금융상품 등에 대한 교육을 통해 근로자들의 재교육 효과를 기대할 수 있습니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="benefit-group">
+          <h4 class="effect-subtitle">가입자(근로자)</h4>
+          <div class="effect-card-grid">
+            <div class="effect-card">
+              <div class="card-title">초과수익 가능성</div>
+              <div class="card-desc">근로자의 투자성향에 따라 초과수익을 기대할 수 있습니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">수급권 보호</div>
+              <div class="card-desc">기업의 각 근로자의 연간 임금총액의 1/12 이상을 회계연도 말까지 적립해야 하므로 수급권이 보장됩니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">세액공제</div>
+              <div class="card-desc">사용자의 부담금 외 근로자가 추가로 부담하는 부담금은 연간 900만원까지 세액공제가 가능합니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">중도인출</div>
+              <div class="card-desc">법정사유에 해당될 경우 중도인출이 가능합니다.</div>
+            </div>
+            <div class="effect-card">
+              <div class="card-title">동산가능</div>
+              <div class="card-desc">다른 회사로 전직시 퇴직금은 새로운 회사에서도 계속 관리할 수 있어 노후자금 마련이 가능하고 최종 은퇴시점까지 퇴직소득세가 이연됩니다.</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
+    
 
     <!-- IRP 탭 -->
     <div class="section" id="irp" style="display: none;">
