@@ -104,7 +104,6 @@ body {
 }
 .db-flow-table th {
   background-color: #f9f9f9;
-  color: #D71921;
   font-weight: 700;
   padding: 14px;
   border: 1px solid #eee;
@@ -117,6 +116,7 @@ body {
   border: 1px solid #eee;
   text-align: center;
 }
+
 
 /* 흐름도 */
 .flow-horizontal {
@@ -293,7 +293,7 @@ body {
 
 /* ───────── 버튼 ───────── */
 .toggle-helper-btn{
-  background:#E53935;
+  background: #D71921;
   color:#fff;font-weight:600;font-size:15px;
   padding:12px 30px;border:none;border-radius:9999px;
   cursor:pointer;box-shadow:0 4px 12px rgba(229,57,53,.25);
@@ -493,7 +493,7 @@ body {
   list-style-type: disc;
 }
 
-.irp-helper-section {
+.easy-helper-section {
   text-align: center;
   margin: 30px 0;
 }

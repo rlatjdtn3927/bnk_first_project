@@ -22,9 +22,14 @@
         <section class="search-section">
             <div class="search-box">
                 <div class="search-text">
-                    <i class="fas fa-magnifying-glass search-icon"></i>
-                    <span class="text">“디폴트옵션”을 검색해보세요.</span>
-                </div>
+				  <i class="fas fa-magnifying-glass search-icon"></i>
+				  <input
+				    type="text"
+				    id="search-input"
+				    placeholder='"디폴트옵션"을 검색해보세요.'
+				    onkeypress="handleEnter(event)"
+				  />
+				</div>
                 <img src="/images/search_characters5.png" alt="검색 캐릭터" class="search-characters">
             </div>
         </section>
