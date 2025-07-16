@@ -39,5 +39,14 @@ public class AnalysisEntity extends BaseEntity{
 
     @Column(name="holdings_url")
     private String holdingsUrl;
+    
+    @Column(name="file1", length = 100)
+    private String file1; // 투자설명서
+
+    @Column(name="file2", length = 100)
+    private String file2; // 상품약관
+
+    @Column(name="file3", length = 100)
+    private String file3; // 간이 투자 설명서
 
 }

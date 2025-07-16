@@ -14,7 +14,6 @@ import com.example.pension_project.jpa.entity.commodity.ETFEntity;
 import com.example.pension_project.jpa.entity.commodity.FundEntity;
 import com.example.pension_project.jpa.entity.commodity.GuaranteeEntity;
 import com.example.pension_project.jpa.entity.commodity.TDFEntity;
-import com.example.pension_project.jpa.repository.commodity.repositories.GuaranteeRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,21 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
-/*
- **위험등급 1: 매우높은위험, 2: 높은위험, 3: 다소높은위험, 4. 보통위험, 5.낮은위험, 6.매우낮은위험
- **펀드유형 : MMF, 채권형, 채권혼합형, 주식혼합형, 주식형, 파생상품형, 재간접
- **체널 구분: 1: 전체 / 2: 온라인전용 디폴트: 1
- ** 수익률 구분: 1,3,6,12,누적 (1, 3, 6, 12, 100) 디폴트 : 누적(100)
- *  펀드 (위험등급, 유형, 체널구분) --> 검색 후 수익률(1,3,6,12,누적) 정렬
- *  etf (위험등급, 유형, 체널구분) --> 검색 후 수익률(1,3,6,12,누적) 정렬
- *  tdf (위험등급, 유형, 체널구분) --> 검색 후 수익률(1,3,6,12,누적) 정렬
- *  예금 (표로보여줌)
- *  디폴트옵션 (표로보여줌)
- *
- */
 @Slf4j
 @RestController
 @RequestMapping("/commodity")
@@ -106,8 +93,10 @@ public class CommodityRestController {
     public ResponseEntity<?> analysis(@RequestBody Map<String, String> body) {
     	log.info("analysis...");
     	String prodId = body.get("prodId");
-    	AnalysisEntity row = analysisService.findById(prodId);
-    	if(row != null) return ResponseEntity.status(HttpStatus.OK).body(row);
+    	AnalysisEntity entity = analysisService.findById(prodId);
+    	Map<String, AnalysisEntity> result = new HashMap<>();
+    	result.put("analysisEntity", entity);
+    	if(entity != null) return ResponseEntity.status(HttpStatus.OK).body(result);
     	else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(prodId + "의 분석 정보를 가져오지 못했습니다.");
     }
     

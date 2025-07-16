@@ -19,6 +19,7 @@ public class FundDto {
     private Double accum; //SETAF_CUER_RT; //누적 수익률
     private String manager; //AST_OPR_ORGTCD_NM; //운용사
     private String fundTypeCd;//RTPEN_PDT_SMDCD_NM; //카테고리 ex.주식형
+    private Integer channel;
     private String risk; //PDT_RISK_GDC_NM; //위험률
     private int riskGrade; //PDT_RISK_GDC //위험률 카테고리 숫자
     private String totalFee;//TOT_PYRT; //총보수

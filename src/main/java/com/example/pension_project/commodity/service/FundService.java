@@ -39,7 +39,7 @@ public class FundService {
             builder.and(fund.fundTypeCd.in((String[]) formDto.getCategory()));
         }
 
-        if (formDto.getChannel() != null) {
+        if (formDto.getChannel() != null && formDto.getChannel() != 1) {
             builder.and(fund.channel.eq(formDto.getChannel()));
         }
 

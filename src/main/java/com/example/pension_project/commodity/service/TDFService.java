@@ -37,7 +37,7 @@ public class TDFService {
             builder.and(tdf.fundTypeCd.in((String[]) formDto.getCategory()));
         }
 
-        if (formDto.getChannel() != null) {
+        if (formDto.getChannel() != null && formDto.getChannel() != 1) {
             builder.and(tdf.channel.eq(formDto.getChannel()));
         }
 

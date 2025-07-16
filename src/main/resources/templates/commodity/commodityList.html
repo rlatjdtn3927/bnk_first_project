@@ -287,6 +287,38 @@
 		    border: none;
 		    flex: 1;
 		}
+		.modal-files{
+		    display:flex;
+		    flex-wrap:wrap;          /* 필요하면 줄바꿈 */
+		    gap:.5rem;
+		    padding:.5rem 1rem;
+		    border-bottom:1px solid #eee;
+		    justify-content:flex-start;  /* 왼쪽 정렬 */
+		}
+		.file-link{
+		    display:inline-flex;
+		    align-items:center;
+		    gap:.25rem;              /* 아이콘과 텍스트 간격 */
+		    padding:.4rem .8rem;
+		    font-size:.8rem;
+		    background:#f7f7f7;
+		    border:1px solid #ccc;
+		    border-radius:6px;
+		    text-decoration:none;
+		    color:#333;
+		    transition:background .2s;
+		    /* ↓ 가변 너비 ‑ 더 이상 flex:1 필요 없음 */
+		}
+		.file-link:hover{background:#e9e9e9;}
+		.file-link i{
+		    font-size:1rem;
+		    color:#D71921;           /* PDF 아이콘 빨간색 */
+		}
+		.file-link.disabled{
+		    pointer-events:none;
+		    opacity:.35;
+		}
+
 
         /* scrollbars (optional) */
         ::-webkit-scrollbar {width: 8px;}
@@ -352,6 +384,17 @@
 	            <button data-key="portfolioAnalysisUrl">포트폴리오</button>
 	            <button data-key="holdingsUrl">보유종목</button>
 	        </nav>
+			<div class="modal-files" id="modalFiles">
+			  <a id="file1Link" class="file-link" href="#" target="_blank">
+			    <i class="fas fa-file-pdf"></i> 투자설명서
+			  </a>
+			  <a id="file2Link" class="file-link" href="#" target="_blank">
+			    <i class="fas fa-file-pdf"></i> 상품약관
+			  </a>
+			  <a id="file3Link" class="file-link" href="#" target="_blank">
+			    <i class="fas fa-file-pdf"></i> 간이투자설명서
+			  </a>
+			</div>
 	        <div class="modal-body"><iframe id="analysisFrame" title="analysis"></iframe></div>
 	    </div>
 	</div>
@@ -384,10 +427,15 @@
         return res.json();
     })
     .then(json => {
-        totalCount = json.totalCnt ?? 0;   // 전체 건수 갱신
-        qs('.total-number').textContent = totalCount.toLocaleString();
-        console.log(totalCount);
-        return json.entityList ?? [];      // 카드 렌더링에 필요한 배열만 반환
+    	if(json.totalCnt != null) {
+            totalCount = json.totalCnt ?? 0;   // 전체 건수 갱신
+            qs('.total-number').textContent = totalCount.toLocaleString();
+    	}
+    	if(json.entityList != null) {
+    		return json.entityList ?? [];	
+    	}
+    	
+    	return json.analysisEntity;
     });
 
     /* render helpers */
@@ -729,7 +777,6 @@
     function openAnalysisModal(prodId, title){
         postJson('/commodity/analysis',{prodId})
         .then(data=>{
-            latestAnalysisData=data;
             qs('#modalTitle').textContent=title;
             console.log(data.overviewUrl);
             showModalWithUrl(data.overviewUrl);
@@ -739,12 +786,33 @@
                 btn.dataset.url = data[key]||'';
                 btn.classList.toggle('active', key==='overviewUrl');
             });
+            
+            const files = [
+                ['file1Link','file1'],
+                ['file2Link','file2'],
+                ['file3Link','file3']
+            ];
+            files.forEach(([linkId,key])=>{
+                const linkEl = qs('#'+linkId);
+                if(data[key]){                // 값이 있으면 활성화
+                	const url = data[key];
+                	const fileName = url.substring(url.lastIndexOf('/')+1);
+                	const encoded = encodeURIComponent(fileName);
+                	const commonPart = url.substring(0, url.lastIndexOf('/')+1);
+                	const encodedUrl = commonPart + encoded;
+                    linkEl.href = encodedUrl;
+                    linkEl.classList.remove('disabled');
+                }else{                        // 없으면 비활성/회색
+                    linkEl.href = '#';
+                    linkEl.classList.add('disabled');
+                }
+            });
+            
             qs('#analysisModal').classList.add('open');
         });
     }
 
     function showModalWithUrl(url){
-    	console.log(url);
         qs('#analysisFrame').src=url;
     }
 
