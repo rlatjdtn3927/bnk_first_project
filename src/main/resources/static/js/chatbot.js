@@ -15,16 +15,32 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  // 🔻 처음에는 모달과 배경을 숨긴 상태 유지
+  modal.style.display = 'none';
+  bg.style.display = 'none';
+
+  // 🔻 챗봇 버튼 클릭 시 모달 오픈
   btn.onclick = () => {
     modal.style.display = 'flex';
     bg.style.display = 'block';
     input.focus();
   };
+
+  // 🔻 닫기 버튼 또는 배경 클릭 시 모달 닫기
   close.onclick = bg.onclick = () => {
     modal.style.display = 'none';
     bg.style.display = 'none';
   };
 
+  // 🔻 ESC 키로도 모달 닫기
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      modal.style.display = 'none';
+      bg.style.display = 'none';
+    }
+  });
+
+  // 🔻 챗봇 폼 제출 시 메시지 전송 처리
   form.onsubmit = async e => {
     e.preventDefault();
     const q = input.value.trim();
