@@ -10,8 +10,10 @@ import com.example.pension_project.jpa.entity.commodity.ETFEntity;
 import com.example.pension_project.jpa.entity.commodity.FundEntity;
 import com.example.pension_project.jpa.entity.commodity.TDFEntity;
 import com.example.pension_project.jpa.entity.dataroom.Manual;
+import com.example.pension_project.jpa.entity.disclosure.AssetContract;
 import com.example.pension_project.jpa.entity.faq.Faq;
 import com.example.pension_project.search.dto.SearchResultDto;
+import com.example.pension_project.search.repository.AssetContractSearchRepository;
 import com.example.pension_project.search.repository.DefaultOptionSearchRepository;
 import com.example.pension_project.search.repository.EtfSearchRepository;
 import com.example.pension_project.search.repository.FaqSearchRepository;
@@ -32,6 +34,7 @@ public class SearchService {
     private final NoticeSearchRepository noticeRepo;
     private final FaqSearchRepository faqRepo;
     private final ManualSearchRepository manualRepo;
+    private final AssetContractSearchRepository assetConRepo;
 
     public SearchResultDto searchAll(String keyword) {
         List<DefaultEntity> defaultOptions = defaultOptionRepo.searchByKeyword(keyword);
@@ -41,7 +44,7 @@ public class SearchService {
         List<Notice> notices = noticeRepo.searchByKeyword(keyword);
         List<Faq> faqs = faqRepo.searchByKeyword(keyword);
         List<Manual> manuals = manualRepo.searchByKeyword(keyword);
-
-        return SearchResultDto.of(defaultOptions, funds, etfs, tdfs, notices, faqs, manuals);
+        List<AssetContract> assetCons = assetConRepo.searchByKeyword(keyword);
+        return SearchResultDto.of(defaultOptions, funds, etfs, tdfs, notices, faqs, manuals, assetCons);
     }
 }
