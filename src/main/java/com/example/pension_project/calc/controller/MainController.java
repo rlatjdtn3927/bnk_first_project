@@ -6,11 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-	@GetMapping("/calc")
-	public String root() {
-		return "calc/index";
-	}
-	
 	@GetMapping("/retire-calc")
 	public String retireCalc() {
 		return "calc/retire-calc";
@@ -19,6 +14,11 @@ public class MainController {
 	@GetMapping("/oper-guide")
 	public String operGuide() {
 		return "oper-guide";
+	}
+	
+	@GetMapping("/profitability-guide")
+	public String profitGuide() {
+		return "profitability-guide";
 	}
 	
 }

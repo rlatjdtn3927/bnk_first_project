@@ -7,7 +7,7 @@ body {
 
 /*배너*/
 .banner {
-  	background-color: #FFF8F8; /* 연한 핑크 */
+  	background-color: #FFF2F2; /* 연한 핑크 */
   	padding: 10px 20px 50px 20px;
   	display: flex;
   	justify-content: center;
@@ -349,6 +349,7 @@ body {
   border-collapse: collapse;
   font-size: 15px;
   /*color: #D71921;*/
+  margin-bottom: 45px;
 }
 
 .ban-table th,
