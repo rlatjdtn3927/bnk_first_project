@@ -1,16 +1,17 @@
 package com.example.pension_project.commodity.service;
 
 import com.example.pension_project.commodity.dto.FormDto;
+import com.example.pension_project.commodity.dto.PagenationDto;
 import com.example.pension_project.jpa.entity.commodity.QTDFEntity;
 import com.example.pension_project.jpa.entity.commodity.TDFEntity;
 import com.example.pension_project.jpa.repository.commodity.repositories.TDFRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.NumberPath;
-import com.querydsl.core.types.dsl.StringPath;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -19,11 +20,15 @@ public class TDFService {
     @Autowired
     private TDFRepository tdfRepository;
 
-    public List<TDFEntity> fundList(FormDto formDto) {
+    public PagenationDto<TDFEntity> fundList(FormDto formDto) {
         QTDFEntity tdf = QTDFEntity.tDFEntity;
         BooleanBuilder builder = new BooleanBuilder();
+        Pageable pageable = PageRequest.of(formDto.getPage(), formDto.getSize());
 
-
+        if(formDto.getKeyword() != null) {
+        	builder.and(tdf.prodName.likeIgnoreCase("%" + formDto.getKeyword() + "%"));
+        }
+        
         if (formDto.getRiskGrade() != null && formDto.getRiskGrade().length > 0) {
             builder.and(tdf.riskGrade.in((Integer[]) formDto.getRiskGrade()));
         }
@@ -32,7 +37,7 @@ public class TDFService {
             builder.and(tdf.fundTypeCd.in((String[]) formDto.getCategory()));
         }
 
-        if (formDto.getChannel() != null) {
+        if (formDto.getChannel() != null && formDto.getChannel() != 1) {
             builder.and(tdf.channel.eq(formDto.getChannel()));
         }
 
@@ -55,7 +60,8 @@ public class TDFService {
                 sortField = tdf.accum; // 누적 수익률 필드
                 break;
         }
-
-        return tdfRepository.findAllWithCondition(builder,sortField);
+        
+        PagenationDto<TDFEntity> page = tdfRepository.findAllWithCondition(builder,sortField, pageable); 
+        return page;
     }
 }

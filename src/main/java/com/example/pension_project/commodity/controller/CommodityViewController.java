@@ -16,4 +16,10 @@ public class CommodityViewController {
 		log.info("commodityView...");
 		return "commodity/commodityList";
 	}
+	
+	@GetMapping("/test")
+	public String test() {
+		log.info("test...");
+		return "commodity/test";
+	}
 }
