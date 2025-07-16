@@ -1,32 +1,51 @@
 <!-- templates/fragments/chatbot.html -->
 <div th:fragment="chatbot">
-  <div id="chatbot-floating-btn"
-       style="position:fixed;top:32px;right:32px;z-index:1001;
-       cursor:pointer;background:#2a2257;color:#fff;padding:16px 18px;border-radius:50%;
-       box-shadow:0 0 12px #0004;font-size:24px;">💬</div>
+  <!-- 오른쪽 상단 고정 챗봇 버튼 -->
+<div id="chatbot-floating-btn"
+     style="position: fixed; top: 20px; right: 20px; z-index: 1000;
+            background-color: #007bff; color: white; font-size: 24px;
+            border-radius: 50%; width: 60px; height: 60px;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+  💬
+</div>
 
-  <div id="chatbot-modal-bg"
-       style="display:none;position:fixed;top:0;left:0;width:100%;
-       height:100%;background:rgba(30,30,45,.35);z-index:1002;"></div>
+<!-- 배경 어둡게 (모달 열릴 때만 보임) -->
+<div id="chatbot-modal-bg"
+     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.4); z-index: 999;">
+</div>
 
-  <div id="chatbot-modal"
-       style="display:none;position:fixed;top:70px;right:60px;
-       width:410px;min-height:420px;max-height:80vh;background:#fff;border-radius:18px;
-       box-shadow:0 8px 32px #23205744;z-index:1003;overflow:hidden;display:flex;flex-direction:column;">
-    <div style="background:#2a2257;color:#fff;padding:20px 18px;font-size:19px;">
-      퇴직연금 AI 챗봇
-      <span id="chatbot-close-btn" style="float:right;cursor:pointer;">✕</span>
-    </div>
-    <div id="chatbot-messages" style="flex:1 1 0;padding:16px 16px 0;overflow-y:auto;
-         background:#f8f8fa;font-size:15px;">
-      <div style="color:#999;">질문을 입력해 보세요.</div>
-    </div>
-    <form id="chatbot-form" style="display:flex;gap:8px;border-top:1px solid #ececec;
-          padding:10px 12px;background:#fafaff;">
-      <input id="chatbot-input" autocomplete="off"
-             style="flex:1 1 0;padding:8px 10px;border:1px solid #d0d0e4;border-radius:8px;font-size:15px;">
-      <button type="submit" style="background:#2a2257;color:#fff;border:none;padding:8px 16px;
-              border-radius:8px;cursor:pointer;">보내기</button>
-    </form>
+<!-- 챗봇 모달창 -->
+<div id="chatbot-modal"
+     style="display: none; position: fixed; bottom: 100px; right: 20px; width: 400px; height: 600px;
+            background-color: white; border: 1px solid #ccc; z-index: 1001;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3); border-radius: 10px; flex-direction: column;">
+  
+  <!-- 상단 닫기 버튼 -->
+  <div style="display: flex; justify-content: flex-end; padding: 10px;">
+    <button id="chatbot-close-btn"
+            style="background: none; border: none; font-size: 20px; cursor: pointer;">
+      ✖
+    </button>
   </div>
+
+  <!-- 메시지 영역 -->
+  <div id="chatbot-messages"
+       style="flex: 1; padding: 20px; overflow-y: auto; font-size: 14px; line-height: 1.4;">
+  </div>
+
+  <!-- 입력 영역 -->
+  <form id="chatbot-form" style="display: flex; border-top: 1px solid #eee;">
+    <input id="chatbot-input" type="text"
+           placeholder="메시지를 입력하세요..."
+           style="flex: 1; padding: 10px; border: none; outline: none; font-size: 14px;">
+    <button type="submit"
+            style="padding: 10px 15px; background-color: #007bff; color: white;
+                   border: none; cursor: pointer; font-size: 14px;">
+      전송
+    </button>
+  </form>
+</div>
+
 </div>
