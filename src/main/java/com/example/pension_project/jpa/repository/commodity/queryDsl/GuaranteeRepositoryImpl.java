@@ -30,6 +30,7 @@ public class GuaranteeRepositoryImpl implements GuaranteeCustomRepository{
                 .selectFrom(guaranteeEntity)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(guaranteeEntity.bank.asc())
                 .fetch();
     	
     	Integer totalCnt = jpaQueryFactory
