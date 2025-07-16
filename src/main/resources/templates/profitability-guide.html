@@ -1,11 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>수익률 관리 가이드</title>
+<link rel="stylesheet" th:href="@{/css/header.css}" />
+<link rel="stylesheet" th:href="@{/css/footer.css}" />
+<link rel="stylesheet" th:href="@{/css/profitability-guide.css}" />
 </head>
 <body>
-<h1></h1>
+<!-- header -->
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+<!-- 경로 표시 -->
+<div th:replace="~{fragments/location :: location(category1='퇴직연금 가이드', category2='수익률 관리 가이드')}"></div>
+
+<!-- 배너 -->
+<div class="banner">
+	<div class="banner-content">
+		<div class="banner-text">
+			<h2>적극적인 수익률 관리가 중요한 이유</h2>
+			<p>성공적인 퇴직연금 관리를 위해서는 적극적인 투자전략과 수익률 관리가 필요해요.</p>
+		</div>
+		<div class="banner-img">
+			<img th:src="@{/images/guide_banner.png}" alt="책 이모티콘">
+		</div>
+	</div>
+</div>
+
+<!-- content -->
+<div class="guide-section">
+	<h2 class="guide-title">
+    	성공적인 퇴직연금 관리를 위해서 투자 전략과<br>
+    	수익률 관리를 적극적으로 해야 합니다.
+  	</h2>
+  	<div class="guide-img">
+    	<img th:src="@{/images/icon_B.png}" alt="통장모양 이미지">
+  	</div>
+  	<p class="p-text">
+    	퇴직연금은 은퇴 후의 삶을 안정적으로 지원하는 중요한 금융 수단으로<br>
+    	수익률 관리를 제대로 하지 않으면 물가 상승으로 인해 자산의 실질가치가 하락할 위험이 있습니다.
+  	</p>
+</div>
+
+<!-- content -->
+<div class="back-color">
+<div class="rule72-section">
+	<h2 class="rule72-title">정기적 관점의 투자</h2>
+	<p class="rule72-text">
+	• 72법칙을 아세요? 원금의 2배를 만드는데 걸리는 시간을 계산하는 공식이에요. 수익률로 72를 나누면 원금이 2배가 되는 시간이 계산되요.<br>
+	  예시) 3% 예금 수익률로 투자 시 투자원금의 2배가 되는 시간 약 24년, S&P500 과거 10년 평균 수익률인 8%로 투자 시 투자원금의 2배가 되는 시간 9년
+	</p>
+	
+	<h2 class="rule72-title">원금의 2배 만드는데 걸리는 시간</h2>
+	<p class="rule72-text">72의 법칙 : 원금의 2배를 만드는데 걸리는 시간이나 수익률 계산 공식(72÷수익률)</p>
+	
+	<div class="rule72-img">
+		<img th:src="@{/images/guide_graph.png}" alt="72법칙 그래프 이미지">
+	</div>
+</div>
+</div>
+
+<!-- footer -->
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
 
 </body>
 </html>

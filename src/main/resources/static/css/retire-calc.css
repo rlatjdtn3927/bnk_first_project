@@ -1,0 +1,190 @@
+/*전체 배경은 회색*/
+body {
+	font-family: 'Pretendard', sans-serif;
+	margin: 0;
+	padding: 0;
+	background-color: #f8f8f8;
+}
+
+.inputSection {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 60px 20px;
+	text-align: center;
+}
+
+.title {
+	text-align: center;
+	margin-top: 70px;
+}
+
+/*휜색 카드 느낌*/
+.input-block {
+	background-color: #fff;
+	padding: 60px 30px;
+	border-radius: 28px;
+	max-width: 780px;
+	margin: 30px auto;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.03);
+}
+
+h2 {
+	margin-left: 25px;
+}
+
+.input-row {
+	display: flex;
+	justify-content: center;
+	gap: 45px;
+	flex-wrap: wrap; /* 화면 작아지면 줄바꿈 */
+}
+/*
+.age-section, .single-section {
+	
+}
+*/
+.two-section label {
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 18px;
+	margin-left: 90px;
+}
+
+.single-section {
+	margin-bottom: 20px;
+	margin-top: 30px;
+	text-align: center;
+}
+
+.bold {
+	font-weight: bold;
+	font-size: 25px;
+	margin-left: 6px;
+}
+
+.slider-box {
+	display: flex;
+	justify-content: relative;
+	align-items: center;
+	margin-top: 10px;
+}
+
+/*단일 슬라이더 너비*/
+.slider-box.single input[type="range"] {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 100%;
+}
+
+/*두 개의 슬라이드 너비*/
+.slider-box.half input[type="range"] {
+  	appearance: none;
+	-webkit-appearance: none;
+  	width: 300px;
+	height: 8px;
+	border-radius: 5px;
+	background: #f5f5f5;
+	outline: none;
+}
+
+/* 슬라이더 채워지는 왼쪽 트랙 색상 */
+input[type="range"]::-webkit-slider-runnable-track {
+	height: 10px;
+	border-radius: 5px;
+	background: #f5f5f5;
+}
+
+input[type=range]::-moz-range-track {
+	height: 10px;
+	border-radius: 5px;
+	background: #f5f5f5;
+}
+
+/* 슬라이더 핸들 (WebKit) */
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 34px;
+	height: 24px;
+	background: white;
+	border-radius: 40%;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	margin-top: -10px;
+}
+
+input[type=range]::-moz-range-thumb {
+	height: 24px;
+	width: 24px;
+	background: white;
+	border-radius: 50%;
+	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+	border: none;
+}
+
+.range-label {
+	display: flex;
+	justify-content: space-between;
+	color: #555;
+	margin-top: 5px;
+}
+
+/*button*/
+.presets {
+	margin-top: 10px;
+	display: flex;
+	gap: 10px;
+}
+
+.presets button {
+	padding: 10px 13px;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	background: #fff;
+	cursor: pointer;
+}
+
+.presets button.active {
+	background: #4b84ca;
+	color: #fff;
+	border-color: #4b84ca;
+}
+
+/*결과보기 버튼*/
+.actions {
+	text-align: center;
+	margin-top: 20px;
+}
+
+.actions button {
+	margin-bottom: 100px;
+	padding: 13px 26px;
+	border: none;
+	border-radius: 6px;
+	background: #4b84ca;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
