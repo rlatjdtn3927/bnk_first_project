@@ -1,6 +1,7 @@
-package com.example.pension_project.commodity.controller;
+	package com.example.pension_project.commodity.controller;
 
 import com.example.pension_project.commodity.dto.FormDto;
+import com.example.pension_project.commodity.dto.PagenationDto;
 import com.example.pension_project.commodity.service.AnalysisService;
 import com.example.pension_project.commodity.service.DefaultService;
 import com.example.pension_project.commodity.service.ETFService;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /*
  **위험등급 1: 매우높은위험, 2: 높은위험, 3: 다소높은위험, 4. 보통위험, 5.낮은위험, 6.매우낮은위험
@@ -58,7 +60,7 @@ public class CommodityRestController {
     public ResponseEntity<?> fundList(@RequestBody FormDto formDto) {
     	log.info("fundList...");
         formDto.toString();
-        List<FundEntity> list = fundService.fundList(formDto);	
+        PagenationDto<FundEntity> list = fundService.fundList(formDto);	
 
         if(list != null) return ResponseEntity.status(HttpStatus.OK).body(list);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("일반 펀드 목록을 불러오지 못했습니다.");
@@ -68,7 +70,7 @@ public class CommodityRestController {
     public ResponseEntity<?> etfList(@RequestBody FormDto formDto) {
     	log.info("etfList...");
         formDto.toString();
-        List<ETFEntity> list = etfService.fundList(formDto);
+        PagenationDto<ETFEntity> list = etfService.fundList(formDto);
 
         if(list != null) return ResponseEntity.status(HttpStatus.OK).body(list);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("etf 목록을 불러오지 못했습니다.");
@@ -78,34 +80,35 @@ public class CommodityRestController {
     public ResponseEntity<?> tdfList(@RequestBody FormDto formDto) {
     	log.info("tdfList...");
         formDto.toString();
-        List<TDFEntity> list = tdfService.fundList(formDto);
+        PagenationDto<TDFEntity> list = tdfService.fundList(formDto);
 
         if(list != null) return ResponseEntity.status(HttpStatus.OK).body(list);
         else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("tdf 목록을 불러오지 못했습니다.");
     }
     
-    @GetMapping("/guarantee")
-    public ResponseEntity<?> guaranteeList() {
+    @PostMapping("/guarantee")
+    public ResponseEntity<?> guaranteeList(@RequestBody FormDto formDto) {
     	log.info("guaranteeList...");
-    	List<GuaranteeEntity> list = guaranteeService.findAll();
+    	PagenationDto<GuaranteeEntity> list = guaranteeService.findAll(formDto);
     	if(list != null) return ResponseEntity.status(HttpStatus.OK).body(list);
     	else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("원리금 보장 상품 목록을 불러오지 못했습니다.");
     }
     
-    @GetMapping("/default")
+    @PostMapping("/default")
     public ResponseEntity<?> defaultList() {
     	log.info("defaultList...");
-    	List<DefaultEntity> list = defaultService.findAll();
+    	PagenationDto<DefaultEntity> list = defaultService.findAll();
     	if(list != null) return ResponseEntity.status(HttpStatus.OK).body(list);
     	else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("디폴트 상품 목록을 불러오지 못했습니다.");
     }
     
     @PostMapping("/analysis")
-    public ResponseEntity<?> analysis(@RequestParam("prodId") String ProdId) {
+    public ResponseEntity<?> analysis(@RequestBody Map<String, String> body) {
     	log.info("analysis...");
-    	AnalysisEntity row = analysisService.findById(ProdId);
+    	String prodId = body.get("prodId");
+    	AnalysisEntity row = analysisService.findById(prodId);
     	if(row != null) return ResponseEntity.status(HttpStatus.OK).body(row);
-    	else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ProdId + "의 분석 정보를 가져오지 못했습니다.");
+    	else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(prodId + "의 분석 정보를 가져오지 못했습니다.");
     }
     
     

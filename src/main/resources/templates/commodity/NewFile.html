@@ -2,53 +2,137 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
-    <title>CommodityPage</title>
+    <title>상품 페이지</title>
 
     <!-- external css -->
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
         /* ---------- layout wrappers ---------- */
         body {
-            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-            background: #f7f7f9;
+            background: #fff;
             color: #222;
             line-height: 1.5;
+			font-family: 'Pretendard', sans-serif;
+			margin: 0;
+			padding: 0;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 80px auto 60px;
             padding: 0 1.25rem;
         }
+        
+       /* ---------- page header ---------- */
+        .page-header {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+        .page-header h1 {
+            margin: 0;
+            font-size: 1.9rem;
+            font-weight: 700;
+        }
+
+		        /* ---------- search bar ---------- */
+        .search-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .search-input {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #c8c8c8;
+            padding: .45rem 0;
+        }
+        .search-input .icon {
+            margin-right: .6rem;
+            font-size: 1.05rem;
+            color: #888;
+        }
+        .search-input input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            background: transparent;
+        }
+        .search-btn {
+            background: #D71921;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: .55rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity .2s;
+        }
+        .search-btn:hover {opacity: .9;}
+        
+                
+        
 
         /* ---------- buttons (tab) ---------- */
+        .choice {
+            margin-top: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            min-height: 60px;
+        }
+        
         #buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: .5rem;
-            justify-content: center;
-            margin-bottom: 1rem;
+            gap: 1.25rem;
+            justify-content: flex-start;
         }
 
         .commodity-button {
-            padding: .55rem 1.25rem;
-            border: 1px solid #ddd;
-            background: #fff;
-            border-radius: 6px;
-            font-size: .95rem;
-            transition: all .2s;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            border: none; /* border handled by icon */
+            background: transparent;
+            font-size: 1rem;
             cursor: pointer;
         }
-        .commodity-button:hover {
-            background: #f0f0f0;
+        .commodity-button::before {
+            content: '';
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ccc;
+            box-sizing: border-box;
+            display: inline-block;
+            transition: all .2s;
         }
-        .commodity-button.active {
-            background: #ff4800;
+        .commodity-button.active::before {
+            background: #D71921;
+            border-color: #D71921;
+        }
+        .commodity-button.active::after {
+            position: absolute;
+            left: 6px;
+            top: 2px;
+            font-size: 16px;
             color: #fff;
-            border-color: #ff4800;
         }
+        .commodity-button span { /* text label */
+            color: #222;
+            transition: color .2s;
+        }
+        .commodity-button.active span {color: #D71921;}
 
         /* ---------- filter dropdowns ---------- */
         .selectors {
@@ -57,7 +141,6 @@
             gap: .75rem;
             justify-content: center;
             align-items: flex-start;
-            margin-bottom: 2rem;
         }
 
         .dropdown-box {
@@ -70,7 +153,7 @@
             background: #fff;
             border: 1px solid #ccc;
             border-radius: 6px;
-            min-width: 160px;
+            min-width: 150px;
             text-align: center;
         }
         .dropdown-options {
@@ -86,7 +169,7 @@
             padding: .75rem 1rem;
             max-height: 260px;
             overflow-y: auto;
-            min-width: 180px;
+            min-width: 150px;
         }
         .dropdown-options label {
             display: block;
@@ -96,20 +179,10 @@
         /* show helper */
         .dropdown-box.open .dropdown-options {display: block;}
 
-        /* ---------- search button ---------- */
-        #searchBtn {
-            background: #ff4800;
-            color: #fff;
-            border: none;
-        }
-        #searchBtn:hover {
-            opacity: .9;
-        }
-
-        /* ---------- fund cards ---------- */
+        /* ---------- cards grid ---------- */
         #commodity_main {
             display: grid;
-            grid-template-columns: repeat(auto-fill,minmax(530px,1fr));
+            grid-template-columns: 1fr;
             gap: 1.5rem;
         }
 
@@ -121,22 +194,24 @@
             padding: 1.25rem 1.5rem;
         }
 
+        .fund-card a {text-decoration: none; color: inherit;}
+
         .fund-name {
             font-weight: 600;
             font-size: 1.1rem;
             margin-bottom: .4rem;
-            color: #d63b00; /* highlight similar to screenshot */
+            color: #000000;
         }
 
         .fund-sub {
             font-size: .8rem;
-            color: #757575;
+            color: #D71921;
             margin-bottom: .7rem;
         }
 
         .metric-grid {
             display: grid;
-            grid-template-columns: repeat(5,1fr);
+            grid-template-columns: repeat(auto-fit,minmax(90px,1fr));
             gap: .5rem;
         }
         .metric-box {
@@ -144,6 +219,7 @@
             border-radius: 6px;
             padding: .55rem 0;
             text-align: center;
+            cursor: default;
         }
         .metric-box .label {
             font-size: .7rem;
@@ -152,6 +228,7 @@
             display: block;
         }
         .metric-box .value {
+        	color: #D71921;
             font-size: .9rem;
             font-weight: 600;
         }
@@ -162,59 +239,40 @@
     </style>
 </head>
 <body>
+<!-- <div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script th:src="@{/js/chatbot.js}"></script> -->
 <div th:replace="~{fragments/header :: mainHeader}"></div>
+<div th:replace="~{fragments/location :: location(category1='상품 안내', category2='')}"></div>
+
 
 <div class="container">
 
+    <!-- ---------- Header + Search ---------- -->
+    <header class="page-header">
+        <h1>퇴직연금 상품찾기</h1>
+        <div class="search-area">
+            <div class="search-input">
+                <span class="icon"><i class="fas fa-search"></i></span>
+                <input type="text" id="searchKeyword" placeholder="어떤 상품을 찾으세요?" />
+            </div>
+            <button class="search-btn" id="searchBtn">검색</button>
+        </div>
+    </header>
+
     <!-- ---------- Tabs ---------- -->
-    <div id="buttons">
-        <button class="commodity-button active" id="fundBtn">펀드</button>
-        <button class="commodity-button" id="etfBtn">ETF</button>
-        <button class="commodity-button" id="tdfBtn">TDF</button>
-        <button class="commodity-button" id="defaultBtn">디폴트옵션</button>
-        <button class="commodity-button" id="guaranteeBtn">예금</button>
+    <div class="choice">
+	    <div id="buttons">
+	        <button class="commodity-button active" id="fundBtn">펀드</button>
+	        <button class="commodity-button" id="etfBtn">ETF</button>
+	        <button class="commodity-button" id="tdfBtn">TDF</button>
+	        <button class="commodity-button" id="defaultBtn">디폴트옵션</button>
+	        <button class="commodity-button" id="guaranteeBtn">예금</button>
+	    </div>
+	
+	    <!-- ---------- Filters ---------- -->
+	    <form class="selectors" onsubmit="return false;"> </form>
     </div>
 
-    <!-- ---------- Filters ---------- -->
-    <form class="selectors" onsubmit="return false;">
-        <!-- 위험등급 -->
-        <div class="dropdown-box" id="riskBox">
-            <button type="button" class="dropdown-toggle">위험등급 선택 ▼</button>
-            <div class="dropdown-options">
-                <label><input type="checkbox" name="riskGrade" value="1"/> 매우 높은 위험 (1등급)</label>
-                <label><input type="checkbox" name="riskGrade" value="2"/> 높은 위험 (2등급)</label>
-                <label><input type="checkbox" name="riskGrade" value="3"/> 다소 높은 위험 (3등급)</label>
-                <label><input type="checkbox" name="riskGrade" value="4"/> 보통 위험 (4등급)</label>
-                <label><input type="checkbox" name="riskGrade" value="5"/> 낮은 위험 (5등급)</label>
-                <label><input type="checkbox" name="riskGrade" value="6"/> 매우 낮은 위험 (6등급)</label>
-            </div>
-        </div>
-
-        <!-- 펀드유형 -->
-        <div class="dropdown-box" id="typeBox">
-            <button type="button" class="dropdown-toggle">펀드 유형 선택 ▼</button>
-            <div class="dropdown-options">
-                <label><input type="checkbox" name="type" value="MMF"/> MMF</label>
-                <label><input type="checkbox" name="type" value="채권형"/> 채권형</label>
-                <label><input type="checkbox" name="type" value="채권혼합형"/> 채권혼합형</label>
-                <label><input type="checkbox" name="type" value="주식혼합형"/> 주식혼합형</label>
-                <label><input type="checkbox" name="type" value="주식형"/> 주식형</label>
-                <label><input type="checkbox" name="type" value="파생상품형"/> 파생상품형</label>
-                <label><input type="checkbox" name="type" value="재간접"/> 재간접</label>
-            </div>
-        </div>
-
-        <!-- 채널구분 -->
-        <div class="dropdown-box" id="channelBox">
-            <button type="button" class="dropdown-toggle">채널 구분 ▼</button>
-            <div class="dropdown-options">
-                <label><input type="radio" name="channel" value="전체" checked/> 전체</label>
-                <label><input type="radio" name="channel" value="온라인전용"/> 온라인전용</label>
-            </div>
-        </div>
-
-        <button type="button" class="dropdown-toggle" id="searchBtn">검색</button>
-    </form>
 
     <!-- ---------- Results ---------- -->
     <main id="commodity_main"></main>
@@ -223,112 +281,308 @@
 
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 
+<!-- helper -->
 <script>
-    /* helpers */
-    function qs(selector, scope = document) {return scope.querySelector(selector);} // shorthand
+	/* dom 선택 helper */
+	function qs(sel, scope = document){return scope.querySelector(sel);} 
+		
+	// tab active helper
+	function setActiveTab(id){
+	    document.querySelectorAll('#buttons .commodity-button').forEach(btn=>btn.classList.remove('active'));
+	    qs('#'+id).classList.add('active');
+	}
+	
+    /* ajax helpers */
+    const postJson = (url, body) => fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());
+    const getJson  = url => fetch(url).then(r=>r.json());
 
-    // dropdowns (toggle open)
-    document.querySelectorAll('.dropdown-box').forEach(box => {
-        box.querySelector('.dropdown-toggle').addEventListener('click', () => {
-            box.classList.toggle('open');
-        });
-    });
+    /* render helpers */
+    const clearMain = () => commodityMain.innerHTML = '';
+</script>
 
-    // tab highlighting helper
-    function setActiveTab(id) {
-        document.querySelectorAll('#buttons .commodity-button').forEach(btn => btn.classList.remove('active'));
-        qs('#' + id).classList.add('active');
-    }
+<script>
 
-    // ------------------------------------------- ajax ------------------------------------------------------------------
+    /* state */
     let currentTab = 'fund';
     const commodityMain = qs('#commodity_main');
 
     document.addEventListener('DOMContentLoaded', () => {
-        fetchAndRender('/commodity/fund', { channel: 1 });
+        fetchAndRender('/commodity/fund', {channel:1});
     });
+    
+    const metricBox = (val,label) => {
+        const display = isNaN(val)?val:Number(val).toFixed(2)+'%';
+        return `<div class="metric-box"><span class="value">${display}</span><span class="label">${label}</span></div>`;
+    };
 
-    /* request helpers */
-    function postJson(url, body) {
-        return fetch(url, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body)
-        }).then(r => r.json());
-    }
-    function getJson(url) {
-        return fetch(url).then(r => r.json());
-    }
+    const formatDate = str => str?`${str.slice(0,4)}-${str.slice(4,6)}-${str.slice(6)}`:'';
 
-    /* render helpers */
-    function clearMain() { commodityMain.innerHTML = ''; }
-
-    function renderJson(data) {
-        clearMain();
-        const arr = Array.isArray(data) ? data : [data];
-        arr.forEach(item => commodityMain.appendChild(createFundCard(item)));
-    }
-
-    function createFundCard(f) {
-        const wrap = document.createElement('div');
-        wrap.className = 'fund-card';
-        wrap.innerHTML = `
+    function createFundCard(f){
+        return buildCard(`
             <div class="fund-name">${f.prodName}</div>
             <div class="fund-sub">${f.risk} | <span>${f.fundTypeCd}</span> | ${f.manager}</div>
-            <div class="fund-sub" style="font-size:.75rem;color:#999;">• 기준가: ${parseFloat(f.nav).toLocaleString()} | • 설정일: ${formatDate(f.setDate)} | • 총 보수: ${f.totalFee}%</div>
+            <div class="fund-sub" style="font-size:.75rem;color:#999;">• 기준가: ${parseFloat(f.nav).toLocaleString()}   • 설정일: ${formatDate(f.setDate)}   • 총 보수: ${f.totalFee}%</div>
             <div class="metric-grid">
-                ${metricBox(f.oneMonth, '1개월')}
-                ${metricBox(f.threeMonth, '3개월')}
-                ${metricBox(f.sixMonth, '6개월')}
-                ${metricBox(f.year, '12개월')}
-                ${metricBox(f.accum, '누적')}
-            </div>`;
-        return wrap;
-    }
-    function metricBox(val, label) {
-        return `<div class="metric-box"><span class="value">${Number(val).toFixed(2)}%</span><span class="label">(${label})</span></div>`;
-    }
-    function formatDate(str) {
-        if(!str) return '';
-        return `${str.substring(0,4)}-${str.substring(4,6)}-${str.substring(6)}`;
+                ${metricBox(f.oneMonth,'1개월')}
+                ${metricBox(f.threeMonth,'3개월')}
+                ${metricBox(f.sixMonth,'6개월')}
+                ${metricBox(f.year,'12개월')}
+                ${metricBox(f.accum,'누적')}
+            </div>`);
     }
 
-    /* unified fetch + render */
-    function fetchAndRender(url, body = null) {
+    function createDefaultCard(d){
+        return buildCard(`
+            <div class="fund-name">${d.prodName}</div>
+            <div class="fund-sub" style="margin-bottom:.6rem;">포트폴리오 ID: ${d.prodId}</div>
+            <div class="metric-grid" style="grid-template-columns: repeat(2,1fr);">
+                <a href="${d.descUrl}" class="metric-box" target="_blank"><span class="value" style="font-size:.85rem;">상품설명서</span></a>
+                <a href="${d.guideUrl}" class="metric-box" target="_blank"><span class="value" style="font-size:.85rem;">상품안내</span></a>
+            </div>
+            <ul style="margin-top:.8rem;font-size:.85rem;color:#555;padding-left:1rem;list-style:disc;">
+                ${d.subProd1?`<li>${d.subProd1}</li>`:''}
+                ${d.subProd2?`<li>${d.subProd2}</li>`:''}
+            </ul>`);
+    }
+
+    function createGuaranteeCard(g){
+        return buildCard(`
+            <div class="fund-name">${g.bank} ${g.prodName}</div>
+            <div class="fund-sub" style="margin-bottom:.6rem;">만기: ${g.maturityDate}</div>
+            <div class="metric-grid" style="grid-template-columns:repeat(3,1fr);">
+                ${metricBox(g.dbYn,'DB')}
+                ${metricBox(g.dcYn,'DC')}
+                ${metricBox(g.irpYn,'IRP')}
+            </div>
+            <div class="metric-grid" style="grid-template-columns:repeat(3,1fr);margin-top:.8rem;">
+                <a href="${g.termsUrl}" class="metric-box" target="_blank"><span class="value" style="font-size:.8rem;">약관</span></a>
+                <a href="${g.descUrl}" class="metric-box" target="_blank"><span class="value" style="font-size:.8rem;">설명서</span></a>
+                <a href="${g.threeMonth}" class="metric-box" target="_blank"><span class="value" style="font-size:.8rem;">3개월추이</span></a>
+            </div>`);
+    }
+
+    function buildCard(innerHtml){
+        const div=document.createElement('div');
+        div.className='fund-card';
+        div.innerHTML = innerHtml;
+        return div;
+    }
+
+    function renderJson(data){
         clearMain();
-        const promise = body ? postJson(url, body) : getJson(url);
-        promise.then(renderJson).catch(err => {
-            commodityMain.innerHTML = `<p style="color:red;">${err.message}</p>`;
+        const arr = Array.isArray(data)?data:[data];
+        arr.forEach(item=>{
+            let card;
+            switch(currentTab){
+                case 'default':   card=createDefaultCard(item); break;
+                case 'guarantee': card=createGuaranteeCard(item); break;
+                default: card = createFundCard(item); break;
+            }
+            commodityMain.appendChild(card);
         });
     }
 
-    /* search */
-    qs('#searchBtn').addEventListener('click', () => {
-        const riskGrades = Array.from(document.querySelectorAll('input[name="riskGrade"]:checked')).map(e => +e.value);
-        const types      = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(e => e.value);
-        const channelInp = qs('input[name="channel"]:checked');
-        const channel    = channelInp && channelInp.value === '온라인전용' ? 2 : 1;
+    /* unified fetch + render */
+    // 카테고리 변경 시에는 폼 초기화 및 폼 변경
+    const fetchAndRender = (url, body=null) => {
+    	const form = qs(".selectors");
+    	const searchBar = qs('.search-area');
+    	const keywordDom = qs('#searchKeyword');
+    	keywordDom.value = '';
+		switch(url) {
+			case '/commodity/fund':
+				searchBar.style.visibility = 'visible';
+				form.innerHTML = 
+					`<!-- 위험등급 -->
+		    	    <div class="dropdown-box" id="riskBox">
+		                <button type="button" class="dropdown-toggle">위험등급 선택 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="checkbox" name="riskGrade" value="1"/> 매우높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="2"/> 높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="3"/> 다소높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="4"/> 보통위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="5"/> 낮은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="6"/> 매우낮은위험</label>
+		                </div>
+		            </div>
+		
+		            <!-- 펀드유형 -->
+		            <div class="dropdown-box" id="typeBox">
+		                <button type="button" class="dropdown-toggle">펀드 유형 선택 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="checkbox" name="type" value="MMF"/> MMF</label>
+		                    <label><input type="checkbox" name="type" value="채권형"/> 채권형</label>
+		                    <label><input type="checkbox" name="type" value="채권혼합형"/> 채권혼합형</label>
+		                    <label><input type="checkbox" name="type" value="주식혼합형"/> 주식혼합형</label>
+		                    <label><input type="checkbox" name="type" value="주식형"/> 주식형</label>
+		                    <label><input type="checkbox" name="type" value="파생상품형"/> 파생상품형</label>
+		                    <label><input type="checkbox" name="type" value="재간접"/> 재간접</label>
+		                </div>
+		            </div>
+		
+		            <!-- 채널구분 -->
+		            <div class="dropdown-box" id="channelBox">
+		                <button type="button" class="dropdown-toggle">채널 구분 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="radio" name="channel" value="전체" checked/> 전체</label>
+		                    <label><input type="radio" name="channel" value="온라인전용"/> 온라인전용</label>
+		                </div>
+		            </div>
+		            
+		            <!-- 수익률 정렬 -->
+		    	    <div class="dropdown-box" id="rateBox">
+		                <button type="button" class="dropdown-toggle">수익률 정렬 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="radio" name="interPeriod" value="1"/> 1개월</label>
+		                    <label><input type="radio" name="interPeriod" value="3"/> 3개월</label>
+		                    <label><input type="radio" name="interPeriod" value="6"/> 6개월</label>
+		                    <label><input type="radio" name="interPeriod" value="12"/> 12개월</label>
+		                    <label><input type="radio" name="interPeriod" value="100"/> 누적</label>
+		                </div>
+	            	</div>`;  break;
+			case '/commodity/etf':
+				searchBar.style.visibility = 'visible';
+				form.innerHTML = 
+					`<!-- 위험등급 -->
+		    	    <div class="dropdown-box" id="riskBox">
+		                <button type="button" class="dropdown-toggle">위험등급 선택 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="checkbox" name="riskGrade" value="1"/> 매우높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="2"/> 높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="3"/> 다소높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="4"/> 보통위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="5"/> 낮은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="6"/> 매우낮은위험</label>
+		                </div>
+		            </div>
+		
+		            <!-- 펀드유형 -->
+		            <div class="dropdown-box" id="typeBox">
+		                <button type="button" class="dropdown-toggle">펀드 유형 선택 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="checkbox" name="type" value="주식형"/> 주식형</label>
+		                    <label><input type="checkbox" name="type" value="채권형"/> 채권형</label>
+		                    <label><input type="checkbox" name="type" value="혼합형"/> 혼합형</label>
+		                    <label><input type="checkbox" name="type" value="원자재"/> 원자재</label>
+		                    <label><input type="checkbox" name="type" value="부동산"/> 부동산</label>
+		                    <label><input type="checkbox" name="type" value="기타"/> 기타</label>
+		                </div>
+		            </div>
+		
+		            <!-- 채널구분 -->
+		            <div class="dropdown-box" id="channelBox">
+		                <button type="button" class="dropdown-toggle">채널 구분 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="radio" name="channel" value="전체" checked/> 전체</label>
+		                    <label><input type="radio" name="channel" value="온라인전용"/> 온라인전용</label>
+		                </div>
+		            </div>
+		            
+		            <!-- 수익률 정렬 -->
+		    	    <div class="dropdown-box" id="rateBox">
+		                <button type="button" class="dropdown-toggle">수익률 정렬 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="radio" name="interPeriod" value="1"/> 1개월</label>
+		                    <label><input type="radio" name="interPeriod" value="3"/> 3개월</label>
+		                    <label><input type="radio" name="interPeriod" value="6"/> 6개월</label>
+		                    <label><input type="radio" name="interPeriod" value="12"/> 12개월</label>
+		                    <label><input type="radio" name="interPeriod" value="100"/> 누적</label>
+		                </div>
+	            	</div>`; break;
+			case '/commodity/tdf':
+				searchBar.style.visibility = 'visible';
+				form.innerHTML = 
+					`<!-- 위험등급 -->
+		    	    <div class="dropdown-box" id="riskBox">
+		                <button type="button" class="dropdown-toggle">위험등급 선택 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="checkbox" name="riskGrade" value="1"/> 매우높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="2"/> 높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="3"/> 다소높은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="4"/> 보통위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="5"/> 낮은위험</label>
+		                    <label><input type="checkbox" name="riskGrade" value="6"/> 매우낮은위험</label>
+		                </div>
+		            </div>
+		
+		            <!-- 수익률 정렬 -->
+		    	    <div class="dropdown-box" id="rateBox">
+		                <button type="button" class="dropdown-toggle">수익률 정렬 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="radio" name="interPeriod" value="1"/> 1개월</label>
+		                    <label><input type="radio" name="interPeriod" value="3"/> 3개월</label>
+		                    <label><input type="radio" name="interPeriod" value="6"/> 6개월</label>
+		                    <label><input type="radio" name="interPeriod" value="12"/> 12개월</label>
+		                    <label><input type="radio" name="interPeriod" value="100"/> 누적</label>
+		                </div>
+	            	</div>`; break;
+	        default:
+	        	form.innerHTML = '';
+		        searchBar.style.visibility = 'hidden';
+		}
+		
+		if(body != null) {
+	    	// dropdowns open/close
+	    	document.querySelectorAll('.dropdown-box').forEach(box => {
+	    	    box.querySelector('.dropdown-toggle').addEventListener('click', () => box.classList.toggle('open'));
+	    	});
+	    	
+	        /* search */
+	        qs('#searchBtn').addEventListener('click', () => {
+	            const riskGrades = Array.from(document.querySelectorAll('input[name="riskGrade"]:checked')).map(e=>+e.value);
+	            const types      = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(e=>e.value);
+	            const channelInp = qs('input[name="channel"]:checked');
+	            const channel    = channelInp && channelInp.value==='온라인전용' ? 2 : 1;
+	            const rateDom = qs('input[name="interPeriod"]:checked');
+	            const rate = rateDom ? parseInt(rateDom.value) : 100;
+	            const keywordDom = qs('#searchKeyword');
+	            const keyword = keywordDom ? keywordDom.value : null;
+	            
 
-        const body = { channel, riskGrade: riskGrades.length ? riskGrades : null, category: types.length ? types : null };
+	            const body = { channel, riskGrade: riskGrades.length?riskGrades:null, category: types.length?types:null, interPeriod:rate, keyword};
 
-        let url   = '';
-        let isGet = false;
-        switch(currentTab) {
-            case 'fund':       url = '/commodity/fund'; break;
-            case 'etf':        url = '/commodity/etf';  break;
-            case 'tdf':        url = '/commodity/tdf';  break;
-            case 'default':    url = `/commodity/default?channel=${channel}`; isGet = true; break;
-            case 'guarantee':  url = `/commodity/guarantee?channel=${channel}`; isGet = true; break;
-        }
-        isGet ? fetchAndRender(url) : fetchAndRender(url, body);
-    });
+	            let url='', isGet=false;
+	            switch(currentTab){
+	                case 'fund':      url='/commodity/fund'; break;
+	                case 'etf':       url='/commodity/etf';  break;
+	                case 'tdf':       url='/commodity/tdf';  break;
+	                case 'default':   url='/commodity/default'; isGet=true; break;
+	                case 'guarantee': url='/commodity/guarantee'; isGet=true; break;
+	            }
+	            isGet ? searchAndRender(url) : searchAndRender(url, body);
+	        });	
+		}
+    	
+        clearMain();
+        (body?postJson(url,body):getJson(url))
+            .then(renderJson)
+            .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
+
+    };
+    
+    // 검색 시에는 폼 초기화 되면 안됨.
+    function searchAndRender(url, body=null) {
+        clearMain();
+        (body?postJson(url,body):getJson(url))
+            .then(renderJson)
+            .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
+    }
 
     /* tab listeners */
-    qs('#fundBtn').addEventListener('click', () => { currentTab='fund'; setActiveTab('fundBtn'); fetchAndRender('/commodity/fund', {channel:1}); });
-    qs('#etfBtn').addEventListener('click', () => { currentTab='etf';  setActiveTab('etfBtn');  fetchAndRender('/commodity/etf',  {channel:1}); });
-    qs('#tdfBtn').addEventListener('click', () => { currentTab='tdf';  setActiveTab('tdfBtn');  fetchAndRender('/commodity/tdf',  {channel:1}); });
-    qs('#defaultBtn').addEventListener('click', () => { currentTab='default'; setActiveTab('defaultBtn'); fetchAndRender('/commodity/default?channel=1'); });
-    qs('#guaranteeBtn').addEventListener('click', () => { currentTab='guarantee'; setActiveTab('guaranteeBtn'); fetchAndRender('/commodity/guarantee?channel=1'); });
+    const tabMap = [
+        ['fundBtn','fund','/commodity/fund','POST'],
+        ['etfBtn','etf','/commodity/etf','POST'],
+        ['tdfBtn','tdf','/commodity/tdf','POST'],
+        ['defaultBtn','default','/commodity/default','GET'],
+        ['guaranteeBtn','guarantee','/commodity/guarantee','GET'],
+    ];
+
+    tabMap.forEach(([btnId,tab,url,method])=>{
+        qs('#'+btnId).addEventListener('click',()=>{
+            currentTab=tab; setActiveTab(btnId);
+            method==='GET' ? fetchAndRender(url) : fetchAndRender(url,{channel:1});
+        });
+    });
 </script>
 
 </body>
