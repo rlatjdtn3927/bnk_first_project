@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
     box.scrollTop = box.scrollHeight;
 
     try {
-      const r = await fetch('/api/chatbot', {
+      const r = await fetch('/chat', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({question: q})
+        body: JSON.stringify({message: q})
       });
       const ans = await r.text();
       $('loading').outerHTML = `<div style="text-align:left;margin:7px 0;">
