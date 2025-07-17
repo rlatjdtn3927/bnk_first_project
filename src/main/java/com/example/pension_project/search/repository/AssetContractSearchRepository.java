@@ -10,6 +10,12 @@ import com.example.pension_project.jpa.entity.disclosure.AssetContract;
 
 public interface AssetContractSearchRepository extends JpaRepository<AssetContract, Long> {
 
-    @Query(value = "SELECT * FROM asset_contract WHERE CONTAINS(DOC_TITLE, :keyword) > 0", nativeQuery = true)
+
+    @Query(value = """
+        SELECT  a.*
+        FROM    asset_contract a
+        WHERE   CONTAINS(a.doc_title, :keyword, 1) > 0
+        ORDER   BY SCORE(1) DESC
+        """, nativeQuery = true)
     List<AssetContract> searchByKeyword(@Param("keyword") String keyword);
 }

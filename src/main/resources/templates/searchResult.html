@@ -20,10 +20,9 @@
       <input type="text" id="search-input" placeholder="검색어를 입력하세요" onkeypress="handleEnter(event)" />
     </div>
 
-    <!-- 검색어 결과 정보 -->
     <p class="search-info" id="search-info"></p>
 
-    <!-- 카테고리 탭 -->
+    <!-- 탭 -->
     <div class="category-tabs">
       <button class="tab-btn active" data-group="전체">전체</button>
       <button class="tab-btn" data-group="상품">상품</button>
@@ -33,187 +32,268 @@
       <button class="tab-btn" data-group="공시">공시</button>
     </div>
 
-    <!-- 검색 결과 출력 -->
     <div id="search-results"></div>
   </main>
 
   <div th:replace="~{fragments/footer :: mainFooter}"></div>
 
   <script>
-    /* ====== 전역 ====== */
-    let allResults = [];
-    const sectionStore   = new Map(); // key → 전체 아이템 배열
-    const sectionOffset  = new Map(); // key → 현재 출력한 개수
+    let allSections = [];
+    const sectionStore = new Map();
+    const sectionOffset = new Map();
 
-    /* ====== 초기화 ====== */
     document.addEventListener("DOMContentLoaded", () => {
       const keyword = new URLSearchParams(location.search).get("keyword");
       if (keyword) {
         document.getElementById("search-input").value = keyword;
-        performSearch(keyword);
+        fetchResults(keyword);
       }
 
       document.querySelectorAll(".tab-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
           btn.classList.add("active");
-          filterResults(btn.dataset.group);
+          renderSections(btn.dataset.group);
         });
       });
 
-      /* 더보기 */
       document.getElementById("search-results").addEventListener("click", e => {
         if (e.target.classList.contains("more-link")) {
           e.preventDefault();
-          loadMore(e.target.dataset.key);
+          const key = e.target.dataset.key;
+          const category = e.target.dataset.category;
+          const subCategory = e.target.dataset.subcategory;
+
+          const full = sectionStore.get(key);
+          let offset = sectionOffset.get(key);
+          const section = e.target.closest(".result-group");
+          const list = section.querySelector(".result-list");
+
+          if (offset >= full.length) {
+            // 접기
+            const collapsed = full.slice(0, 3);
+            list.innerHTML = collapsed.map(item => buildItemHtml(item, category, subCategory)).join("");
+            sectionOffset.set(key, 3);
+            e.target.textContent = "더보기 ▾";
+          } else {
+            // 더보기
+            const next = full.slice(offset, offset + 5);
+            list.insertAdjacentHTML("beforeend", next.map(item => buildItemHtml(item, category, subCategory)).join(""));
+            offset += next.length;
+            sectionOffset.set(key, offset);
+
+            if (offset >= full.length) {
+              e.target.textContent = "접기 ▲";
+            }
+          }
         }
       });
     });
 
-    function handleEnter(e){
-      if(e.key==="Enter"){
-        const kw=e.target.value.trim();
-        if(kw)location.href=`/search?keyword=${encodeURIComponent(kw)}`;
+    function handleEnter(e) {
+      if (e.key === "Enter") {
+        const kw = e.target.value.trim();
+        if (kw) location.href = `/search?keyword=${encodeURIComponent(kw)}`;
       }
     }
 
-    /* ====== 검색 ====== */
-    async function performSearch(keyword){
-      const info=document.getElementById("search-info");
-      const box=document.getElementById("search-results");
-      box.innerHTML=""; info.textContent=`"${keyword}" 검색 중…`;
+    async function fetchResults(keyword) {
+      const info = document.getElementById("search-info");
+      const container = document.getElementById("search-results");
+      container.innerHTML = "";
+      info.textContent = `"${keyword}" 검색 중…`;
 
-      try{
-        const res=await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`);
-        allResults=await res.json()||[];
-        info.innerHTML=`"<span class='highlight'>${keyword}</span>" 총 ${allResults.length}건이 검색되었습니다.`;
-        updateCategoryCounts(allResults);
-        renderResults(allResults);
-      }catch(err){
+      try {
+        const res = await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`);
+        allSections = await res.json() || [];
+        const totalCount = allSections.reduce((sum, sec) => sum + sec.count, 0);
+        info.innerHTML = `"${keyword}" 총 <span class="highlight">${totalCount}</span>건이 검색되었습니다.`;
+
+        updateTabCounts(allSections);
+        renderSections("전체");
+      } catch (err) {
         console.error(err);
-        info.textContent="검색 중 오류가 발생했습니다.";
+        info.textContent = "검색 중 오류가 발생했습니다.";
       }
     }
 
-    /* ====== 렌더링 ====== */
-    function renderResults(results){
-      const box=document.getElementById("search-results");
-      box.innerHTML="";
-      sectionStore.clear(); sectionOffset.clear();
-
-      const grouped={};
-      results.forEach(r=>{
-        grouped[r.category]=grouped[r.category]||[];
-        grouped[r.category].push(r);
-      });
-
-      Object.entries(grouped).forEach(([cat,items])=>{
-        if(cat==="상품"){
-          const typeGrouped={};
-          items.forEach(it=>{
-            const t=it.type||"기타";
-            typeGrouped[t]=typeGrouped[t]||[];
-            typeGrouped[t].push(it);
-          });
-          Object.entries(typeGrouped).forEach(([type,list])=>{
-            const key=`${cat} > ${type}`;
-            sectionStore.set(key,list);
-            sectionOffset.set(key,0);
-            appendSection(box,key);
-          });
-        }else{
-          sectionStore.set(cat,items);
-          sectionOffset.set(cat,0);
-          appendSection(box,cat);
+    function updateTabCounts(sections) {
+      const counts = {
+        "전체": sections.reduce((sum, sec) => sum + sec.count, 0),
+        "상품": 0,
+        "매뉴얼": 0,
+        "자주찾는질문": 0,
+        "공지사항": 0,
+        "공시": 0
+      };
+      sections.forEach(sec => {
+        if (counts[sec.category] != undefined) {
+          counts[sec.category] += sec.count;
         }
       });
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        const group = btn.dataset.group;
+        btn.innerHTML = `${group} <span>(${counts[group]})</span>`;
+      });
     }
 
-    /* ====== section 초기 생성 (3건) ====== */
-    function appendSection(container,key){
-      const total=sectionStore.get(key).length;
-      const section=document.createElement("section");
-      section.className="result-group";
-      const firstBatch=sectionStore.get(key).slice(0,3);
-      sectionOffset.set(key,3);
+    function renderSections(group) {
+      const container = document.getElementById("search-results");
+      container.innerHTML = "";
 
-      section.innerHTML=`
+      const filtered = group === "전체"
+        ? allSections
+        : allSections.filter(sec => sec.category === group);
+
+      filtered.forEach(section => {
+        if (section.count === 0 || !section.items?.length) return;
+
+        const key = section.subCategory
+          ? `${section.category} > ${section.subCategory}`
+          : section.category;
+
+        sectionStore.set(key, section.items);
+        sectionOffset.set(key, 3);
+
+        appendSection(container, key, section.category, section.subCategory);
+      });
+    }
+
+    function appendSection(container, key, category, subCategory) {
+      const total = sectionStore.get(key).length;
+      const firstBatch = sectionStore.get(key).slice(0, 3);
+
+      const section = document.createElement("section");
+      section.className = "result-group";
+      section.dataset.key = key;
+
+      section.innerHTML = `
         <div class="result-header">
           <h3>${key} <span>(${total})</span></h3>
         </div>
-        <div class="result-list">${buildItemsHtml(firstBatch)}</div>
-        ${total>3?`<div class="result-footer"><a href="#" class="more-link" data-key="${key}">더보기 ▾</a></div>`:""}
+        <div class="result-list">
+          ${firstBatch.map(item => buildItemHtml(item, category, subCategory)).join("")}
+        </div>
+        ${total > 3
+          ? `<div class="result-footer">
+              <a href="#" class="more-link" data-key="${key}" data-category="${category}" data-subcategory="${subCategory}">더보기 ▾</a>
+             </div>`
+          : ""}
       `;
+
       container.appendChild(section);
     }
 
-    /* ====== 더보기 클릭 시 5건 추가 ====== */
-    function loadMore(key){
-      const full=sectionStore.get(key);
-      let offset=sectionOffset.get(key);
-      const next=full.slice(offset,offset+5);
-      if(!next.length) return;
+    function buildItemHtml(item, category, subCategory) {
+      const kw = document.getElementById("search-input").value.trim();
 
-      offset+=next.length;
-      sectionOffset.set(key,offset);
-
-      const section=[...document.querySelectorAll(".result-group")]
-                     .find(sec=>sec.querySelector(".more-link")?.dataset.key===key);
-
-      section.querySelector(".result-list").insertAdjacentHTML("beforeend",buildItemsHtml(next));
-
-      /* 남은 데이터 없으면 링크 제거 */
-      if(offset>=full.length){
-        section.querySelector(".result-footer").remove();
+      if (category === "상품" && subCategory === "디폴트옵션") {
+        return `
+          <div class="result-item">
+            <div class="item-main">
+              <p class="item-title">${highlight(item.prodName, kw)}</p>
+              <p class="item-snippet">${highlight(item.subProd1, kw)}</p>
+              <p class="item-sub">${item.subProd2 || ""}</p>
+            </div>
+            <div class="item-side">
+              <a href="/guide/default/${item.guideUrl}" class="detail-btn">상세보기</a>
+            </div>
+          </div>
+        `;
       }
-    }
 
-    /* ====== item HTML ====== */
-    function buildItemsHtml(arr){
-      const kw=document.getElementById("search-input").value.trim();
-      return arr.map(item=>`
+      if (category === "상품" && ["ETF", "TDF", "펀드"].includes(subCategory)) {
+        return `
+          <div class="result-item">
+            <div class="item-main">
+              <p class="item-title">${highlight(item.prodName, kw)}</p>
+              <p class="item-snippet">유형: ${item.fundTypeCd || "-"} / 위험도: ${item.risk || "-"}</p>
+              <p class="item-sub">운용사: ${item.manager || "-"}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      if (category === "상품" && subCategory === "원리금보장") {
+        return `
+          <div class="result-item">
+            <div class="item-main">
+              <p class="item-title">${highlight(item.prodName, kw)}</p>
+              <p class="item-snippet">은행: ${item.bank}</p>
+              <p class="item-sub">만기일: ${item.maturityDate}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      if (category === "매뉴얼") {
+        return `
+          <div class="result-item">
+            <div class="item-main">
+              <p class="item-title">${highlight(item.title, kw)}</p>
+              <p class="item-snippet">${highlight(item.fileName, kw)}</p>
+            </div>
+            <div class="item-side">
+              <span class="item-date">${item.createdDate}</span>
+              <a href="/manual/${item.fileName}" class="detail-btn">다운로드</a>
+            </div>
+          </div>
+        `;
+      }
+
+      if (category === "공시") {
+        return `
+          <div class="result-item">
+            <div class="item-main">
+              <p class="item-title">${highlight(item.docTitle, kw)}</p>
+            </div>
+            <div class="item-side">
+              <a href="/disclosure/${item.filePath}" class="detail-btn">다운로드</a>
+            </div>
+          </div>
+        `;
+      }
+
+      if (category === "FAQ" || category === "자주찾는질문") {
+        return `
+          <div class="result-item">
+            <div class="item-main">
+              <p class="item-title">${highlight(item.question, kw)}</p>
+              <p class="item-snippet">${highlight(item.answer, kw)}</p>
+              <p class="item-sub">유형: ${item.mainType}</p>
+            </div>
+          </div>
+        `;
+      }
+
+      if (category === "공지사항") {
+        return `
+          <div class="result-item">
+            <div class="item-main">
+              <p class="item-title">${highlight(item.bTitle, kw)}</p>
+              <p class="item-snippet">${highlight(item.bContent, kw)}</p>
+            </div>
+            <div class="item-side">
+              <span class="item-date">${item.bCreatedAt}</span>
+            </div>
+          </div>
+        `;
+      }
+
+      return `
         <div class="result-item">
           <div class="item-main">
-            <p class="item-title">${highlight(item.title,kw)}</p>
-            <p class="item-snippet">${highlight(item.snippet,kw)}</p>
-            ${item.subTitle?`<p class="item-sub">${item.subTitle}</p>`:""}
+            <p class="item-title">지원되지 않는 항목</p>
           </div>
-          <div class="item-side">
-            ${item.date?`<span class="item-date">${item.date}</span>`:""}
-            ${item.link?`<a href="${item.link}" class="detail-btn">${item.actionText||'상세보기'}</a>`:""}
-          </div>
-        </div>`).join("");
+        </div>
+      `;
     }
 
-    /* ====== 카테고리 카운트 ====== */
-    function updateCategoryCounts(res){
-      const cats=["상품","매뉴얼","자주찾는질문","공지사항","공시"];
-      const c={all:res.length};
-      cats.forEach(k=>c[k]=res.filter(r=>r.category===k).length);
-
-      document.querySelectorAll(".tab-btn").forEach(btn=>{
-        const g=btn.dataset.group;
-        if(c[g]!=undefined) btn.innerHTML=`${g} <span>(${c[g]})</span>`;
-      });
-    }
-
-    /* ====== 탭 필터 ====== */
-    function filterResults(group){
-      updateCategoryCounts(allResults);
-      renderResults(group==="all"?allResults:allResults.filter(r=>r.category===group));
-    }
-
-    /* ====== 하이라이트 ====== */
     function highlight(text, kw) {
-	  if (!text || !kw) return text;
-	
-	  const regex = new RegExp(`(${kw})`, 'gi');
-	  const highlighted = text.replace(regex, `<mark>$1</mark>`);
-	
-	  // \n 줄바꿈을 <br>로 처리
-	  return highlighted.replace(/\\n/g, '<br>');
-	}
-
+      if (!text || !kw) return text;
+      const regex = new RegExp(`(${kw})`, 'gi');
+      return text.replace(regex, "<mark>$1</mark>").replace(/\\n/g, "<br>");
+    }
   </script>
 </body>
 </html>

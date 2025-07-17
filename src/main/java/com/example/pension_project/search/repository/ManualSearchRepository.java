@@ -12,6 +12,12 @@ import com.example.pension_project.jpa.entity.dataroom.Manual;
 @Repository
 public interface ManualSearchRepository extends JpaRepository<Manual, Long> {
 
-    @Query(value = "SELECT * FROM manual WHERE CONTAINS(FILE_NAME, :keyword) > 0", nativeQuery = true)
+    @Query(value = """
+            SELECT  m.*
+            FROM    manual m
+            WHERE   CONTAINS(m.title     , :keyword, 1) > 0
+               OR   CONTAINS(m.file_name , :keyword, 2) > 0
+            ORDER   BY GREATEST(SCORE(1), SCORE(2)) DESC
+            """, nativeQuery = true)
     List<Manual> searchByKeyword(@Param("keyword") String keyword);
 }
