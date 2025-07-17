@@ -1,0 +1,140 @@
+/* =====================================================
+   v3  |  DB·DC 설명 UI  ―  Toss‑like Minimal
+   ===================================================== */
+:root{
+  --cl-main:#D71921;
+  --cl-main-dark:#b9151c;
+  --cl-bg:#ffffff;
+  --cl-soft:#fafafa;
+  --cl-text:#222;
+  --cl-sub:#666;
+  --radius:14px;
+  --shadow:0 4px 14px rgba(0,0,0,.06);
+}
+
+/* 공통 등장 애니 */
+@keyframes upIn{0%{opacity:.0;transform:translateY(10px)}
+                100%{opacity:1;transform:none}}
+
+/* --------------------------------------------------
+   1) 설명 목록  ➜  체크아이콘 미니카드
+-------------------------------------------------- */
+.section ul{
+  list-style:none;margin:0 0 40px;padding:0;display:grid;gap:14px;
+}
+.section li{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:18px 22px;background:var(--cl-soft);border-radius:12px;
+  border:1px solid #ECEFF1;font-size:15px;color:var(--cl-text);
+  line-height:1.7;animation:upIn .45s ease both;
+}
+.section li::before{
+  content:"";flex:0 0 18px;height:18px;margin-top:4px;border-radius:50%;
+  background:var(--cl-main) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>') center/9px 6px no-repeat;
+}
+@media(max-width:600px){
+  .section li{font-size:14px;padding:16px 18px;}
+}
+
+/* --------------------------------------------------
+   2) 흐름도  ➜  카드 + 선·점
+-------------------------------------------------- */
+.flow-horizontal{
+  --box:190px;
+  display:flex;flex-wrap:wrap;gap:26px;justify-content:center;position:relative;margin:50px 0;
+}
+.flow-step-box{
+  width:var(--box);min-height:96px;background:#fff;border:1px solid #ECEFF1;
+  border-radius:var(--radius);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  font-size:15px;color:var(--cl-text);line-height:1.5;transition:.2s;
+  animation:upIn .45s ease both;
+}
+.flow-step-box:hover{box-shadow:0 6px 16px rgba(0,0,0,.08);transform:translateY(-4px);}
+.flow-step-box span{margin-top:4px;font-size:13px;color:var(--cl-sub);font-weight:500;}
+
+.arrow-right, .arrow-right::before, .arrow-right::after{all:unset;}/* 기존 화살표 제거 */
+
+.flow-horizontal::before{ /* 가로 선 */
+  content:"";position:absolute;top:50%;left:calc(var(--box)/2);
+  right:calc(var(--box)/2);height:2px;background:var(--cl-main);z-index:-1;
+}
+.flow-step-box::before{
+  content:"";position:absolute;left:-14px;top:50%;transform:translateY(-50%);
+  width:10px;height:10px;border-radius:50%;background:var(--cl-main);
+}
+.flow-step-box:first-child::before{display:none;}
+
+@media(max-width:768px){
+  .flow-horizontal{flex-direction:column;gap:22px}
+  .flow-horizontal::before,.flow-step-box::before{display:none}
+}
+
+/* --------------------------------------------------
+   3) 제도 도입 효과  ➜  라벨·텍스트 리스트
+-------------------------------------------------- */
+.effect-subtitle{
+  font-size:17px;font-weight:800;margin:60px 0 18px;color:#111;
+  border:none;padding:0;position:relative;
+}
+.effect-subtitle::before{
+  content:"";position:absolute;left:0;bottom:-6px;width:24px;height:3px;
+  background:var(--cl-main);border-radius:2px;
+}
+/* ===============================  효과 카드 레이아웃 픽스  =============================== */
+.effect-card-grid{
+  /* 데스크톱 2열, 900px 이하 1열 */
+  display:grid;
+  gap:22px 36px;
+  grid-template-columns:repeat(2,minmax(360px,1fr));
+}
+@media(max-width:900px){
+  .effect-card-grid{grid-template-columns:1fr;}
+}
+
+/* 카드 본체: flex → block 으로 바꿔 폭 제한 해제 */
+.effect-card{
+  display:block;               /* ❌ flex → ✅ block */
+  padding:26px 24px;
+  background:var(--cl-soft);
+  border-radius:var(--radius);
+  border:1px solid #ECEFF1;
+  box-shadow:none;
+  position:relative;
+  animation:upIn .45s ease both;
+}
+
+/* 체크 아이콘 왼쪽으로 이동 & 크기 축소 */
+.effect-card::before{
+  content:"";
+  position:absolute;left:-18px;top:22px;               /* ← 왼쪽으로 당김 */
+  width:26px;height:26px;border-radius:8px;
+  background:#E9F1FF url('data:image/svg+xml;utf8,\
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 11 8" fill="none">\
+  <path d="M1 4L4 7L10 1" stroke="%23D71921" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>') center/14px 10px no-repeat;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+
+/* 제목 ‧ 설명 패딩 여백 조정 */
+.card-title{margin:0 0 6px;font-size:16px;font-weight:800;color:var(--cl-main);}
+.card-desc{font-size:14px;color:#444;line-height:1.7;}
+
+
+/* --------------------------------------------------
+   4) 말풍선 – 글로우 유지
+-------------------------------------------------- */
+.speech-bubble{
+  background:linear-gradient(135deg,#fff1f3 0%,#ffe5e8 100%);
+  padding:20px 34px;border-radius:30px;
+  box-shadow:0 6px 22px rgba(215,25,33,.18);
+  color:var(--cl-main);font-size:16px;font-weight:800;line-height:1.7;
+}
+.speech-bubble::after{border-right-color:#ffe5e8;}
+.speech-bubble.active{animation:popFlash .8s forwards;}
+@keyframes popFlash{0%{box-shadow:0 0 0 rgba(0,0,0,0);}
+                    30%{box-shadow:0 0 14px var(--cl-main);}
+                    100%{box-shadow:0 4px 18px rgba(215,25,33,.18);}}
+
+/* =====================================================
+   END
+   ===================================================== */
