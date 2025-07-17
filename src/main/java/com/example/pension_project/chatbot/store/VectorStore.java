@@ -31,4 +31,8 @@ public class VectorStore {
     public List<VectorEntry> getAll() {
         return store;
     }
+    
+    public int size() {
+        return store.size();
+    }
 }

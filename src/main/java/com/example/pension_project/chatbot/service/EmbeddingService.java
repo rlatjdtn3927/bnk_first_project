@@ -39,7 +39,6 @@ public class EmbeddingService {
 
         JSONObject responseJson = new JSONObject(response.getBody());
         JSONArray vector = responseJson.getJSONArray("data").getJSONObject(0).getJSONArray("embedding");
-
         return vector.toList().stream().map(o -> ((Number) o).doubleValue()).toList();
     }
 }
