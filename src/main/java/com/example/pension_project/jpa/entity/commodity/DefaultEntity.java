@@ -25,4 +25,8 @@ public class DefaultEntity {
     private String subProd1;
 
     private String subProd2;
+    
+    private String risk;
+    
+    private String riskGrade;
 }

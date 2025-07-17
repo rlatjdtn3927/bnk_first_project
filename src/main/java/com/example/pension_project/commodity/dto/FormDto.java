@@ -15,4 +15,5 @@ public class FormDto {
     private Integer interPeriod;
     private Integer page;
     private Integer size;
+    private String guaranteeCategory;
 }

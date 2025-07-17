@@ -45,10 +45,17 @@
 		    margin: 6px 0 14px;   /* 위·아래 간격만 살짝 조정 예시 */
 		    font-size: 1rem;
 		    color: #888;
+		    min-height: 20px;
 		}
 		.total-number{
 		    color:#000;
 		    font-weight:700;
+		}
+		
+		.total-message {
+			opacity: 0;                    
+		    transform: translateY(24px);    
+		    animation: fadeSlideUp .4s ease forwards;
 		}
       
       /* ---------- search bar ---------- */
@@ -56,7 +63,20 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+            
+		    /* 애니메이션 관련 속성 추가 */
+		    opacity: 0;                    /* 투명하게 (안 보임) */
+		    transform: translateY(-10px);  /* 위로 10px 이동 (살짝 올라가 있음) */
+		    pointer-events: none;          /* 마우스 클릭 등 모든 이벤트 차단 */
+		    transition: opacity 0.4s ease, transform 0.4s ease; /* 변화 애니메이션 */
         }
+        
+        .search-area.visible {
+		    opacity: 1;
+		    transform: translateY(0);
+		    visibility: visible;
+		}
+		
         .search-input {
             flex: 1;
             display: flex;
@@ -164,6 +184,9 @@
 
         .dropdown-box {
             position: relative;
+			opacity: 0;                       /* 처음엔 투명 */
+		    transform: translateY(24px);      /* 아래에 살짝 숨어 있음 */
+		    animation: fadeSlideUp .4s ease forwards;
         }
         .dropdown-toggle {
             padding: .55rem 1rem;
@@ -205,14 +228,25 @@
             gap: 1.5rem;
             min-height: 1000px;
         }
-
+        
         .fund-card {
             background: #fff;
             border: 1px solid #e5e5e7;
             border-radius: 10px;
             box-shadow: 0 3px 6px rgba(0,0,0,.05);
             padding: 1.25rem 1.5rem;
+			opacity: 0;                       /* 처음엔 투명 */
+		    transform: translateY(24px);      /* 아래에 살짝 숨어 있음 */
+		    animation: fadeSlideUp .4s ease forwards;
         }
+        
+        /* ───── 등장 애니메이션 ───── */
+		@keyframes fadeSlideUp {
+		    to {
+		        opacity: 1;
+		        transform: translateY(0);
+		    }
+		}
 
         .fund-card a {text-decoration: none; color: inherit;}
 
@@ -288,13 +322,21 @@
 		    border: none;
 		    flex: 1;
 		}
-		.modal-files{
+		.files{
 		    display:flex;
 		    flex-wrap:wrap;          /* 필요하면 줄바꿈 */
 		    gap:.5rem;
 		    padding:.5rem 1rem;
 		    border-bottom:1px solid #eee;
 		    justify-content:flex-start;  /* 왼쪽 정렬 */
+		}
+		
+		.nofundfiles{
+		    display:flex;
+		    flex-wrap:wrap;
+		    gap:.5rem;
+		    justify-content:flex-start;  /* 왼쪽 정렬 */
+		    margin: 1rem 0rem .5rem 0rem;
 		}
 		.file-link{
 		    display:inline-flex;
@@ -347,7 +389,6 @@
         </div>
         
         <div class="total-cnt">
-        	총 <span class="total-number">0</span>개의 상품이 있습니다.
     	</div>
     </header>
 	
@@ -385,7 +426,7 @@
 	            <button data-key="portfolioAnalysisUrl">포트폴리오</button>
 	            <button data-key="holdingsUrl">보유종목</button>
 	        </nav>
-			<div class="modal-files" id="modalFiles">
+			<div class="files" id="modalFiles">
 			  <a id="file1Link" class="file-link" href="#" target="_blank">
 			    <i class="fas fa-file-pdf"></i> 투자설명서
 			  </a>
@@ -430,7 +471,14 @@
     .then(json => {
     	if(json.totalCnt != null) {
             totalCount = json.totalCnt ?? 0;   // 전체 건수 갱신
+            
+            qs('.total-cnt').innerHTML = '';
+            const totalMsg = document.createElement('div');
+            totalMsg.classList.add('total-message');
+            totalMsg.innerHTML = `총 <span class="total-number"></span>개의 상품이 있습니다.`;
+            qs('.total-cnt').appendChild(totalMsg);
             qs('.total-number').textContent = totalCount.toLocaleString();
+            
     	}
     	if(json.entityList != null) {
     		return json.entityList ?? [];	
@@ -443,6 +491,8 @@
     const clearMain = () => {
     	const cards = commodityMain.querySelectorAll('.fund-card');
         cards.forEach(card => card.remove());
+        const message = commodityMain.querySelector('#no-commodity-message');
+        if(message != null) message.remove();
     }
 </script>
 
@@ -489,34 +539,71 @@
 	
   	//디폴트 카드
     function createDefaultCard(d){
+    	const extractFileName = url => url.substring(url.lastIndexOf('/') + 1);
+
+    	const guide = extractFileName(d["guideUrl"]);
+    	const desc = extractFileName(d["descUrl"]);
+    	
+    	const ecguide = encodeURIComponent(guide);
+    	const ecdesc = encodeURIComponent(desc);
+    	
+    	const commonPart = d["guideUrl"].substring(0, d["guideUrl"].lastIndexOf('/')+1);
+    	const encodedguide = commonPart + ecguide;
+    	const encodedDesc = commonPart + ecdesc;
+  		
         return buildCard(`
             <div class="notFund-name">${d.prodName}</div>
             <div class="fund-sub" style="margin-bottom:.6rem;">포트폴리오 ID: ${d.prodId}</div>
-            <div class="metric-grid" style="grid-template-columns: repeat(2,1fr);">
-                <a href="${d.descUrl}" class="metric-box" target="_blank"><span class="value" style="font-size:.85rem;">상품설명서</span></a>
-                <a href="${d.guideUrl}" class="metric-box" target="_blank"><span class="value" style="font-size:.85rem;">상품안내</span></a>
-            </div>
             <ul style="margin-top:.8rem;font-size:.85rem;color:#555;padding-left:1rem;list-style:disc;">
                 ${d.subProd1?`<li>${d.subProd1}</li>`:''}
                 ${d.subProd2?`<li>${d.subProd2}</li>`:''}
-            </ul>`, null);
+            </ul>
+			<div class="nofundfiles">
+			  <a id="file1Link" class="file-link" href="${encodedDesc}" target="_blank">
+			    <i class="fas fa-file-pdf"></i>상품설명서
+			  </a>
+			  <a id="file2Link" class="file-link" href="${encodedguide}" target="_blank">
+			    <i class="fas fa-file-pdf"></i>상품안내
+			  </a>
+			</div>`, null);
     }
 	
   	//원리금 보장 카드
     function createGuaranteeCard(g){
+  		
+    	const extractFileName = url => url.substring(url.lastIndexOf('/') + 1);
+
+    	const terms = extractFileName(g["termsUrl"]);
+    	const desc = extractFileName(g["descUrl"]);
+    	const threeMonth = extractFileName(g["threeMonth"]);
+    	
+    	const ecTerms = encodeURIComponent(terms);
+    	const ecdesc = encodeURIComponent(desc);
+    	const ecthreeMonth = encodeURIComponent(threeMonth);
+    	
+    	const commonPart = g["termsUrl"].substring(0, g["termsUrl"].lastIndexOf('/')+1);
+    	const encodedTerms = commonPart + ecTerms;
+    	const encodedDesc = commonPart + ecdesc;
+    	const encodedThreeMonth= commonPart + ecthreeMonth;
+  		
         return buildCard(`
-            <div class="notFund-name">${g.bank} ${g.prodName}</div>
-            <div class="fund-sub" style="margin-bottom:.6rem;">만기: ${g.maturityDate}</div>
+            <div class="notFund-name">${g.bank} ${g.prodName} (${g.maturityDate})</div>
             <div class="metric-grid" style="grid-template-columns:repeat(3,1fr);">
                 ${metricBox(g.dbYn,'DB')}
                 ${metricBox(g.dcYn,'DC')}
                 ${metricBox(g.irpYn,'IRP')}
             </div>
-            <div class="metric-grid" style="grid-template-columns:repeat(3,1fr);margin-top:.8rem;">
-                <a href="${g.termsUrl}" class="metric-box" target="_blank"><span class="value" style="font-size:.8rem;">약관</span></a>
-                <a href="${g.descUrl}" class="metric-box" target="_blank"><span class="value" style="font-size:.8rem;">설명서</span></a>
-                <a href="${g.threeMonth}" class="metric-box" target="_blank"><span class="value" style="font-size:.8rem;">3개월추이</span></a>
-            </div>`, null);
+			<div class="nofundfiles">
+			  <a id="file1Link" class="file-link" href="${encodedTerms}" target="_blank">
+			    <i class="fas fa-file-pdf"></i> 약관
+			  </a>
+			  <a id="file2Link" class="file-link" href="${encodedDesc}" target="_blank">
+			    <i class="fas fa-file-pdf"></i> 설명서
+			  </a>
+			  <a id="file3Link" class="file-link" href="${encodedThreeMonth}" target="_blank">
+			    <i class="fas fa-file-pdf"></i> 3개월추이
+			  </a>
+			</div>`, null);
     }
 	
     // 카드 생성시 스타일 fund-card로 지정하고 상품 id 값 저장
@@ -531,15 +618,25 @@
     //카테고리별로 카드 구성 각각 생성
     function renderJson(data){
         const arr = Array.isArray(data)?data:[data];
-        arr.forEach(item=>{
-            let card;
-            switch(currentTab){
-                case 'default':   card=createDefaultCard(item); break;
-                case 'guarantee': card=createGuaranteeCard(item); break;
-                default: card = createFundCard(item); break;
-            }
-            commodityMain.appendChild(card);
-        });
+        
+        // 상품이 없는 경우
+        if (arr.length === 0) {
+            commodityMain.innerHTML = `
+                <div id="no-commodity-message" style="margin-top: 150px; padding: 2rem; text-align: center; color: #666; font-size: 1.1rem;">
+                    조회된 상품이 없습니다.
+                </div>
+            `; 
+        } else {
+            arr.forEach(item=>{
+                let card;
+                switch(currentTab){
+                    case 'default':   card=createDefaultCard(item); break;
+                    case 'guarantee': card=createGuaranteeCard(item); break;
+                    default: card = createFundCard(item); break;
+                }
+                commodityMain.appendChild(card);
+            });        	
+        }
         
         // 목록 다 그리고 버튼 보일지 말지 정함.
         const loadMoreBtn = qs('#loadMoreBtn');
@@ -565,7 +662,7 @@
     	keywordDom.value = '';
 		switch(url) {
 			case '/commodity/fund':
-				searchBar.style.visibility = 'visible';
+				searchBar.classList.add('visible');
 				form.innerHTML = 
 					`<!-- 위험등급 -->
 		    	    <div class="dropdown-box" id="riskBox">
@@ -615,7 +712,7 @@
 		                </div>
 	            	</div>`;  break;
 			case '/commodity/etf':
-				searchBar.style.visibility = 'visible';
+				searchBar.classList.add('visible');
 				form.innerHTML = 
 					`<!-- 위험등급 -->
 		    	    <div class="dropdown-box" id="riskBox">
@@ -664,7 +761,7 @@
 		                </div>
 	            	</div>`; break;
 			case '/commodity/tdf':
-				searchBar.style.visibility = 'visible';
+				searchBar.classList.add('visible');
 				form.innerHTML = 
 					`<!-- 위험등급 -->
 		    	    <div class="dropdown-box" id="riskBox">
@@ -692,7 +789,9 @@
 	            	</div>`; break;
 	        default:
 	        	form.innerHTML = '';
-		        searchBar.style.visibility = 'hidden';
+		        if (searchBar.classList.contains('visible')) {
+		            searchBar.classList.remove('visible');
+		        }
 		}
 		
 		if(url === '/commodity/fund'|| url === '/commodity/etf' || url === '/commodity/tdf') {
