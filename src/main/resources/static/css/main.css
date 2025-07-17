@@ -12,26 +12,160 @@ body, html {
   box-sizing: border-box;
 }
 
-/* 배너 */
+/* ① 배너 전체 래퍼 */
 .banner-wrapper {
-  width: 100%;
   margin-top: 70px;
   box-sizing: border-box;
-}
-
-.banner {
+  position: relative;
   width: 100%;
-  background-color: #f6dada;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 300;
-  color: #333;
+  height: 60vh;
+  background: #ffeef0;
+  overflow: hidden;
 }
 
-/* 통합 검색 영역 */
+/* ② 하늘 배경 + 구름 */
+.sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #ffeef0, #ffffff);
+  z-index: 1;
+}
+
+.cloud {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0.7;
+  box-shadow:
+    30px 0px 0px #fff,
+    60px 10px 0px #fff,
+    90px -5px 0px #fff;
+  width: 80px;
+  height: 50px;
+  z-index: 2;
+}
+.cloud1 { top: 10%; left: 10%; transform: scale(1.2); }
+.cloud2 { top: 20%; left: 60%; transform: scale(1); }
+.cloud3 { top: 5%;  left: 30%; transform: scale(0.9); }
+.cloud4 { top: 12%; left: 75%; transform: scale(1.1); }
+
+/* ③ 트랙 */
+.track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20vh;
+  min-height: 120px;
+  z-index: 2;
+}
+
+/* ④ 캐릭터 */
+.runner {
+  position: absolute;
+  bottom: 11vh;
+  height: 26vh;
+  left: -20%;
+  z-index: 4;
+  animation: run-move 15s linear infinite, run-bounce 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes run-move {
+  0% { left: -20%; }
+  100% { left: 100%; }
+}
+
+@keyframes run-bounce {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+
+/* ⑤ 텍스트 */
+.banner-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  margin-top: 6vh;
+}
+
+.banner-content h1 {
+  font-size: clamp(28px, 2.8vw, 42px);
+  margin-bottom: 0.4em;
+}
+.banner-content p {
+  font-size: clamp(18px, 1.6vw, 20px);
+  margin: 0;
+  color: #5a3a2f;
+}
+
+/* ⑥ 반응형 - 태블릿용 (769px~1024px) */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .runner {
+    height: 24vh;
+    bottom: 12vh;
+    animation: run-move 16s linear infinite, run-bounce 0.7s ease-in-out infinite alternate;
+  }
+
+  .cloud {
+    transform: scale(0.9);
+    opacity: 0.65;
+  }
+
+  .search-characters {
+    width: 400px;
+  }
+
+  .search-box {
+    padding: 26px 32px;
+    border-radius: 36px;
+  }
+}
+
+/* ⑦ 반응형 - 모바일 */
+@media screen and (max-width: 768px) {
+  .banner-wrapper {
+    height: 65vh;
+  }
+
+  .banner-content {
+    margin-top: 5vh;
+    padding: 0 16px;
+  }
+
+  .banner-content h1 {
+    font-size: clamp(22px, 5vw, 36px);
+  }
+
+  .banner-content p {
+    font-size: clamp(14px, 3.5vw, 18px);
+  }
+
+  .runner {
+    bottom: 13vh;
+    height: 28vh;
+    animation: run-move 18s linear infinite, run-bounce 0.8s ease-in-out infinite alternate;
+  }
+
+  .cloud {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+
+  .cloud1 { top: 8%;  left: 5%; }
+  .cloud2 { top: 16%; left: 50%; }
+  .cloud3 { top: 4%;  left: 25%; }
+  .cloud4 { top: 10%; left: 75%; }
+
+  .track {
+    height: 25vh;
+    min-height: 100px;
+  }
+}
+
+/* ⑧ 통합 검색 영역 */
 .search-section {
   margin-top: 40px;
   padding: 0 20px;
@@ -55,19 +189,19 @@ body, html {
 .search-text {
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: clamp(16px, 1.8vw, 22px);
   color: #222;
   z-index: 1;
 }
 
 .search-icon {
-  font-size: 20px;
+  font-size: clamp(16px, 1.5vw, 22px);
   color: #e30000;
   margin-right: 10px;
 }
 
 .search-text input {
-  font-size: 18px;
+  font-size: clamp(14px, 1.6vw, 20px);
   border: none;
   outline: none;
   width: 100%;
@@ -76,8 +210,6 @@ body, html {
   background: transparent;
   margin-left: 10px;
 }
-
-
 
 /* 캐릭터 이미지 */
 .search-characters {
@@ -89,20 +221,25 @@ body, html {
   z-index: 2;
 }
 
-
-/* 반응형 모바일 */
+/* 모바일 전용 */
 @media screen and (max-width: 768px) {
   .search-characters {
-    width: 380px;
+    width: 320px;
   }
 
   .search-box {
-      padding-top: 150px;
-      border-radius: 40px;
-      padding: 30px 24px;
-    }
-}
+    padding: clamp(16px, 4vw, 30px) clamp(20px, 6vw, 40px);
+    border-radius: 28px;
+  }
 
+  .search-box input {
+    font-size: 14px;
+  }
+
+  .search-icon {
+    font-size: 16px;
+  }
+}
 
 
 /* 퇴직연금 가입 영역 */
