@@ -6,7 +6,7 @@ body {
 	background-color: #f8f8f8;
 }
 
-.inputSection {
+.input-section {
 	max-width: 1200px;
 	margin: 0 auto;
 	padding: 60px 20px;
@@ -16,6 +16,7 @@ body {
 .title {
 	text-align: center;
 	margin-top: 70px;
+	margin-bottom: 60px;
 }
 
 /*휜색 카드 느낌*/
@@ -23,12 +24,11 @@ body {
 	background-color: #fff;
 	padding: 60px 30px;
 	border-radius: 28px;
-	max-width: 780px;
+	max-width: 840px;
 	margin: 30px auto;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.03);
 }
 
-h2 {
+.input-block h2 {
 	margin-left: 25px;
 }
 
@@ -38,11 +38,7 @@ h2 {
 	gap: 45px;
 	flex-wrap: wrap; /* 화면 작아지면 줄바꿈 */
 }
-/*
-.age-section, .single-section {
-	
-}
-*/
+
 .two-section label {
 	display: block;
 	margin-top: 20px;
@@ -59,7 +55,7 @@ h2 {
 
 .bold {
 	font-weight: bold;
-	font-size: 25px;
+	font-size: 24px;
 	margin-left: 6px;
 }
 

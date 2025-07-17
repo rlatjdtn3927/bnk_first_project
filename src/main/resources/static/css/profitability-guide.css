@@ -8,7 +8,7 @@ body {
 /*배너*/
 .banner {
   	background-color: #fef8f2; /* 연한 베이지 */
-  	padding: 10px 20px 50px 20px;
+  	padding: 10px 20px 50px 30px;
   	display: flex;
   	justify-content: center;
   	/*position: relative;  이미지 절대위치 기준 */
@@ -80,7 +80,7 @@ body {
 .guide-section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 20px;
+  padding: 60px 30px;
   text-align: center;
 }
 
@@ -127,7 +127,7 @@ body {
 .rule72-section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 20px;
+  padding: 60px 30px;
 }
 
 .back-color {
