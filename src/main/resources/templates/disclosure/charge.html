@@ -1,36 +1,19 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>운용관리 및 자산관리 수수료</title>
-  <style>
-    body { font-family: 'Arial', sans-serif; padding: 20px; background: #f9f9f9; }
-    h1, h2 { color: #333; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 30px; background: #fff; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; font-size: 14px; }
-    th { background: #eee; }
-    .note { background: #fff3cd; padding: 15px; border: 1px solid #ffeeba; border-radius: 5px; margin-bottom: 30px; }
-    #topBtn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  padding: 12px 16px;
-  font-size: 14px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-  display: none;
-  z-index: 999;
-}
-#topBtn:hover {
-  background-color: #555;
-}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>퇴직연금 가입안내</title>
+<link rel="stylesheet" th:href="@{/css/header.css}" />
+<link rel="stylesheet" th:href="@{/css/footer.css}" />
+<link rel="stylesheet" th:href="@{/css/charge.css}" />
 </head>
 <body>
+<!-- header -->
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+<!-- 경로 표시 -->
+<div th:replace="~{fragments/location :: location(category1='공시', category2='수수료')}"></div>
+
 
 <h1>운용관리 및 자산관리 수수료</h1>
 <p>- 퇴직연금 제도별 운용관리수수료, 자산관리수수료를 확인할 수 있습니다.</p>
@@ -573,6 +556,8 @@
   }
 </script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<!-- footer -->
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
 <script th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>
