@@ -33,17 +33,24 @@ public class PdfLoaderService {
     private Map<String, List<String>> loadChunksFromDirectory(String path, String category) {
         Map<String, List<String>> chunks = new HashMap<>();
         File dir = new File(path);
-        File[] files = dir.listFiles((f) -> f.getName().endsWith(".pdf"));
 
-        if (files == null) return chunks;
+        System.out.println("📁 시도 중인 경로: " + dir.getAbsolutePath());
+
+        File[] files = dir.listFiles((f) -> f.getName().endsWith(".pdf"));
+        if (files == null || files.length == 0) {
+            System.out.println("❌ PDF 없음 또는 디렉토리 접근 실패: " + dir.getAbsolutePath());
+            return chunks;
+        }
 
         for (File file : files) {
+            System.out.println("📄 처리 중: " + file.getName());
             try (PDDocument doc = PDDocument.load(file)) {
                 PDFTextStripper stripper = new PDFTextStripper();
                 String text = stripper.getText(doc).replaceAll("\\s+", " ");
                 List<String> splitChunks = chunkText(text, 500);
                 chunks.put(category + "||" + file.getName(), splitChunks);
             } catch (Exception e) {
+                System.out.println("⚠️ 에러: " + file.getName());
                 e.printStackTrace();
             }
         }
