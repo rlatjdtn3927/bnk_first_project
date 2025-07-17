@@ -76,7 +76,7 @@ public class CommodityRestController {
     @PostMapping("/guarantee")
     public ResponseEntity<?> guaranteeList(@RequestBody FormDto formDto) {
     	log.info("guaranteeList...");
-    	PagenationDto<GuaranteeEntity> list = guaranteeService.findAll(formDto);
+    	PagenationDto<GuaranteeEntity> list = guaranteeService.guranteeList(formDto);
     	if(list != null) return ResponseEntity.status(HttpStatus.OK).body(list);
     	else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("원리금 보장 상품 목록을 불러오지 못했습니다.");
     }
