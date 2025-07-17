@@ -26,6 +26,7 @@
 				  <input
 				    type="text"
 				    id="search-input"
+				    name="keyword"
 				    placeholder='"디폴트옵션"을 검색해보세요.'
 				    onkeypress="handleEnter(event)"
 				  />
@@ -143,5 +144,37 @@
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <script th:src="@{/js/chatbot.js}"></script>
+<script>
+  // 엔터 키 입력 처리
+  function handleEnter(event) {
+    if (event.key === "Enter") {
+      submitSearch();
+    }
+  }
+
+  // 돋보기 클릭 이벤트 등록
+  document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("search-button");
+    if (button) {
+      button.addEventListener("click", submitSearch);
+    }
+  });
+
+  // 검색 실행 함수
+  function submitSearch() {
+    const input = document.getElementById("search-input");
+    const keyword = input.value.trim();
+
+    if (!keyword) {
+      alert("검색어를 입력해주세요.");
+      input.focus();
+      return;
+    }
+    
+    window.location.href = `/search?keyword=${encodeURIComponent(keyword)}`;
+  }
+</script>
+
+
 </body>
 </html>

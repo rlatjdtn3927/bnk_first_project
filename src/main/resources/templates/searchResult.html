@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>통합 검색 결과</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+  <link rel="stylesheet" th:href="@{/css/search.css}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div th:replace="~{fragments/header :: mainHeader}"></div>
+
+  <main class="search-main">
+    <h2 class="search-title">통합 검색</h2>
+
+    <!-- 검색창 -->
+    <div class="search-box">
+      <i class="fas fa-magnifying-glass search-icon"></i>
+      <input type="text" id="search-input" placeholder="검색어를 입력하세요" onkeypress="handleEnter(event)" />
+    </div>
+
+    <!-- 검색어 결과 정보 -->
+    <p class="search-info" id="search-info"></p>
+
+    <!-- 카테고리 탭 -->
+    <div class="category-tabs">
+      <button class="tab-btn active" data-group="전체">전체</button>
+      <button class="tab-btn" data-group="상품">상품</button>
+      <button class="tab-btn" data-group="매뉴얼">매뉴얼</button>
+      <button class="tab-btn" data-group="자주찾는질문">자주찾는질문</button>
+      <button class="tab-btn" data-group="공지사항">공지사항</button>
+      <button class="tab-btn" data-group="공시">공시</button>
+    </div>
+
+    <!-- 검색 결과 출력 -->
+    <div id="search-results"></div>
+  </main>
+
+  <div th:replace="~{fragments/footer :: mainFooter}"></div>
+
+  <script>
+    /* ====== 전역 ====== */
+    let allResults = [];
+    const sectionStore   = new Map(); // key → 전체 아이템 배열
+    const sectionOffset  = new Map(); // key → 현재 출력한 개수
+
+    /* ====== 초기화 ====== */
+    document.addEventListener("DOMContentLoaded", () => {
+      const keyword = new URLSearchParams(location.search).get("keyword");
+      if (keyword) {
+        document.getElementById("search-input").value = keyword;
+        performSearch(keyword);
+      }
+
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          filterResults(btn.dataset.group);
+        });
+      });
+
+      /* 더보기 */
+      document.getElementById("search-results").addEventListener("click", e => {
+        if (e.target.classList.contains("more-link")) {
+          e.preventDefault();
+          loadMore(e.target.dataset.key);
+        }
+      });
+    });
+
+    function handleEnter(e){
+      if(e.key==="Enter"){
+        const kw=e.target.value.trim();
+        if(kw)location.href=`/search?keyword=${encodeURIComponent(kw)}`;
+      }
+    }
+
+    /* ====== 검색 ====== */
+    async function performSearch(keyword){
+      const info=document.getElementById("search-info");
+      const box=document.getElementById("search-results");
+      box.innerHTML=""; info.textContent=`"${keyword}" 검색 중…`;
+
+      try{
+        const res=await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`);
+        allResults=await res.json()||[];
+        info.innerHTML=`"<span class='highlight'>${keyword}</span>" 총 ${allResults.length}건이 검색되었습니다.`;
+        updateCategoryCounts(allResults);
+        renderResults(allResults);
+      }catch(err){
+        console.error(err);
+        info.textContent="검색 중 오류가 발생했습니다.";
+      }
+    }
+
+    /* ====== 렌더링 ====== */
+    function renderResults(results){
+      const box=document.getElementById("search-results");
+      box.innerHTML="";
+      sectionStore.clear(); sectionOffset.clear();
+
+      const grouped={};
+      results.forEach(r=>{
+        grouped[r.category]=grouped[r.category]||[];
+        grouped[r.category].push(r);
+      });
+
+      Object.entries(grouped).forEach(([cat,items])=>{
+        if(cat==="상품"){
+          const typeGrouped={};
+          items.forEach(it=>{
+            const t=it.type||"기타";
+            typeGrouped[t]=typeGrouped[t]||[];
+            typeGrouped[t].push(it);
+          });
+          Object.entries(typeGrouped).forEach(([type,list])=>{
+            const key=`${cat} > ${type}`;
+            sectionStore.set(key,list);
+            sectionOffset.set(key,0);
+            appendSection(box,key);
+          });
+        }else{
+          sectionStore.set(cat,items);
+          sectionOffset.set(cat,0);
+          appendSection(box,cat);
+        }
+      });
+    }
+
+    /* ====== section 초기 생성 (3건) ====== */
+    function appendSection(container,key){
+      const total=sectionStore.get(key).length;
+      const section=document.createElement("section");
+      section.className="result-group";
+      const firstBatch=sectionStore.get(key).slice(0,3);
+      sectionOffset.set(key,3);
+
+      section.innerHTML=`
+        <div class="result-header">
+          <h3>${key} <span>(${total})</span></h3>
+        </div>
+        <div class="result-list">${buildItemsHtml(firstBatch)}</div>
+        ${total>3?`<div class="result-footer"><a href="#" class="more-link" data-key="${key}">더보기 ▾</a></div>`:""}
+      `;
+      container.appendChild(section);
+    }
+
+    /* ====== 더보기 클릭 시 5건 추가 ====== */
+    function loadMore(key){
+      const full=sectionStore.get(key);
+      let offset=sectionOffset.get(key);
+      const next=full.slice(offset,offset+5);
+      if(!next.length) return;
+
+      offset+=next.length;
+      sectionOffset.set(key,offset);
+
+      const section=[...document.querySelectorAll(".result-group")]
+                     .find(sec=>sec.querySelector(".more-link")?.dataset.key===key);
+
+      section.querySelector(".result-list").insertAdjacentHTML("beforeend",buildItemsHtml(next));
+
+      /* 남은 데이터 없으면 링크 제거 */
+      if(offset>=full.length){
+        section.querySelector(".result-footer").remove();
+      }
+    }
+
+    /* ====== item HTML ====== */
+    function buildItemsHtml(arr){
+      const kw=document.getElementById("search-input").value.trim();
+      return arr.map(item=>`
+        <div class="result-item">
+          <div class="item-main">
+            <p class="item-title">${highlight(item.title,kw)}</p>
+            <p class="item-snippet">${highlight(item.snippet,kw)}</p>
+            ${item.subTitle?`<p class="item-sub">${item.subTitle}</p>`:""}
+          </div>
+          <div class="item-side">
+            ${item.date?`<span class="item-date">${item.date}</span>`:""}
+            ${item.link?`<a href="${item.link}" class="detail-btn">${item.actionText||'상세보기'}</a>`:""}
+          </div>
+        </div>`).join("");
+    }
+
+    /* ====== 카테고리 카운트 ====== */
+    function updateCategoryCounts(res){
+      const cats=["상품","매뉴얼","자주찾는질문","공지사항","공시"];
+      const c={all:res.length};
+      cats.forEach(k=>c[k]=res.filter(r=>r.category===k).length);
+
+      document.querySelectorAll(".tab-btn").forEach(btn=>{
+        const g=btn.dataset.group;
+        if(c[g]!=undefined) btn.innerHTML=`${g} <span>(${c[g]})</span>`;
+      });
+    }
+
+    /* ====== 탭 필터 ====== */
+    function filterResults(group){
+      updateCategoryCounts(allResults);
+      renderResults(group==="all"?allResults:allResults.filter(r=>r.category===group));
+    }
+
+    /* ====== 하이라이트 ====== */
+    function highlight(text, kw) {
+	  if (!text || !kw) return text;
+	
+	  const regex = new RegExp(`(${kw})`, 'gi');
+	  const highlighted = text.replace(regex, `<mark>$1</mark>`);
+	
+	  // \n 줄바꿈을 <br>로 처리
+	  return highlighted.replace(/\\n/g, '<br>');
+	}
+
+  </script>
+</body>
+</html>

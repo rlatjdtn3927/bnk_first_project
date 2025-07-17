@@ -1,18 +1,12 @@
 package com.example.pension_project.search.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.pension_project.jpa.entity.admin.Notice;
-import com.example.pension_project.jpa.entity.commodity.DefaultEntity;
-import com.example.pension_project.jpa.entity.commodity.ETFEntity;
-import com.example.pension_project.jpa.entity.commodity.FundEntity;
-import com.example.pension_project.jpa.entity.commodity.TDFEntity;
-import com.example.pension_project.jpa.entity.dataroom.Manual;
-import com.example.pension_project.jpa.entity.disclosure.AssetContract;
-import com.example.pension_project.jpa.entity.faq.Faq;
-import com.example.pension_project.search.dto.SearchResultDto;
+import com.example.pension_project.search.dto.SearchItemDto;
+import com.example.pension_project.search.mapper.SearchResultMapper;
 import com.example.pension_project.search.repository.AssetContractSearchRepository;
 import com.example.pension_project.search.repository.DefaultOptionSearchRepository;
 import com.example.pension_project.search.repository.EtfSearchRepository;
@@ -36,15 +30,20 @@ public class SearchService {
     private final ManualSearchRepository manualRepo;
     private final AssetContractSearchRepository assetConRepo;
 
-    public SearchResultDto searchAll(String keyword) {
-        List<DefaultEntity> defaultOptions = defaultOptionRepo.searchByKeyword(keyword);
-        List<FundEntity> funds = fundRepo.searchByKeyword(keyword);
-        List<ETFEntity> etfs = etfRepo.searchByKeyword(keyword);
-        List<TDFEntity> tdfs = tdfRepo.searchByKeyword(keyword);
-        List<Notice> notices = noticeRepo.searchByKeyword(keyword);
-        List<Faq> faqs = faqRepo.searchByKeyword(keyword);
-        List<Manual> manuals = manualRepo.searchByKeyword(keyword);
-        List<AssetContract> assetCons = assetConRepo.searchByKeyword(keyword);
-        return SearchResultDto.of(defaultOptions, funds, etfs, tdfs, notices, faqs, manuals, assetCons);
+    public List<SearchItemDto> searchAll(String keyword) {
+        List<SearchItemDto> result = new ArrayList<>();
+
+        result.addAll(SearchResultMapper.fromDefaultList(defaultOptionRepo.searchByKeyword(keyword)));
+        result.addAll(SearchResultMapper.fromFundList(fundRepo.searchByKeyword(keyword), "펀드"));
+        result.addAll(SearchResultMapper.fromEtfList(etfRepo.searchByKeyword(keyword)));
+        result.addAll(SearchResultMapper.fromTdfList(tdfRepo.searchByKeyword(keyword)));
+        result.addAll(SearchResultMapper.fromNoticeList(noticeRepo.searchByKeyword(keyword)));
+        result.addAll(SearchResultMapper.fromFaqList(faqRepo.searchByKeyword(keyword)));
+        result.addAll(SearchResultMapper.fromManualList(manualRepo.searchByKeyword(keyword)));
+        result.addAll(SearchResultMapper.fromAssetList(assetConRepo.searchByKeyword(keyword)));
+
+        return result;
     }
+
+
 }
