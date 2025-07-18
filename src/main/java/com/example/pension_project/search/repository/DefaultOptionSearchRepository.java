@@ -9,6 +9,11 @@ import org.springframework.data.repository.query.Param;
 import com.example.pension_project.jpa.entity.commodity.DefaultEntity;
 
 public interface DefaultOptionSearchRepository extends JpaRepository<DefaultEntity, Integer> {
-    @Query(value = "SELECT * FROM default_option WHERE CONTAINS(prod_name, :keyword) > 0", nativeQuery = true)
+    @Query(value = """
+            SELECT  d.*
+            FROM    default_option d
+            WHERE   CONTAINS(d.prod_name, :keyword, 1) > 0
+            ORDER   BY SCORE(1) DESC
+            """, nativeQuery = true)    
     List<DefaultEntity> searchByKeyword(@Param("keyword") String keyword);
 }

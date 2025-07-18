@@ -19,9 +19,9 @@ public class GuaranteeEntity {
     private String bank;
     private String prodName;
     private String maturityDate;
-    private String dbYn;
-    private String dcYn;
-    private String irpYn;
+    private Double dbYn;
+    private Double dcYn;
+    private Double irpYn;
     private String termsUrl;
     private String descUrl;
     private String threeMonth;

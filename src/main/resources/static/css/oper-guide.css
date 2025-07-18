@@ -40,7 +40,7 @@ body {
 }
 
 .banner-text p {
-  	font-size: 18px;
+  	font-size: 22px;
   	color: #444;
 }
 
@@ -61,7 +61,7 @@ body {
   }
   
   .banner-text p {
-  	font-size: 15px;
+  	font-size: 16px;
   	color: #444;
   }
 
@@ -145,17 +145,8 @@ body {
 .section ul {
 	font-size: 18px;
 	color: #333;
-	list-style-type: disc;
-	padding-left: 50px;
-}
-
-.section-content {
-	max-width: 1000px;
-	/*margin: 60px auto;*/
-	/*padding: 40px 20px;*/
-	font-family: 'Pretendard', sans-serif;
-	color: #222;
-	
+	list-style-type: none;
+	padding-left: 35px;
 }
 
 .image-wrapper {
@@ -199,25 +190,25 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 16px;
+  padding: 16px 20px;
   cursor: pointer;
   font-weight: bold;
 }
 
 .notice-content {
   display: none;
-  padding: 0 16px 16px 16px;
+  padding-bottom: 16px;
 }
 
 .notice-content ul {
-	list-style-type: disc;
+	list-style-type: none;
   	padding-left: 20px;
   	color: #808080;
 }
 
 .notice-content li {
-  margin-bottom: 6px;
-  font-size: 13px;
+  margin-bottom: 5px;
+  font-size: 14px;
 }
 
 @media (max-width: 768px) {
@@ -272,15 +263,8 @@ body {
 .flex-text ul {
 	list-style: none;
 	padding-left: 1.2em;
-	list-style-position: outside;
 }
 
-.flex-text ul li::before {
-	content: "•";
-	font-size: 1.2em;
-	margin-right: 0.5em;
-	color: black;
-}
 
 .flex-text li {
 	font-size: 16px;
@@ -369,8 +353,5 @@ body {
 .center {
 	text-align: center;
 }
-
-
-
 
 

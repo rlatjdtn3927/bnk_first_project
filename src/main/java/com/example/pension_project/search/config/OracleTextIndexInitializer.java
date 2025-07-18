@@ -24,7 +24,7 @@ public class OracleTextIndexInitializer {
             "idx_notice_title", "idx_notice_content",
             "idx_manual_filename", "idx_manual_title",
             "idx_asset_title",
-            "idx_principal_name", "idx_default_name", "idx_fund_name", "idx_etf_name", "idx_tdf_name"
+            "idx_principal_name", "idx_pgu_bank", "idx_default_name", "idx_fund_name", "idx_etf_name", "idx_tdf_name"
         );
 
         for (String index : indexes) {

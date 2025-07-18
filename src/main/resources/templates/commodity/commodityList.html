@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!--모바일용-->
     <title>상품 페이지</title>
 	
 	<!------------------------------------------I have to handle analysis post case + condition is somewhat wrong ----------------------------------------------------------->
@@ -9,364 +10,8 @@
     <!-- external css -->
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
+    <link rel="stylesheet" th:href="@{/css/commodity.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-
-    <style>
-        /* ---------- layout wrappers ---------- */
-        body {
-            background: #fff;
-            color: #222;
-            line-height: 1.5;
-			font-family: 'Pretendard', sans-serif;
-			margin: 0;
-			padding: 0;
-        }
-
-        .container {
-            max-width: 1300px;
-            margin: 80px auto 60px;
-            padding: 0 1.25rem;
-        }
-        
-       /* ---------- page header ---------- */
-        .page-header {
-            display: flex;
-            flex-direction: column;
-            gap: 1.25rem;
-        }
-        .page-header h1 {
-            margin: 0;
-            font-size: 1.9rem;
-            font-weight: 700;
-        }
-	  /* ---------- total commodity count ---------- */
-		      
-		.total-cnt{
-		    margin: 6px 0 14px;   /* 위·아래 간격만 살짝 조정 예시 */
-		    font-size: 1rem;
-		    color: #888;
-		    min-height: 20px;
-		}
-		.total-number{
-		    color:#000;
-		    font-weight:700;
-		}
-		
-		.total-message {
-			opacity: 0;                    
-		    transform: translateY(24px);    
-		    animation: fadeSlideUp .4s ease forwards;
-		}
-      
-      /* ---------- search bar ---------- */
-        .search-area {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            
-		    /* 애니메이션 관련 속성 추가 */
-		    opacity: 0;                    /* 투명하게 (안 보임) */
-		    transform: translateY(-10px);  /* 위로 10px 이동 (살짝 올라가 있음) */
-		    pointer-events: none;          /* 마우스 클릭 등 모든 이벤트 차단 */
-		    transition: opacity 0.4s ease, transform 0.4s ease; /* 변화 애니메이션 */
-        }
-        
-        .search-area.visible {
-		    opacity: 1;
-		    transform: translateY(0);
-		    visibility: visible;
-		}
-		
-        .search-input {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #c8c8c8;
-            padding: .45rem 0;
-        }
-        .search-input .icon {
-            margin-right: .6rem;
-            font-size: 1.05rem;
-            color: #888;
-        }
-        .search-input input {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 1rem;
-            background: transparent;
-        }
-        .search-btn {
-            background: #D71921;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: .55rem 1.5rem;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: opacity .2s;
-        }
-        .search-btn:hover {opacity: .9;}
-        
-
-        /* ---------- buttons (tab) ---------- */
-        
-        #loadMoreBtn {
-        	display:none;
-	        margin:2rem auto; padding:.8rem 2.5rem;
-	        font-size:1rem; border:none; border-radius:8px;
-	        background:#D71921; color:#fff; cursor:pointer;
-        }
-        
-        .choice {
-            margin-top: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            min-height: 60px;
-        }
-        
-        #buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.25rem;
-            justify-content: flex-start;
-        }
-
-        .commodity-button {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: .45rem;
-            border: none; /* border handled by icon */
-            background: transparent;
-            font-size: 1rem;
-            cursor: pointer;
-        }
-        .commodity-button::before {
-            content: '';
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 2px solid #ccc;
-            box-sizing: border-box;
-            display: inline-block;
-            transition: all .2s;
-        }
-        .commodity-button.active::before {
-            background: #D71921;
-            border-color: #D71921;
-        }
-        .commodity-button.active::after {
-            position: absolute;
-            left: 6px;
-            top: 2px;
-            font-size: 16px;
-            color: #fff;
-        }
-        .commodity-button span { /* text label */
-            color: #222;
-            transition: color .2s;
-        }
-        .commodity-button.active span {color: #D71921;}
-
-        /* ---------- filter dropdowns ---------- */
-        .selectors {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .75rem;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .dropdown-box {
-            position: relative;
-			opacity: 0;                       /* 처음엔 투명 */
-		    transform: translateY(24px);      /* 아래에 살짝 숨어 있음 */
-		    animation: fadeSlideUp .4s ease forwards;
-        }
-        .dropdown-toggle {
-            padding: .55rem 1rem;
-            font-size: .9rem;
-            cursor: pointer;
-            background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            min-width: 150px;
-            text-align: center;
-        }
-        .dropdown-options {
-            position: absolute;
-            top: calc(100% + .25rem);
-            left: 0;
-            z-index: 20;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-shadow: 0 4px 8px rgba(0,0,0,.06);
-            display: none;
-            padding: .75rem 1rem;
-            max-height: 260px;
-            overflow-y: auto;
-            min-width: 150px;
-        }
-        .dropdown-options label {
-            display: block;
-            font-size: .87rem;
-            margin-bottom: .35rem;
-        }
-        /* show helper */
-        .dropdown-box.open .dropdown-options {display: block;}
-
-        /* ---------- cards grid ---------- */
-        #commodity_main {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            min-height: 1000px;
-        }
-        
-        .fund-card {
-            background: #fff;
-            border: 1px solid #e5e5e7;
-            border-radius: 10px;
-            box-shadow: 0 3px 6px rgba(0,0,0,.05);
-            padding: 1.25rem 1.5rem;
-			opacity: 0;                       /* 처음엔 투명 */
-		    transform: translateY(24px);      /* 아래에 살짝 숨어 있음 */
-		    animation: fadeSlideUp .4s ease forwards;
-        }
-        
-        /* ───── 등장 애니메이션 ───── */
-		@keyframes fadeSlideUp {
-		    to {
-		        opacity: 1;
-		        transform: translateY(0);
-		    }
-		}
-
-        .fund-card a {text-decoration: none; color: inherit;}
-
-        .fund-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: .4rem;
-            color: #000000;
-            cursor: pointer;
-            display: inline-block;
-        }
-        
-		.fund-name:hover {
-		    text-decoration: underline;
-		}
-		
-		.notFund-name {
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: .4rem;
-            color: #000000;
-        }
-        
-        .fund-sub {
-            font-size: .8rem;
-            color: #D71921;
-            margin-bottom: .7rem;
-        }
-
-        .metric-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit,minmax(90px,1fr));
-            gap: .5rem;
-        }
-        .metric-box {
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            padding: .55rem 0;
-            text-align: center;
-            cursor: default;
-        }
-        .metric-box .label {
-            font-size: .7rem;
-            color: #888;
-            margin-bottom: .15rem;
-            display: block;
-        }
-        .metric-box .value {
-        	color: #D71921;
-            font-size: .9rem;
-            font-weight: 600;
-        }
-        
-		/********************  MODAL  ********************/
-        .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:1000;}
-        .modal.open{display:flex;}
-        .modal-content{background:#fff;border-radius:12px;width:90%;max-width:900px;min-height:800px;display:flex;flex-direction:column;box-shadow:0 10px 30px rgba(0,0,0,.2);overflow:hidden;}
-        .modal-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #eee;}
-        .modal-header h2{margin:0;font-size:1.2rem;}
-        .close-btn{background:none;border:none;font-size:1.4rem;cursor:pointer;}
-        .modal-nav{display:flex;gap:.5rem;padding:.75rem 1rem;border-bottom:1px solid #eee;}
-        .modal-nav button{flex:1;border:none;background:#f7f7f7;padding:.6rem 0;font-size:.9rem;border-radius:6px;cursor:pointer;}
-        .modal-nav button.active{background:#D71921;color:#fff;}
-		.modal-body {
-			padding: 10px;
-		    flex: 1;
-		    display: flex;
-		    flex-direction: column;
-		}
-		.modal-body iframe {
-		    width: 100%;
-		    height: 100%;
-		    border: none;
-		    flex: 1;
-		}
-		.files{
-		    display:flex;
-		    flex-wrap:wrap;          /* 필요하면 줄바꿈 */
-		    gap:.5rem;
-		    padding:.5rem 1rem;
-		    border-bottom:1px solid #eee;
-		    justify-content:flex-start;  /* 왼쪽 정렬 */
-		}
-		
-		.nofundfiles{
-		    display:flex;
-		    flex-wrap:wrap;
-		    gap:.5rem;
-		    justify-content:flex-start;  /* 왼쪽 정렬 */
-		    margin: 1rem 0rem .5rem 0rem;
-		}
-		.file-link{
-		    display:inline-flex;
-		    align-items:center;
-		    gap:.25rem;              /* 아이콘과 텍스트 간격 */
-		    padding:.4rem .8rem;
-		    font-size:.8rem;
-		    background:#f7f7f7;
-		    border:1px solid #ccc;
-		    border-radius:6px;
-		    text-decoration:none;
-		    color:#333;
-		    transition:background .2s;
-		    /* ↓ 가변 너비 ‑ 더 이상 flex:1 필요 없음 */
-		}
-		.file-link:hover{background:#e9e9e9;}
-		.file-link i{
-		    font-size:1rem;
-		    color:#D71921;           /* PDF 아이콘 빨간색 */
-		}
-		.file-link.disabled{
-		    pointer-events:none;
-		    opacity:.35;
-		}
-
-
-        /* scrollbars (optional) */
-        ::-webkit-scrollbar {width: 8px;}
-        ::-webkit-scrollbar-thumb {background: #ccc;border-radius: 4px;}
-    </style>
 </head>
 <body>
 <!-- <div th:replace="~{fragments/chatbot :: chatbot}"></div>
@@ -386,6 +31,9 @@
                 <input type="text" id="searchKeyword" placeholder="어떤 상품을 찾으세요?" />
             </div>
             <button class="search-btn" id="searchBtn">검색</button>
+            <button class="filter-btn" id="filterBtn">
+			    <i class="fas fa-sliders-h"></i>
+			</button>
         </div>
         
         <div class="total-cnt">
@@ -395,11 +43,11 @@
     <!-- ---------- Tabs ---------- -->
     <div class="choice">
 	    <div id="buttons">
-	        <button class="commodity-button active" id="fundBtn">펀드</button>
-	        <button class="commodity-button" id="etfBtn">ETF</button>
-	        <button class="commodity-button" id="tdfBtn">TDF</button>
-	        <button class="commodity-button" id="defaultBtn">디폴트옵션</button>
-	        <button class="commodity-button" id="guaranteeBtn">예금</button>
+	        <button class="commodity-button active" id="fundBtn"><span>펀드</span></button>
+	        <button class="commodity-button" id="etfBtn"><span>ETF</span></button>
+	        <button class="commodity-button" id="tdfBtn"><span>TDF</span></button>
+	        <button class="commodity-button" id="defaultBtn"><span>디폴트옵션</span></button>
+	        <button class="commodity-button" id="guaranteeBtn"><span>예금</span></button>
 	    </div>
 	
 	    <!-- ---------- Filters ---------- -->
@@ -417,6 +65,7 @@
 	            <h2 id="modalTitle">상품 분석</h2>
 	            <button class="close-btn" id="modalCloseBtn">&times;</button>
 	        </div>
+	        <select id="modalNavSelect" hidden="hidden"></select>
 	        <nav class="modal-nav" id="modalNav">
 	            <button data-key="overviewUrl" class="active">개요</button>
 	            <button data-key="navUrl">기준가</button>
@@ -440,11 +89,26 @@
 	        <div class="modal-body"><iframe id="analysisFrame" title="analysis"></iframe></div>
 	    </div>
 	</div>
+	
+	<!-- ▽ 기존 analysisModal 아래, </div> 바로 앞에 모바일 필터 모달 추가 -->
+	<div id="filterModal" class="modal">                 <!-- 기존 .modal 재활용 -->
+	    <div class="modal-content mobile-filter">
+	        <div class="modal-header">
+	            <h2 style="font-size:1rem;">검색 필터</h2>
+	            <button class="close-btn" id="filterCloseBtn">&times;</button>
+	        </div>
+	
+	        <div class="modal-body" id="filterBody"></div>
+	
+	        <button id="filterApplyBtn"
+	                style="margin:1rem auto .8rem; padding:.6rem 2rem;"
+	                class="search-btn">적용하기
+	        </button>
+	    </div>
+	</div>
+	<button id="loadMoreBtn">더보기</button>
 </div>
 
-<button id="loadMoreBtn">더보기</button>
-
-<div th:replace="~{fragments/footer :: mainFooter}"></div>
 
 <!-- helper -->
 <script>
@@ -497,6 +161,37 @@
 </script>
 
 <script>
+	/* === 모바일 필터 모달 === */
+	const filterBtn       = qs('#filterBtn');
+	const filterModal     = qs('#filterModal');
+	const filterCloseBtn  = qs('#filterCloseBtn');
+	const filterApplyBtn  = qs('#filterApplyBtn');
+	const selectorsElm    = qs('.selectors');   // 데스크톱용 드롭박스
+	const filterBody      = qs('#filterBody');  // 모달 안 자리
+	
+	/* 열기 – 모달 안에 selectors 옮기기 */
+	filterBtn.addEventListener('click', ()=>{
+	  selectorsElm.style.display = 'grid';
+	  filterBody.appendChild(selectorsElm);          // ⬇ 모달 안으로 이동
+	  filterModal.classList.add('open');
+	});
+	
+	/* 닫기 – 다시 원래 자리로 */
+	function closeFilterModal(){
+	  selectorsElm.style.display = 'none';
+	  qs('.choice').appendChild(selectorsElm);       // ⬆ 헤더로 복귀
+	  filterModal.classList.remove('open');
+	}
+	filterCloseBtn.addEventListener('click', closeFilterModal);
+	
+	/* 적용하기 버튼 – 검색 실행 후 닫기 */
+	filterApplyBtn.addEventListener('click', ()=>{
+	  closeFilterModal();
+	  handleSearch();   // 이미 정의된 함수 그대로 사용
+	});
+</script>
+
+<script>
     /* state */
    	let currentPage = 0; //현재 페이지
 	const pageSize = 10; //페이지 크기
@@ -511,8 +206,12 @@
     });
         
     const metricBox = (val,label) => {
-        const display = isNaN(val)?val:Number(val).toFixed(2)+'%';
-        return `<div class="metric-box"><span class="value">${display}</span><span class="label">${label}</span></div>`;
+    	const display = isNaN(val)?val:Number(val).toFixed(2)+'%';
+    	if(label === '1개월' || label ==='누적') {
+    		return `<div class="metric-box omitable"><span class="value">${display}</span><span class="label">${label}</span></div>`;
+    	} else {
+    		return `<div class="metric-box"><span class="value">${display}</span><span class="label">${label}</span></div>`;	
+    	}
     };
 
     const formatDate = str => str?`${str.slice(0,4)}-${str.slice(4,6)}-${str.slice(6)}`:'';
@@ -550,10 +249,13 @@
     	const commonPart = d["guideUrl"].substring(0, d["guideUrl"].lastIndexOf('/')+1);
     	const encodedguide = commonPart + ecguide;
     	const encodedDesc = commonPart + ecdesc;
+    	
+        const riskLabel = d.risk ? `<span style="color:#D71921;">${d.risk}</span>` : '';
+        const gradeLabel = d.riskGrade ? ` (등급 ${d.riskGrade})` : '';
   		
         return buildCard(`
             <div class="notFund-name">${d.prodName}</div>
-            <div class="fund-sub" style="margin-bottom:.6rem;">포트폴리오 ID: ${d.prodId}</div>
+            ${d.risk || d.riskGrade ? `<div class="fund-sub">위험도: ${riskLabel}${gradeLabel}</div>` : ''}
             <ul style="margin-top:.8rem;font-size:.85rem;color:#555;padding-left:1rem;list-style:disc;">
                 ${d.subProd1?`<li>${d.subProd1}</li>`:''}
                 ${d.subProd2?`<li>${d.subProd2}</li>`:''}
@@ -618,14 +320,14 @@
     //카테고리별로 카드 구성 각각 생성
     function renderJson(data){
         const arr = Array.isArray(data)?data:[data];
-        
+        console.log(arr);
         // 상품이 없는 경우
         if (arr.length === 0) {
             commodityMain.innerHTML = `
-                <div id="no-commodity-message" style="margin-top: 150px; padding: 2rem; text-align: center; color: #666; font-size: 1.1rem;">
-                    조회된 상품이 없습니다.
-                </div>
-            `; 
+            	<div id="no-commodity-message">
+            		<div style="display: inline-block;">조회된 상품이 없습니다.</div>
+	           </div>
+	            `; 
         } else {
             arr.forEach(item=>{
                 let card;
@@ -787,6 +489,18 @@
 		                    <label><input type="radio" name="interPeriod" value="100"/> 누적</label>
 		                </div>
 	            	</div>`; break;
+			case '/commodity/guarantee':
+				searchBar.classList.add('visible');
+				form.innerHTML = 
+					`<!--예금 정렬 카테고리-->
+		    	    <div class="dropdown-box" id="categoryBox">
+		                <button type="button" class="dropdown-toggle">금리 정렬 ▼</button>
+		                <div class="dropdown-options">
+		                    <label><input type="radio" name="guaranteeCategory" value="db"/> DB금리순</label>
+		                    <label><input type="radio" name="guaranteeCategory" value="dc"/> DC금리순</label>
+		                    <label><input type="radio" name="guaranteeCategory" value="irp"/ >IRP금리순</label>
+		                </div>
+	            	</div>`; break;
 	        default:
 	        	form.innerHTML = '';
 		        if (searchBar.classList.contains('visible')) {
@@ -794,35 +508,16 @@
 		        }
 		}
 		
-		if(url === '/commodity/fund'|| url === '/commodity/etf' || url === '/commodity/tdf') {
+		if(url != 'commodity/default') {
 	    	// dropdowns open/close
 	    	document.querySelectorAll('.dropdown-box').forEach(box => {
 	    	    box.querySelector('.dropdown-toggle').addEventListener('click', () => box.classList.toggle('open'));
 	    	});
 	    	
 	        /* search */
-	        qs('#searchBtn').addEventListener('click', () => {
-	            const riskGrades = Array.from(document.querySelectorAll('input[name="riskGrade"]:checked')).map(e=>+e.value);
-	            const types      = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(e=>e.value);
-	            const channelInp = qs('input[name="channel"]:checked');
-	            const channel    = channelInp && channelInp.value==='온라인전용' ? 2 : 1;
-	            const rateDom = qs('input[name="interPeriod"]:checked');
-	            const rate = rateDom ? parseInt(rateDom.value) : 100;
-	            const keywordDom = qs('#searchKeyword');
-	            const keyword = keywordDom ? keywordDom.value : null;
-	            
-	            const body = { channel, riskGrade: riskGrades.length?riskGrades:null, category: types.length?types:null, interPeriod:rate, keyword, page: 0, size: pageSize};
-	            
-	            let url='';
-	            switch(currentTab){
-	                case 'fund':      url='/commodity/fund'; break;
-	                case 'etf':       url='/commodity/etf';  break;
-	                case 'tdf':       url='/commodity/tdf';  break;
-	                case 'default':   url='/commodity/default'; break;
-	                case 'guarantee': url='/commodity/guarantee'; break;
-	            }
-	            searchAndRender(url, body);
-	        });	
+	        const searchBtn = qs('#searchBtn');
+	        searchBtn.removeEventListener("click", handleSearch);
+	        searchBtn.addEventListener('click', handleSearch);	
 		}
     	
         clearMain();
@@ -831,6 +526,43 @@
             .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
 
     };
+    
+    function handleSearch() {
+    	
+    	document.querySelectorAll('.dropdown-box.open').forEach(box => box.classList.remove('open'));
+    	
+        const riskGrades = Array.from(document.querySelectorAll('input[name="riskGrade"]:checked')).map(e=>+e.value);
+        const types      = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(e=>e.value);
+        const channelInp = qs('input[name="channel"]:checked');
+        const channel    = channelInp && channelInp.value==='온라인전용' ? 2 : 1;
+        const rateDom = qs('input[name="interPeriod"]:checked');
+        const rate = rateDom ? parseInt(rateDom.value) : 100;
+        const keywordDom = qs('#searchKeyword');
+        const keyword = keywordDom ? keywordDom.value : null;
+        const guaranteeCategory = qs('input[name="guaranteeCategory"]:checked');
+        const categoryVal = guaranteeCategory ? guaranteeCategory.value : null
+        
+        const body = {  
+        		channel,
+  				riskGrade: riskGrades.length?riskGrades:null,
+  				category: types.length?types:null,
+  				interPeriod:rate,
+  				keyword,
+  				page: 0,
+  				size: 10,
+  				guaranteeCategory: categoryVal
+        	  };
+        
+        let url='';
+        switch(currentTab){
+            case 'fund':      url='/commodity/fund'; break;
+            case 'etf':       url='/commodity/etf';  break;
+            case 'tdf':       url='/commodity/tdf';  break;
+            case 'default':   url='/commodity/default'; break;
+            case 'guarantee': url='/commodity/guarantee'; break;
+        }
+        searchAndRender(url, body);
+    }
     
     // 검색시에 부르는 함수 --> 여기서 불러온 것을 기준으로 페이지네이션 되어야함.
     // 검색 시에는 폼 초기화 되면 안됨.
@@ -890,7 +622,25 @@
                 btn.dataset.url = data[key]||'';
                 btn.classList.toggle('active', key==='overviewUrl');
             });
-            
+
+	         // ▼ 모바일 드롭다운(navSelect) 세팅 ---------------
+	         const navSelect = qs('#modalNavSelect');
+	         if (window.matchMedia('(max-width:768px)').matches) {
+	             navSelect.innerHTML = '';                      // 옵션 비우기
+	             qsa('#modalNav button').forEach(btn => {
+	                 const opt = document.createElement('option');
+	                 opt.value = btn.dataset.url || '';
+	                 opt.textContent = btn.textContent;
+	                 if (btn.classList.contains('active')) opt.selected = true;
+	                 navSelect.appendChild(opt);
+	             });
+	             navSelect.onchange = e => showModalWithUrl(e.target.value);
+	             navSelect.hidden = false;                      // 모바일에서 표시
+	
+	         } else {
+	             navSelect.hidden = true;                       // PC에서는 숨김
+	         }
+	         /* ──────────────────────────────────────────────── */
             const files = [
                 ['file1Link','file1'],
                 ['file2Link','file2'],
@@ -948,10 +698,18 @@
             setActiveTab(btnId);
             if(status === 'fund') fetchAndRender(url,{channel:1, page:0, size: pageSize});
             if(status === 'default') fetchAndRender(url, null);
-            if(status === 'guarantee') fetchAndRender(url, {page:0, size: pageSize});
+            if(status === 'guarantee') fetchAndRender(url, {page:0, size: pageSize, });
         });
     });
+    
+    /* ③ 추가 – 터치/클릭 시 열려 있던 드롭다운 닫기 */
+    document.addEventListener('click', e=>{
+      if(!e.target.closest('.dropdown-box')){
+        document.querySelectorAll('.dropdown-box.open')
+                .forEach(b=>b.classList.remove('open'));
+      }
+    });
 </script>
-
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
 </body>
 </html>

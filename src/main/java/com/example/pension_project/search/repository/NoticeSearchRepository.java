@@ -9,6 +9,13 @@ import org.springframework.data.repository.query.Param;
 import com.example.pension_project.jpa.entity.admin.Notice;
 
 public interface NoticeSearchRepository extends JpaRepository<Notice, Integer> {
-    @Query(value = "SELECT * FROM tbl_notice WHERE CONTAINS(b_title, :keyword) > 0 OR CONTAINS(b_content, :keyword) > 0", nativeQuery = true)
+    
+	@Query(value = """
+            SELECT  n.*
+            FROM    tbl_notice n
+            WHERE   CONTAINS(n.b_title  , :keyword, 1) > 0
+               OR   CONTAINS(n.b_content, :keyword, 2) > 0
+            ORDER   BY GREATEST(SCORE(1), SCORE(2)) DESC
+            """, nativeQuery = true)
     List<Notice> searchByKeyword(@Param("keyword") String keyword);
 }

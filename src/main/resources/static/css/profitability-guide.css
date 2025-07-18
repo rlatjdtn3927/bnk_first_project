@@ -1,0 +1,186 @@
+body {
+	font-family: 'Pretendard', sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #222;
+}
+
+/*배너*/
+.banner {
+  	background-color: #fef8f2; /* 연한 베이지 */
+  	padding: 10px 20px 50px 30px;
+  	display: flex;
+  	justify-content: center;
+  	/*position: relative;  이미지 절대위치 기준 */
+}
+
+.banner-content {
+	max-width: 1200px;
+  	display: flex;
+  	align-items: center;
+  	justify-content: space-between;
+  	gap: 80px;
+  	flex-wrap: nowrap;
+  	text-align: left;
+  	position: relative;
+}
+
+.banner-img img {
+  	width: 210px;
+  	height: auto;
+  	margin-top: 20px;
+}
+
+.banner-text h2 {
+  	font-size: 32px;
+  	font-weight: 700;
+  	margin-bottom: 16px;
+  	color: #222;
+  	margin-top: 15px;
+}
+
+.banner-text p {
+  	font-size: 22px;
+  	color: #444;
+}
+
+@media (max-width: 768px) {
+  .banner {
+    height: 280px; /* 높이 설정 필수 */
+  }
+	
+  .banner-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+    gap: 30px;
+  }
+  
+  .banner-text h2 {
+    font-size: 22px;
+  }
+  
+  .banner-text p {
+  	font-size: 16px;
+  	color: #444;
+  }
+
+  .banner-img img {
+    max-width: 120px;
+  }
+  
+  .banner-img {
+    position: absolute;
+    bottom: -25px;
+    right: 5px;
+  }
+}
+
+/* 전체 영역 */
+.guide-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 30px;
+  text-align: center;
+}
+
+/* 제목 */
+.guide-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+/* 이미지 */
+.guide-img img {
+  width: 280px;
+  height: auto;
+  margin-bottom: 30px;
+}
+/* 설명 텍스트 */
+.p-text {
+  font-size: 22px;
+  color: #555;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .guide-title {
+    font-size: 22px;
+    line-height: 1.6;
+  }
+
+  .guide-img img {
+    width: 160px;
+    margin-bottom: 25px;
+  }
+
+  .p-text {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}
+
+/* 전체 섹션 */
+.rule72-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 30px;
+}
+
+.back-color {
+	background-color: #f8f8f8;
+}
+
+/* 제목 */
+.rule72-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* 본문 텍스트 */
+.rule72-text {
+  font-size: 18px;
+  color: #444;
+  line-height: 1.8;
+  margin-bottom: 28px;
+}
+
+/* 이미지 */
+.rule72-img img {
+  width: 100%;
+  max-width: 780px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 50px;
+}
+
+/* ✅ 반응형 */
+@media (max-width: 768px) {
+  .rule72-section {
+    padding: 40px 16px;
+  }
+
+  .rule72-title {
+    font-size: 22px;
+    margin-bottom: 16px;
+  }
+
+  .rule72-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .rule72-img img {
+    max-width: 100%;
+  }
+}
+
+

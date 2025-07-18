@@ -13,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
-import java.util.List;
-
 @Service
 public class FundService {
 
@@ -32,11 +30,11 @@ public class FundService {
         }
         
         if (formDto.getRiskGrade() != null && formDto.getRiskGrade().length > 0) {
-            builder.and(fund.riskGrade.in((Integer[]) formDto.getRiskGrade()));
+            builder.and(fund.riskGrade.in(formDto.getRiskGrade()));
         }
 
         if (formDto.getCategory() != null && formDto.getCategory().length > 0) {
-            builder.and(fund.fundTypeCd.in((String[]) formDto.getCategory()));
+            builder.and(fund.fundTypeCd.in(formDto.getCategory()));
         }
 
         if (formDto.getChannel() != null && formDto.getChannel() != 1) {

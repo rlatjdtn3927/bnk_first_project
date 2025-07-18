@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 페이지</title>
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
@@ -14,8 +14,34 @@
 
 <main>
     <section class="banner-wrapper">
-        <div class="banner">배너</div>
-    </section>
+	
+	  <!-- 하늘 + 구름 -->
+	  <div class="sky">
+	    <div class="cloud cloud1"></div>
+	    <div class="cloud cloud2"></div>
+	    <div class="cloud cloud3"></div> 
+  		<div class="cloud cloud4"></div>
+	  </div>
+	
+	  <!-- 트랙 -->
+	  <svg class="track" viewBox="0 0 1200 200" preserveAspectRatio="none">
+	    <rect x="0" y="0" width="1200" height="200" fill="#d97c6d" />
+	    <line x1="0" y1="100" x2="1200" y2="100"
+	          stroke="#fff" stroke-width="12" stroke-dasharray="60,40" />
+	  </svg>
+	
+	  <!-- ✅ 캐릭터는 wrapper 안, content 밖 -->
+	  <!--  --><img src="/images/run_character.gif" alt="달리는 캐릭터" class="runner" />
+	
+	  <!-- 텍스트 -->
+	  <div class="banner-content">
+	    <h1>함께 달리는 퇴직연금!</h1>
+	    <p>부산은행과 함께 든든한 노후를 향해 출발!</p>
+	  </div>
+	
+	</section>
+
+
 
     <div class="main-inner">
         <!-- 통합검색 -->
@@ -26,11 +52,12 @@
 				  <input
 				    type="text"
 				    id="search-input"
+				    name="keyword"
 				    placeholder='"디폴트옵션"을 검색해보세요.'
 				    onkeypress="handleEnter(event)"
 				  />
 				</div>
-                <img src="/images/search_characters5.png" alt="검색 캐릭터" class="search-characters">
+                <!-- <img src="/images/search_characters5.png" alt="검색 캐릭터" class="search-characters"> -->
             </div>
         </section>
         <section class="card-section">
@@ -143,5 +170,37 @@
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <script th:src="@{/js/chatbot.js}"></script>
+<script>
+  // 엔터 키 입력 처리
+  function handleEnter(event) {
+    if (event.key === "Enter") {
+      submitSearch();
+    }
+  }
+
+  // 돋보기 클릭 이벤트 등록
+  document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("search-button");
+    if (button) {
+      button.addEventListener("click", submitSearch);
+    }
+  });
+
+  // 검색 실행 함수
+  function submitSearch() {
+    const input = document.getElementById("search-input");
+    const keyword = input.value.trim();
+
+    if (!keyword) {
+      alert("검색어를 입력해주세요.");
+      input.focus();
+      return;
+    }
+    
+    window.location.href = `/search?keyword=${encodeURIComponent(keyword)}`;
+  }
+</script>
+
+
 </body>
 </html>
