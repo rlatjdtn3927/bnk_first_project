@@ -29,4 +29,5 @@ public class AdminMaincontroller {
 	public String registForm() {
 		return "/admin/registForm";
 	}
+	
 }

@@ -1,4 +1,5 @@
-package com.example.pension_project.commodity.controller;
+package com.example.pension_project.admin.controller;
+
 
 import com.example.pension_project.commodity.dto.FormDto;
 import com.example.pension_project.commodity.dto.PagenationDto;
@@ -27,8 +28,8 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/commodity")
-public class CommodityRestController {
+@RequestMapping("/admin/commodity")
+public class CommodityController {
 
     @Autowired
     private FundService fundService;
