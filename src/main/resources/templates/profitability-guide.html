@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>수익률 관리 가이드</title>
 </head>
 <body>
 <h1></h1>
-
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script defer th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>

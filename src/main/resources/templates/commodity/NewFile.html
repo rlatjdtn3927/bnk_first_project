@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>상품 페이지</title>
 	
 	<!------------------------------------------I have to handle analysis post case + condition is somewhat wrong ----------------------------------------------------------->
@@ -404,6 +404,8 @@
 <button id="loadMoreBtn">더보기</button>
 
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script defer th:src="@{/js/chatbot.js}"></script>
 
 <!-- helper -->
 <script>

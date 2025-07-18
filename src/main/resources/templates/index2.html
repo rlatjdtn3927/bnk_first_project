@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 페이지</title>
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/chatbot.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 </head>
@@ -141,7 +142,8 @@
 </main>
 
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
+<!-- body 가장 아래에 추가 -->
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script th:src="@{/js/chatbot.js}"></script>
+<script defer th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>

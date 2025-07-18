@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
 <title>은퇴 자금 계산기</title>
 </head>
 <style>
@@ -284,7 +284,7 @@ input[type=range]::-moz-range-thumb {
     </ul>
 </div>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script th:src="@{/js/chatbot.js}"></script>
+<script defer th:src="@{/js/chatbot.js}"></script>
 	<script>
 		//슬라이드 실시간 값 반영
 		const sliders = [

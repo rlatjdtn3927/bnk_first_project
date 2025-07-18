@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
   <title>운용관리 및 자산관리 수수료</title>
   <style>
     body { font-family: 'Arial', sans-serif; padding: 20px; background: #f9f9f9; }
@@ -556,7 +556,8 @@
     </tr>
   </tbody>
 </table>
-
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script defer th:src="@{/js/chatbot.js}"></script>
 <button id="topBtn" onclick="scrollToTop()">맨 위로 ↑</button>
 
 <!-- 스크롤 이벤트 및 동작 스크립트 -->
@@ -572,7 +573,5 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
-<div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>
