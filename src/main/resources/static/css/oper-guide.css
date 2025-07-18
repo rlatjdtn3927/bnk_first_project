@@ -110,7 +110,6 @@ body {
 	transition: all 0.3s ease;
 	min-width: 25%; /* 모바일에서도 한 줄에 네 개 유지 */
 	text-align: center;
-	font-family: 'Pretendard', sans-serif;
 }
 
 .tab-menu button.active {

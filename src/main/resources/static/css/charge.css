@@ -1,0 +1,200 @@
+body {
+	font-family: 'Pretendard', sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #222;
+}
+
+#topBtn {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  display: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* 기본 영역 */
+.tab-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 30px;
+}
+
+/* 제목 */
+.tab-title {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+
+/* 탭 메뉴 */
+.tab-menu {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 탭 버튼 기본 스타일 */
+.tab-menu button {
+  flex: 1;
+  padding: 14px 8px;
+  font-size: 22px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+}
+
+/* 활성화된 탭 */
+.tab-menu button.active {
+  color: #D71921;
+  border-bottom: 3px solid #D71921;
+  font-weight: bold;
+}
+
+/* 마우스 오버 효과 */
+.tab-menu button:hover {
+  color: #D71921;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .tab-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .tab-menu button {
+    flex: none;
+    font-size: 16px;
+    padding: 10px 12px;
+    border-bottom: 2px solid transparent;
+  }
+  
+  .tab-title {
+  	font-size: 22px;
+  }
+}
+
+
+/* 테이블 */
+.fee-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.fee-subtitle {
+  font-size: 22px;
+  margin-top: 40px;
+  margin-bottom: 22px;
+  font-weight: 500;
+  border-left: 2px solid #D71921;
+}
+
+/* ===== 테이블 기본 ===== */
+.fee-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  color: #222;
+}
+
+.fee-table th,
+.fee-table td {
+  border: 1px solid #ddd;
+  padding: 16px 12px;
+}
+
+.fee-table th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  text-align: center;
+  border-top: 1px solid #b5b5b5;
+}
+
+.center {
+	text-align: center;
+	background-color: #fcfcfc;
+	font-weight: 500;
+}
+
+.table-content {
+	line-height: 1.4;
+	font-size: 15px;
+}
+
+.table-content p {
+	font-weight: 500;
+	margin-bottom: 5px;
+}
+
+.fee-table th:nth-child(1),
+.fee-table td:nth-child(1) {
+  width: 25%; /* 1열 크기 */
+}
+
+.notice {
+	line-height: 1.6;
+	margin-top: 40px;
+	margin-bottom: 50px;
+}
+
+.red-line {
+	border-left: 3px solid #D71921;
+	margin-right: 10px;
+}
+
+/* 반응형 테이블 래퍼 */
+.fee-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* 모바일 반응형 설정 */
+@media (max-width: 768px) {
+  .fee-title {
+    font-size: 22px;
+    margin-top: 30px;
+  }
+
+  .fee-subtitle {
+    font-size: 18px;
+  }
+
+  .fee-table {
+    font-size: 14px;
+    min-width: 600px; /* 테이블 내용이 깨지지 않도록 최소 너비 설정 */
+  }
+
+  .fee-table th,
+  .fee-table td {
+    padding: 10px 8px;
+  }
+
+  .table-content {
+    font-size: 14px;
+  }
+
+  .notice {
+    font-size: 14px;
+  }
+}
+
+
+
+
+
+
+
