@@ -21,8 +21,7 @@ public class PensionProjectApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // 💾 수동 저장 (분할 저장)
-        vectorStoreInitializer.saveVectorStoreToCacheParts();
-        System.out.println("✅ 수동 분할 캐시 저장 완료!");
+        vectorStoreInitializer.init();
     }
+
 }

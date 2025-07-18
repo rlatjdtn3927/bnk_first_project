@@ -1,12 +1,11 @@
+// ✅ 최적화된 VectorStoreInitializer.java
 package com.example.pension_project.chatbot.init;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Component;
 
@@ -29,18 +28,22 @@ public class VectorStoreInitializer {
 
     private static final String CACHE_DIR = "cache/";
     private static final String CACHE_PATTERN = "vector-cache-part-%02d.json";
-    private static final int CHUNK_SIZE = 5000;
+    private static final int FLUSH_INTERVAL = 200;
 
     @PostConstruct
     public void init() {
         try {
+            if (!vectorStore.getAll().isEmpty()) {
+                System.out.println("🟡 이미 메모리에 벡터 있음 → 로딩 생략");
+                return;
+            }
+
             if (hasCacheFiles()) {
                 System.out.println("✅ 벡터 캐시 파일 발견: " + CACHE_DIR);
                 loadVectorStoreFromCacheParts();
             } else {
                 System.out.println("📄 PDF 파일 파싱 및 임베딩 수행 시작...");
                 buildVectorStoreFromPDFs();
-                saveVectorStoreToCacheParts();
             }
         } catch (Exception e) {
             System.err.println("❌ 벡터 초기화 오류: " + e.getMessage());
@@ -48,59 +51,73 @@ public class VectorStoreInitializer {
         }
     }
 
+
     private boolean hasCacheFiles() {
         File dir = new File(CACHE_DIR);
-        return dir.exists() && dir.isDirectory() && dir.listFiles((d, name) -> name.startsWith("vector-cache-part")) != null;
+        return dir.exists() && dir.isDirectory() &&
+               Objects.requireNonNull(dir.listFiles((d, name) -> name.startsWith("vector-cache-part") && name.endsWith(".json"))).length > 0;
     }
 
     private void buildVectorStoreFromPDFs() {
         Map<String, List<String>> chunkMap = pdfLoaderService.loadAllChunks();
-        final int[] count = {0};
+        AtomicInteger count = new AtomicInteger();
+        AtomicInteger fileIndex = new AtomicInteger();
+        List<VectorStore.VectorEntry> buffer = Collections.synchronizedList(new ArrayList<>());
 
-        chunkMap.entrySet().parallelStream().forEach(entry -> {
-            String key = entry.getKey();
-            String[] parts = key.split("\\|\\|");
+        try {
+            Files.createDirectories(Paths.get(CACHE_DIR));
+        } catch (IOException e) {
+            System.err.println("❌ cache 디렉토리 생성 실패: " + e.getMessage());
+            return;
+        }
+
+        chunkMap.entrySet().stream().forEach(entry -> {
+            String[] parts = entry.getKey().split("\\|\\|");
             String category = parts[0];
             String filename = parts[1];
 
             List<String> chunks = entry.getValue();
-            chunks.parallelStream().forEach(chunk -> {
-                if (chunk == null || chunk.isBlank()) return;
+
+            for (String chunk : chunks) {
+                if (chunk == null || chunk.isBlank()) continue;
 
                 List<Double> embedding = embeddingService.getEmbedding(chunk);
-                synchronized (vectorStore) {
-                    vectorStore.add(chunk, embedding, filename, category);
-                }
+                VectorStore.VectorEntry ve = new VectorStore.VectorEntry(chunk, embedding, filename, category, 0.0);
 
-                synchronized (count) {
-                    count[0]++;
-                    if (count[0] % 10 == 0) {
-                        System.out.println("✅ " + count[0] + "개 조각 임베딩 완료...");
+                synchronized (buffer) {
+                    buffer.add(ve);
+                    int current = count.incrementAndGet();
+
+                    if (current % FLUSH_INTERVAL == 0) {
+                        flushBufferToJson(new ArrayList<>(buffer), fileIndex.getAndIncrement());
+                        buffer.clear();
+                        System.out.println("✅ " + current + "개 조각 임베딩 및 저장 완료...");
                     }
                 }
-            });
+            }
         });
 
-        System.out.println("🔥 PDF 기반 벡터 저장 완료: 총 " + count[0] + "개");
+        if (!buffer.isEmpty()) {
+            flushBufferToJson(new ArrayList<>(buffer), fileIndex.getAndIncrement());
+            System.out.println("✅ 최종 저장 완료: 총 " + count.get() + "개");
+        }
+
+        System.out.println("🔥 PDF 기반 벡터 저장 완료: 총 " + count.get() + "개");
     }
 
-    public void saveVectorStoreToCacheParts() throws Exception {
-        System.out.println("💾 캐시 파일 분할 저장 중...");
-        Gson gson = new Gson();
-        List<VectorStore.VectorEntry> all = vectorStore.getAll();
 
-        int fileIndex = 0;
-        for (int i = 0; i < all.size(); i += CHUNK_SIZE) {
-            List<VectorStore.VectorEntry> sublist = all.subList(i, Math.min(i + CHUNK_SIZE, all.size()));
-            String json = gson.toJson(sublist);
-            String fileName = CACHE_DIR + String.format(CACHE_PATTERN, fileIndex++);
+    private void flushBufferToJson(List<VectorStore.VectorEntry> buffer, int fileIndex) {
+        try {
+            Gson gson = new Gson();
+            String json = gson.toJson(buffer);
+            String fileName = CACHE_DIR + String.format(CACHE_PATTERN, fileIndex);
             try (FileWriter writer = new FileWriter(fileName)) {
                 writer.write(json);
             }
-            System.out.println("✅ 저장: " + fileName);
+            System.out.println("📁 저장됨: " + fileName);
+        } catch (IOException e) {
+            System.err.println("❌ 캐시 저장 실패: " + e.getMessage());
         }
-
-        System.out.println("📌 총 " + fileIndex + "개 파일로 분할 저장 완료");
     }
 
     private void loadVectorStoreFromCacheParts() throws Exception {
@@ -110,11 +127,9 @@ public class VectorStoreInitializer {
 
         File dir = new File(CACHE_DIR);
         File[] files = dir.listFiles((d, name) -> name.startsWith("vector-cache-part") && name.endsWith(".json"));
-
         if (files == null || files.length == 0) return;
 
         Arrays.sort(files, Comparator.comparing(File::getName));
-
         int total = 0;
         for (File file : files) {
             try (FileReader reader = new FileReader(file)) {
@@ -126,7 +141,6 @@ public class VectorStoreInitializer {
                 System.out.println("✅ 로드 완료: " + file.getName());
             }
         }
-
         System.out.println("📦 전체 캐시 로드 완료: 총 " + total + "개 조각");
     }
 }

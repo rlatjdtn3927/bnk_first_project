@@ -22,11 +22,23 @@ public class PdfLoaderService {
 
     @Value("${pdf.tdf.path}")
     private String tdfPath;
+    
+    @Value("${pdf.pg.path}")
+    private String pgPath;
 
+    @Value("${pdf.fund.path}")
+    private String fundPath;
+
+    @Value("${pdf.default.path}")
+    private String defaultPath;
+   
     public Map<String, List<String>> loadAllChunks() {
         Map<String, List<String>> result = new HashMap<>();
         result.putAll(loadChunksFromDirectory(etfPath, "ETF"));
         result.putAll(loadChunksFromDirectory(tdfPath, "TDF"));
+        result.putAll(loadChunksFromDirectory(pgPath, "PG"));
+        result.putAll(loadChunksFromDirectory(fundPath, "FUND"));
+        result.putAll(loadChunksFromDirectory(defaultPath, "DEFAULT"));
         return result;
     }
 
