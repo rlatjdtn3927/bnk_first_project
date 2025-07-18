@@ -9,6 +9,11 @@ import org.springframework.data.repository.query.Param;
 import com.example.pension_project.jpa.entity.commodity.FundEntity;
 
 public interface FundSearchRepository extends JpaRepository<FundEntity, String> {
-    @Query(value = "SELECT * FROM fund WHERE CONTAINS(prod_name, :keyword) > 0", nativeQuery = true)
-    List<FundEntity> searchByKeyword(@Param("keyword") String keyword);
+    @Query(value = """
+            SELECT  f.*
+            FROM    fund f
+            WHERE   CONTAINS(f.prod_name, :keyword, 1) > 0
+            ORDER   BY SCORE(1) DESC
+            """, nativeQuery = true)   
+	List<FundEntity> searchByKeyword(@Param("keyword") String keyword);
 }

@@ -23,7 +23,7 @@ public class SearchResultMapper {
         for (DefaultEntity e : list) {
             result.add(SearchItemDto.builder()
                     .title(e.getProdName())
-                    .snippet(e.getSubProd1() + " / " + e.getSubProd2())
+                    .snippet(e.getSubProd1() + "<br>" + e.getSubProd2())
                     .subTitle("디폴트옵션")
                     .category("상품")
                     .type("디폴트옵션")

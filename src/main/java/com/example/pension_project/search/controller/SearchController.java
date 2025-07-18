@@ -15,12 +15,12 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/search")
+//@RequestMapping("/api/search")
 public class SearchController {
 	
     private final SearchService searchService;
 
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<List<SearchItemDto>> search(@RequestParam("keyword") String keyword) {
         List<SearchItemDto> result = searchService.searchAll(keyword);
         return ResponseEntity.ok(result);
