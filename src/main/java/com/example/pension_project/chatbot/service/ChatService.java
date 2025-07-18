@@ -29,6 +29,8 @@ public class ChatService {
     private final EmbeddingService embeddingService;
     
     private final SimilarityService similarityService;
+    
+    private final VectorStore vectorStore;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
@@ -64,9 +66,15 @@ public class ChatService {
     }
     
     public String getChatResponseWithContext(String userQuestion) {
+    	if (!vectorStore.isInitialized()) {
+            return "⏳ 아직 데이터를 불러오는 중입니다. 잠시 후 다시 시도해 주세요.";
+        }
+    	//사용자의 질문을 임베딩해서 벡터로 만듬
         List<Double> queryEmbedding = embeddingService.getEmbedding(userQuestion);
+        //질문 벡터와 기존 pdf 문서 chunk 벡터들 간 코사인 유사도를 계산해 가장 유사한 상위 5개 pdf 청크 가져옴
         List<VectorStore.VectorEntry> relevantChunks = similarityService.findTopMatches(queryEmbedding, 5);
 
+        //
         StringBuilder context = new StringBuilder();
         for (VectorStore.VectorEntry e : relevantChunks) {
             context.append("- [").append(e.getCategory()).append("] ").append(e.getFileName()).append(":\n")
@@ -136,7 +144,7 @@ public class ChatService {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(body.toString(), headers);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(openaiApiUrl, entity, String.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(openaiApiUrl, entity, String.class); //gpt 서버한테 요청 보내고 응답 받는부분
         JSONObject responseJson = new JSONObject(response.getBody());
 
         return responseJson.getJSONArray("choices").getJSONObject(0).getJSONObject("message").getString("content");
