@@ -1,12 +1,24 @@
 // ✅ 최적화된 VectorStoreInitializer.java
 package com.example.pension_project.chatbot.init;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 
 import com.example.pension_project.chatbot.service.EmbeddingService;
@@ -30,21 +42,23 @@ public class VectorStoreInitializer {
     private static final String CACHE_PATTERN = "vector-cache-part-%02d.json";
     private static final int FLUSH_INTERVAL = 200;
 
-    @PostConstruct
     public void init() {
         try {
             if (!vectorStore.getAll().isEmpty()) {
                 System.out.println("🟡 이미 메모리에 벡터 있음 → 로딩 생략");
+                vectorStore.markInitialized();
                 return;
             }
 
             if (hasCacheFiles()) {
-                System.out.println("✅ 벡터 캐시 파일 발견: " + CACHE_DIR);
                 loadVectorStoreFromCacheParts();
             } else {
                 System.out.println("📄 PDF 파일 파싱 및 임베딩 수행 시작...");
                 buildVectorStoreFromPDFs();
             }
+
+            vectorStore.markInitialized();
+
         } catch (Exception e) {
             System.err.println("❌ 벡터 초기화 오류: " + e.getMessage());
             e.printStackTrace();
@@ -121,7 +135,7 @@ public class VectorStoreInitializer {
     }
 
     private void loadVectorStoreFromCacheParts() throws Exception {
-        System.out.println("📥 캐시 파일 불러오는 중...");
+        //System.out.println("📥 캐시 파일 불러오는 중...");
         Gson gson = new Gson();
         Type listType = new TypeToken<List<VectorStore.VectorEntry>>() {}.getType();
 
@@ -138,9 +152,9 @@ public class VectorStoreInitializer {
                     vectorStore.add(entry.getChunkText(), entry.getEmbedding(), entry.getFileName(), entry.getCategory());
                     total++;
                 }
-                System.out.println("✅ 로드 완료: " + file.getName());
+                //System.out.println("✅ 로드 완료: " + file.getName());
             }
         }
-        System.out.println("📦 전체 캐시 로드 완료: 총 " + total + "개 조각");
+        //System.out.println("📦 전체 캐시 로드 완료: 총 " + total + "개 조각");
     }
 }
