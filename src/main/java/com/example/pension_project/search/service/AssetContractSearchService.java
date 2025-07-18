@@ -19,6 +19,7 @@ public class AssetContractSearchService {
         return repo.searchByKeyword(keyword).stream()
                    .map(e -> new DisclosureDto(
                            e.getTitle(),
+                           e.getFileName(),
                            e.getFilePath()))
                    .toList();
     }

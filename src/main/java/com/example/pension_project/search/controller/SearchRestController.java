@@ -87,7 +87,7 @@ public class SearchRestController {
 
         /* 9) 공지사항 */
         List<NoticeDto> notices = noticeService.search(keyword);
-        sections.add(new SearchResultSection<>("공지", null, notices.size(), notices));
+        sections.add(new SearchResultSection<>("공지사항", null, notices.size(), notices));
 
         return sections;
     }

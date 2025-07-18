@@ -18,6 +18,7 @@ public class FundSearchService {
     public List<FundDto> search(String keyword) {
         return repo.searchByKeyword(keyword).stream()
                    .map(e -> new FundDto(
+                		   e.getProdId(),
                            e.getProdName(),
                            e.getFundTypeCd(),
                            e.getRisk(),

@@ -6,6 +6,7 @@ import lombok.Data;
 @Data 
 @AllArgsConstructor
 public class TdfDto {
+    private String prodId;
     private String prodName;
     private String fundTypeCd;
     private String risk;

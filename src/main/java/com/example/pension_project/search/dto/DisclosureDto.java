@@ -7,5 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class DisclosureDto {
     private String docTitle;
+    private String fileName;
     private String filePath;
 }

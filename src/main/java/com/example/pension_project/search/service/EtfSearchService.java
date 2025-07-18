@@ -18,6 +18,7 @@ public class EtfSearchService {
     public List<EtfDto> search(String keyword) {
         return repo.searchByKeyword(keyword).stream()
                    .map(e -> new EtfDto(
+                		   e.getProdId(),
                            e.getProdName(),
                            e.getFundTypeCd(),
                            e.getRisk(),

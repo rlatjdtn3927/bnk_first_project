@@ -1,20 +1,25 @@
-/* ------------------------------------------------------------------
-   Base: 이 영역은 요청에 따라 **절대 수정하지 않습니다**
------------------------------------------------------------------- */
 body {
   font-family: 'Pretendard', sans-serif;
   margin: 0;
   padding: 0;
   background: #fff;
   color: #111;
+  display: flex;  
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .search-main {
-  max-width: 1200px;
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
   margin: 70px auto;
   padding: 60px 20px;
   box-sizing: border-box;
+  min-height: 400px;
 }
+
+
 
 .search-title {
   font-size: 28px;
@@ -36,39 +41,39 @@ body {
 }
 
 .search-box input {
+  flex: 1;
   border: none;
   outline: none;
   font-size: 16px;
-  flex: 1;
   padding-left: 10px;
   font-family: inherit;
 }
 
 .search-icon {
-  color: #999;
   font-size: 18px;
+  color: #999;
 }
 
 /* ------------------------------------------------------------------
    Enhanced styling below – “감각적인” UI 개선
 ------------------------------------------------------------------ */
-
 :root {
-  --primary: #D71921;
+  --primary: #d71921;
   --primary-dark: #b3121b;
-  --gray-50: #fafafa;
+  --gray-50:  #fafafa;
   --gray-100: #f5f5f5;
   --gray-200: #eee;
   --gray-300: #ddd;
   --gray-400: #ccc;
   --gray-600: #666;
   --gray-800: #111;
-  --radius: 20px;
+  --radius:   20px;
   --transition: .25s ease;
 }
 
 html { scroll-behavior: smooth; }
 
+/* ------------------ 검색어 정보 ------------------ */
 .search-info {
   font-size: 16px;
   margin-bottom: 30px;
@@ -79,7 +84,7 @@ html { scroll-behavior: smooth; }
   font-weight: 600;
 }
 
-/* ------------------ Tabs ------------------ */
+/* ------------------ 탭 ------------------ */
 .category-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -96,12 +101,11 @@ html { scroll-behavior: smooth; }
   background: #fff;
   color: var(--gray-600);
   font-size: 14px;
-  font-family: inherit;
   cursor: pointer;
   transition: var(--transition);
 }
 .tab-btn:hover {
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
   transform: translateY(-2px);
 }
 .tab-btn.active {
@@ -110,19 +114,27 @@ html { scroll-behavior: smooth; }
   color: #fff;
 }
 
-
-/* ------------------ Result section ------------------ */
+/* ------------------ 결과 그룹 ------------------ */
 .result-group {
   margin: 48px 0;
   padding-top: 24px;
   border-top: 1px solid var(--gray-300);
+  width: 100%;
+}
+
+.result-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
 }
 
 .result-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .result-header h3 {
   font-size: 19px;
@@ -142,7 +154,31 @@ html { scroll-behavior: smooth; }
 }
 .result-header a.page-link:hover { text-decoration: underline; }
 
-/* ------------------ Items ------------------ */
+.result-group:last-of-type {
+  margin-bottom: 40px;
+}
+
+/* ------------------ 서브카테고리 구분선 ------------------ */
+.sub-divider {
+  border: none;
+  border-top: 1px dashed var(--gray-300);
+  margin: 24px 0;
+}
+
+/* ------------------ 서브카테고리 래퍼 ------------------ */
+.subcategory-section > h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--gray-800);
+}
+.subcategory-section > h4 span {
+  margin-left: 4px;
+  font-weight: 400;
+  color: var(--primary);
+}
+
+/* ------------------ 결과 아이템 ------------------ */
 .result-list {
   display: flex;
   flex-direction: column;
@@ -159,6 +195,7 @@ html { scroll-behavior: smooth; }
 .result-item:last-child { border-bottom: none; }
 
 .item-main { flex: 1; }
+
 .item-title {
   font-size: 16px;
   font-weight: 600;
@@ -177,13 +214,13 @@ html { scroll-behavior: smooth; }
 .item-sub { margin-top: 4px; }
 
 .item-side {
-  text-align: right;
   min-width: 120px;
+  text-align: right;
 }
 .item-date {
+  display: block;
   font-size: 13px;
   color: #aaa;
-  display: block;
   margin-bottom: 8px;
 }
 
@@ -202,18 +239,46 @@ html { scroll-behavior: smooth; }
   color: #fff;
 }
 
-/* ------------------ More / Collapse links ------------------ */
+/* ----------- 더보기 / 접기 링크 ---------- */
+/* ------------------ More / Collapse 링크 ------------------ */
 .more-link,
 .collapse-link {
+  display: inline-flex;          /* 아이콘과 함께 정렬할 때 유리 */
+  align-items: center;
+  gap: 2px;                      /* 텍스트 ↔ ▾ 사이 여백 */
   font-size: 14px;
   color: var(--gray-600);
-  text-decoration: none;
+  text-decoration: none;         /* 기본 밑줄 제거 */
   transition: color .2s;
 }
-.more-link:hover,
-.collapse-link:hover { color: var(--primary); }
 
-/* ------------------ Top button ------------------ */
+/* 방문 이후에도 색상 유지 */
+.more-link:visited,
+.collapse-link:visited {
+  color: var(--gray-600);
+  text-decoration: none;
+}
+
+/* 호버 및 포커스 */
+.more-link:hover,
+.collapse-link:hover,
+.more-link:focus-visible,
+.collapse-link:focus-visible {
+  color: var(--primary);
+  text-decoration: underline;    /* 필요하면 밑줄 대신 border‑bottom 등도 가능 */
+}
+
+/* ‘더보기 ▾’ 상태가 ‘접기 ▲’로 바뀔 때 애니메이션을 주고 싶다면 */
+.more-link.rotate,
+.collapse-link.rotate {
+  transition: transform .25s ease;
+}
+.more-link.rotate.open {         /* JS에서 클래스 토글 */
+  transform: rotate(180deg);
+}
+
+
+/* ----------- 상단 이동 버튼 ---------- */
 #top-btn {
   position: fixed;
   right: 24px;
@@ -225,18 +290,153 @@ html { scroll-behavior: smooth; }
   color: #fff;
   font-size: 14px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 14px rgba(0,0,0,.2);
   transition: transform .3s ease, box-shadow .3s ease;
   z-index: 1000;
 }
 #top-btn:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 20px rgba(0,0,0,.25);
 }
 
-/* ------------------ Highlight ------------------ */
+/* ----------- 하이라이팅 ---------- */
 mark {
   background: none;
   color: var(--primary);
   font-weight: 700;
 }
+
+/* ----------- 반응형 ---------- */
+@media (max-width: 768px) {
+  .result-item {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .item-side {
+    text-align: left;
+  }
+  .tab-btn {
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+}
+	
+.no-result {
+  margin: 80px 0;
+  text-align: center;
+  font-size: 16px;
+  color: var(--gray-600);
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-animate {
+  animation: fadeSlideUp 0.35s ease both;
+}
+
+
+
+
+		/********************  MODAL  ********************/
+        .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:1000;}
+        .modal.open{display:flex;}
+        .modal-content{background:#fff;border-radius:12px;width:90%;max-width:900px;min-height:800px;display:flex;flex-direction:column;box-shadow:0 10px 30px rgba(0,0,0,.2);overflow:hidden;}
+        .modal-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;border-bottom:1px solid #eee;}
+        .modal-header h2{margin:0;font-size:1.2rem;}
+        .close-btn{background:none;border:none;font-size:1.4rem;cursor:pointer;}
+        .modal-nav{display:flex;gap:.5rem;padding:.75rem 1rem;border-bottom:1px solid #eee;}
+        .modal-nav button{flex:1;border:none;background:#f7f7f7;padding:.6rem 0;font-size:.9rem;border-radius:6px;cursor:pointer;}
+        .modal-nav button.active{background:#D71921;color:#fff;}
+		.modal-body {
+			padding: 10px;
+		    flex: 1;
+		    display: flex;
+		    flex-direction: column;
+		}
+		.modal-body iframe {
+		    width: 100%;
+		    height: 100%;
+		    border: none;
+		    flex: 1;
+		}
+		.files{
+		    display:flex;
+		    flex-wrap:wrap;          /* 필요하면 줄바꿈 */
+		    gap:.5rem;
+		    padding:.5rem 1rem;
+		    border-bottom:1px solid #eee;
+		    justify-content:flex-start;  /* 왼쪽 정렬 */
+		}
+		
+		.nofundfiles{
+		    display:flex;
+		    flex-wrap:wrap;
+		    gap:.5rem;
+		    justify-content:flex-start;  /* 왼쪽 정렬 */
+		    margin: 1.5rem 0rem .5rem 0rem;
+		}
+		.file-link{
+		    display:inline-flex;
+		    align-items:center;
+		    gap:.25rem;              /* 아이콘과 텍스트 간격 */
+		    padding:.4rem .8rem;
+		    font-size:.8rem;
+		    background:#f7f7f7;
+		    border:1px solid #ccc;
+		    border-radius:6px;
+		    text-decoration:none;
+		    color:#333;
+		    transition:background .2s;
+		    /* ↓ 가변 너비 ‑ 더 이상 flex:1 필요 없음 */
+		}
+		.file-link:hover{background:#e9e9e9;}
+		.file-link i{
+		    font-size:1rem;
+		    color:#D71921;           /* PDF 아이콘 빨간색 */
+		}
+		.file-link.disabled{
+		    pointer-events:none;
+		    opacity:.35;
+		}
+	
+        /* scrollbars (optional) */
+        ::-webkit-scrollbar {width: 8px;}
+        ::-webkit-scrollbar-thumb {background: #ccc;border-radius: 4px;}
+        
+        
+.result-item.fund-result .item-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.result-item.fund-result .item-info {
+  flex-grow: 1;
+}
+
+.item-btn-wrapper {
+  flex-shrink: 0;
+  margin-left: 20px;
+}
+
+.detail-btn {
+  border: 1px solid #e40000;
+  color: #e40000;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+
+        
