@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>퇴직연금 가입안내</title>
+<title>퇴직연금 서식 모음</title>
 <link rel="stylesheet" th:href="@{/css/header.css}" />
 <link rel="stylesheet" th:href="@{/css/footer.css}" />
+<link rel="stylesheet" th:href="@{/css/manual.css}" />
 </head>
 <body>
 <!-- header -->
@@ -13,66 +14,87 @@
 <!-- 경로 표시 -->
 <div th:replace="~{fragments/location :: location(category1='자료실', category2='규약신고')}"></div>
 
-
-<h2>퇴직연금서식모음</h2>
-
-<form method="get" th:action="@{/dataroom/manual}">
-    제도별:
-    <select name="systemType">
-        <option value="전체" th:selected="${systemType == '전체'}">전체</option>
-        <option value="공통" th:selected="${systemType == '공통'}">공통</option>
-        <option value="DB" th:selected="${systemType == 'DB'}">DB</option>
-        <option value="DC" th:selected="${systemType == 'DC'}">DC</option>
-        <option value="개인형IRP" th:selected="${systemType == '개인형IRP'}">개인형IRP</option>
-        <option value="기업형IRP" th:selected="${systemType == '기업형IRP'}">기업형IRP</option>
-    </select>
-
-    제목검색:
-    <input type="text" name="keyword" th:value="${keyword}" placeholder="검색어를 입력해주세요" />
-    <button type="submit">조회</button>
-</form>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>등록일</th>
-            <th>첨부파일</th>
-        </tr>
-    </thead>
-    <tbody>
-    <tr th:if="${manualList.totalElements == 0}">
-        <td colspan="4" style="text-align: center;">상품이 없습니다.</td>
-    </tr>
-        <tr th:each="manual, iterStat : ${manualList.content}">
-            <td th:text="${manualList.totalElements - (manualList.number * manualList.size + iterStat.index)}"></td>
-            <td th:text="${manual.title}"></td>
-            <td th:text="${manual.createdDate}"></td>
-            <td>
-                <a th:if="${manual.fileName != null}" th:href="@{/pdf/manual/{file}(file=${manual.fileName})}">⬇</a>
-                <span th:if="${manual.fileName == null}">--</span>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<!-- 페이징 -->
-<div th:if="${manualList.totalPages > 0}">
-    <span th:if="${manualList.hasPrevious()}">
-        <a th:href="@{/dataroom/manual(page=${manualList.number - 1}, keyword=${keyword}, systemType=${systemType})}">이전</a>
-    </span>
-
-    <span th:each="i : ${#numbers.sequence(0, manualList.totalPages - 1)}">
-        <a th:href="@{/dataroom/manual(page=${i}, keyword=${keyword}, systemType=${systemType})}"
-           th:text="${i + 1}"
-           th:classappend="${i == manualList.number} ? 'active'">1</a>
-    </span>
-
-    <span th:if="${manualList.hasNext()}">
-        <a th:href="@{/dataroom/manual(page=${manualList.number + 1}, keyword=${keyword}, systemType=${systemType})}">다음</a>
-    </span>
+<!-- 배너 -->
+<div class="banner">
+	<div class="banner-content">
+		<div class="banner-text">
+			<h2>퇴직연금 서식 모음</h2>
+			<p>퇴직연금 관련 주요 서식을 다운로드 하실 수 있습니다.</p>
+		</div>
+		<div class="banner-img">
+			<img th:src="@{/images/dataroom_banner.png}" alt="글 적는 이모티콘">
+		</div>
+	</div>
 </div>
+
+<section class="section">
+	<!-- 검색 창 -->
+	<form class="form" method="get" th:action="@{/dataroom/manual}">
+		<div class="search-wrap">
+		    <select name="systemType">
+		        <option value="전체" th:selected="${systemType == '전체'}">전체</option>
+		        <option value="공통" th:selected="${systemType == '공통'}">공통</option>
+		        <option value="DB" th:selected="${systemType == 'DB'}">DB</option>
+		        <option value="DC" th:selected="${systemType == 'DC'}">DC</option>
+		        <option value="개인형IRP" th:selected="${systemType == '개인형IRP'}">개인형IRP</option>
+		        <option value="기업형IRP" th:selected="${systemType == '기업형IRP'}">기업형IRP</option>
+		    </select>
+		    
+			<div class="button">
+				<span class="search-icon"></span>
+			    <input type="text" name="keyword" th:value="${keyword}" placeholder="검색어를 입력해주세요" />
+			    <button type="submit">검색</button>
+		    </div>
+		</div>
+	</form>
+	
+	<table class="table-section">
+	    <thead>
+	    </thead>
+	    <tbody>
+	    <tr th:if="${manualList.totalElements == 0}">
+	        <td class="td-left" colspan="4">상품이 없습니다.</td>
+	    </tr>
+	        <tr th:each="manual, iterStat : ${manualList.content}">
+	            <td class="td-center" th:text="${manualList.totalElements - (manualList.number * manualList.size + iterStat.index)}"></td>
+	            
+	            <td class="td-left">
+		            <div class="table-title" th:text="${manual.title}"></div>
+		            <div class="table-date" th:text="${manual.createdDate}"></div>
+	            </td>
+	            
+	            <td class="td-right">
+	                <a class="download-icon" th:if="${manual.fileName != null}" th:href="@{/pdf/manual/{file}(file=${manual.fileName})}">
+	                	<img alt="다운로드 이미지" th:src="@{/images/download.png}">
+	                </a>
+	                <span th:if="${manual.fileName == null}">--</span>
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+
+	<!-- 페이징 -->
+	<div class="pagination" th:if="${manualList.totalPages > 0}">
+		<!-- 이전 버튼 -->
+	    <a class="page-arrow" th:if="${manualList.hasPrevious()}"
+	       th:href="@{/dataroom/manual(page=${manualList.number - 1}, keyword=${keyword}, systemType=${systemType})}">
+	       &#x276E; <!-- 왼쪽 화살표 (‹) -->
+	    </a>
+		<!-- 페이지 번호 -->
+	    <a th:each="i : ${#numbers.sequence(0, manualList.totalPages - 1)}"
+	       th:href="@{/dataroom/manual(page=${i}, keyword=${keyword}, systemType=${systemType})}"
+	       th:text="${i + 1}"
+	       th:classappend="${i == manualList.number} ? 'active'">1</a>
+		
+		<!-- 다음 버튼 -->
+	    <a class="page-arrow"  th:if="${manualList.hasNext()}"
+	       th:href="@{/dataroom/manual(page=${manualList.number + 1}, keyword=${keyword}, systemType=${systemType})}">
+	       &#x276F; <!-- 오른쪽 화살표 (›) -->
+	    </a>
+	</div>
+</section>
+
+
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <!-- footer -->
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
