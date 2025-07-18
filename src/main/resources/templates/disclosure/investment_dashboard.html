@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" />
 <title>퇴직연금 - 적립금 운용금액 및 수익률</title>
 <link rel="stylesheet" th:href="@{/css/header.css}" />
 <link rel="stylesheet" th:href="@{/css/footer.css}" />
 <link rel="stylesheet" th:href="@{/css/investment-dashboard.css}" />
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insert title here</title>
 </head>
 <body>
 <!-- header -->
@@ -342,6 +345,6 @@
   </small>
 </p>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script th:src="@{/js/chatbot.js}"></script>
+<script defer th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>

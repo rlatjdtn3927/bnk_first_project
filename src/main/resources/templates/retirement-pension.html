@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
   <title>퇴직연금 제도란</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" th:href="@{/css/header.css}" />
@@ -300,6 +300,6 @@
   }
 </script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script th:src="@{/js/chatbot.js}"></script>
+<script defer th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>

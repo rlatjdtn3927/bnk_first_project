@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
 <title>시뮬레이션</title>
 <link rel="stylesheet" th:href="@{/css/header.css}" />
 <link rel="stylesheet" th:href="@{/css/footer.css}" />
 <link rel="stylesheet" th:href="@{/css/retire-calc.css}" />
+
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
+<title>은퇴 자금 계산기</title>
+
 </head>
 
 <body>
@@ -145,6 +148,7 @@
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 
 <script th:src="@{/js/chatbot.js}"></script>
+
 	<script>
 		//슬라이드 실시간 값 반영
 		const sliders = [

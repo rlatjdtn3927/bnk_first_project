@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
   <title>자주하는 질문</title>
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <link rel="stylesheet" th:href="@{/css/footer.css}" />
@@ -43,6 +43,6 @@
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 <script th:src="@{/js/faq.js}" defer></script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script th:src="@{/js/chatbot.js}"></script>
+<script defer th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>
