@@ -11,6 +11,8 @@ import lombok.*;
 @Component
 public class VectorStore {
 
+	private volatile boolean initialized = false;
+	
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
@@ -26,6 +28,14 @@ public class VectorStore {
 
     private final List<VectorEntry> vectorEntries = Collections.synchronizedList(new ArrayList<>());
 
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void markInitialized() {
+        this.initialized = true;
+    }
+    
     public void add(String chunkText, List<Double> embedding, String fileName, String category) {
         vectorEntries.add(new VectorEntry(chunkText, embedding, fileName, category, 0.0));
     }
