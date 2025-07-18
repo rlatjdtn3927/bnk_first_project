@@ -1,0 +1,113 @@
+body {
+	font-family: 'Pretendard', sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #222;
+}
+
+/* 기본 영역 */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 30px;
+}
+
+/* 제목 */
+.title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 18px;
+  margin-top: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.subtitle span {
+	font-weight: 300;
+	font-size: 15px;
+}
+
+
+/* ===== 테이블 기본 ===== */
+.table-section {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  border-top: 1px solid #b5b5b5;
+}
+
+.table-section th, .table-section td {
+  border: 1px solid #ddd;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.table-section th {
+  background-color: #f7f7f7;
+  font-weight: 600;
+
+}
+
+.table-section td {
+  background-color: #fff;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.fee-table th:nth-child(1),
+.fee-table td:nth-child(1) {
+  width: 20%; /* 1열 크기 */
+}
+
+.notice {
+	line-height: 1.6;
+	margin-top: 40px;
+	margin-bottom: 50px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+  .table-section {
+    font-size: 12px;
+    min-width: 700px
+  }
+  .section {
+    padding: 30px 16px;
+  }
+
+  .title {
+  	font-size: 22px;
+  }
+  
+  .subtitle {
+    font-size: 15px;
+  }
+  
+  .notice {
+    font-size: 14px;
+  }
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
