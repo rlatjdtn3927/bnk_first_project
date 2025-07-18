@@ -18,6 +18,7 @@ public class TdfSearchService {
     public List<TdfDto> search(String keyword) {
         return repo.searchByKeyword(keyword).stream()
                    .map(e -> new TdfDto(
+                		   e.getProdId(),
                            e.getProdName(),
                            e.getFundTypeCd(),
                            e.getRisk(),

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>통합 검색 결과</title>
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <link rel="stylesheet" th:href="@{/css/footer.css}" />
@@ -33,13 +33,63 @@
     <div id="search-results"></div>
   </main>
 
+  <!-- ---------- 분석 모달 ---------- -->
+	<div id="analysisModal" class="modal">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <h2 id="modalTitle">상품 분석</h2>
+	      <button class="close-btn" id="modalCloseBtn">&times;</button>
+	    </div>
+	    <nav class="modal-nav" id="modalNav">
+	      <button data-key="overviewUrl" class="active">개요</button>
+	      <button data-key="navUrl">기준가</button>
+	      <button data-key="performanceChartUrl">성과 차트</button>
+	      <button data-key="performanceAnalysisUrl">성과 분석</button>
+	      <button data-key="riskAnalysisUrl">위험 분석</button>
+	      <button data-key="portfolioAnalysisUrl">포트폴리오</button>
+	      <button data-key="holdingsUrl">보유종목</button>
+	    </nav>
+	    <div class="files" id="modalFiles">
+	      <a id="file1Link" class="file-link" href="#" target="_blank">
+	        <i class="fas fa-file-pdf"></i> 투자설명서
+	      </a>
+	      <a id="file2Link" class="file-link" href="#" target="_blank">
+	        <i class="fas fa-file-pdf"></i> 상품약관
+	      </a>
+	      <a id="file3Link" class="file-link" href="#" target="_blank">
+	        <i class="fas fa-file-pdf"></i> 간이투자설명서
+	      </a>
+	    </div>
+	    <div class="modal-body">
+	      <iframe id="analysisFrame" title="analysis" src="about:blank"></iframe>
+	    </div>
+	  </div>
+	</div>
+  
+
   <div th:replace="~{fragments/footer :: mainFooter}"></div>
+  
 
   <script>
     let allSections = [];
     const sectionStore = new Map();
     const sectionOffset = new Map();
+    const qs = (selector) => document.querySelector(selector);
+    const qsa = (selector) => document.querySelectorAll(selector);
+    
+    function postJson(url, body) {
+   	  return fetch(url, {
+   	    method: 'POST',
+   	    headers: { 'Content-Type': 'application/json' },
+   	    body: JSON.stringify(body)
+   	  })
+   	  .then(res => {
+   	    if (!res.ok) throw new Error(`요청 실패: ${res.status}`);
+   	    return res.json();
+   	  });
+   	}
 
+    
     document.addEventListener("DOMContentLoaded", () => {
       const keyword = new URLSearchParams(location.search).get("keyword");
       if (keyword) {
@@ -143,86 +193,128 @@
 
 
     function renderSections(group) {
-   	  const container = document.getElementById("search-results");
-   	  container.innerHTML = "";
+    	  const container = document.getElementById("search-results");
+    	  container.innerHTML = "";
 
-   	  const filtered = group === "전체"
-   	    ? allSections
-   	    : allSections.filter(sec => sec.category === group);
+    	  const filtered = group === "전체"
+    	    ? allSections
+    	    : allSections.filter(sec => sec.category === group);
 
-   	  const grouped = new Map();
-   	  filtered.forEach(section => {
-   	    if (section.count === 0 || !section.items?.length) return;
+    	  const grouped = new Map();
+    	  filtered.forEach(section => {
+    	    if (section.count === 0 || !section.items?.length) return;
 
-   	    if (section.category === "상품") {
-   	      if (!grouped.has("상품")) grouped.set("상품", new Map());
-   	      grouped.get("상품").set(section.subCategory || "기타", section);
-   	    } else {
-   	      grouped.set(section.category, section);
-   	    }
-   	  });
+    	    if (section.category === "상품") {
+    	      if (!grouped.has("상품")) grouped.set("상품", new Map());
+    	      grouped.get("상품").set(section.subCategory || "기타", section);
+    	    } else {
+    	      grouped.set(section.category, section);
+    	    }
+    	  });
 
-   	  let drewSomething = false; 
+    	  let drewSomething = false;
 
-   	  for (const [category, data] of grouped.entries()) {
-   	    if (category === "상품") {
-   	      const section = document.createElement("section");
-   	      section.className = "result-group";
+    	  // 링크 매핑
+    	  const linkMap = {
+    	    "자주찾는질문": "/faq",
+    	    "매뉴얼": "/dataroom/manual?keyword=&systemType=전체&page=0",
+    	    "공지사항": "#",
+    	    "공시": "/disclosure/asset",
+    	    "상품": "/commodity-view/list"
+    	  };
 
-   	      const header = document.createElement("div");
-   	      header.className = "result-header";
-   	      header.innerHTML = `<h3>${category}</h3>`;
-   	      section.appendChild(header);
+    	  for (const [category, data] of grouped.entries()) {
+    	    if (category === "상품") {
+    	      const section = document.createElement("section");
+    	      section.className = "result-group";
 
-   	      let i = 0;
-   	      for (const [subCategory, subSection] of data.entries()) {
-   	        if (i++ > 0) {
-   	          const hr = document.createElement("hr");
-   	          hr.className = "sub-divider";
-   	          section.appendChild(hr);
-   	        }
+    	      const header = document.createElement("div");
+    	      header.className = "result-header";
+    	      header.innerHTML = `
+    	        <h3>${category}</h3>
+    	        <a href="${linkMap[category]}" class="more-link"><span class="arrow-icon">&gt;</span></a>
+    	      `;
+    	      section.appendChild(header);
 
-   	        const key = `${category} > ${subCategory}`;
-   	        sectionStore.set(key, subSection.items);
-   	        sectionOffset.set(key, 3);
+    	      let i = 0;
+    	      for (const [subCategory, subSection] of data.entries()) {
+    	        if (i++ > 0) {
+    	          const hr = document.createElement("hr");
+    	          hr.className = "sub-divider";
+    	          section.appendChild(hr);
+    	        }
 
-   	        const subWrap = document.createElement("div");
-   	        subWrap.className = "subcategory-section";
+    	        const key = `${category} > ${subCategory}`;
+    	        sectionStore.set(key, subSection.items);
+    	        sectionOffset.set(key, 3);
 
-   	        const subHeader = document.createElement("h4");
-   	        subHeader.innerHTML = `${subCategory} <span>(${subSection.count})</span>`;
-   	        subWrap.appendChild(subHeader);
+    	        const subWrap = document.createElement("div");
+    	        subWrap.className = "subcategory-section";
 
-   	        const list = document.createElement("div");
-   	        list.className = "result-list";
-   	        list.innerHTML = subSection.items.slice(0, 3).map(item => buildItemHtml(item, category, subCategory)).join("");
-   	        subWrap.appendChild(list);
+    	        const subHeader = document.createElement("h4");
+    	        subHeader.innerHTML = `${subCategory} <span>(${subSection.count})</span>`;
+    	        subWrap.appendChild(subHeader);
 
-   	        if (subSection.count > 3) {
-   	          const more = document.createElement("div");
-   	          more.className = "result-footer";
-   	          more.innerHTML = `<a href="#" class="more-link" data-key="${key}" data-category="${category}" data-subcategory="${subCategory}">더보기 ▾</a>`;
-   	          subWrap.appendChild(more);
-   	        }
+    	        const list = document.createElement("div");
+    	        list.className = "result-list";
+    	        list.innerHTML = subSection.items.slice(0, 3).map(item => buildItemHtml(item, category, subCategory)).join("");
+    	        subWrap.appendChild(list);
 
-   	        section.appendChild(subWrap);
-   	      }
+    	        if (subSection.count > 3) {
+    	          const more = document.createElement("div");
+    	          more.className = "result-footer";
+    	          more.innerHTML = `<a href="#" class="more-link" data-key="${key}" data-category="${category}" data-subcategory="${subCategory}">더보기 ▾</a>`;
+    	          subWrap.appendChild(more);
+    	        }
 
-   	      container.appendChild(section);
-   	      drewSomething = true; 
-   	    } else {
-   	      const key = data.subCategory ? `${data.category} > ${data.subCategory}` : data.category;
-   	      sectionStore.set(key, data.items);
-   	      sectionOffset.set(key, 3);
-   	      appendSection(container, key, data.category, data.subCategory);
-   	      drewSomething = true;
-   	    }
-   	  }
+    	        section.appendChild(subWrap);
+    	      }
 
-   	  if (!drewSomething) {
-   		container.innerHTML = `<p class="no-result">선택한 카테고리에 대한 검색 결과가 없습니다.</p>`;
-   	  }
-   	}
+    	      container.appendChild(section);
+    	      drewSomething = true;
+    	    } else {
+    	      const section = document.createElement("section");
+    	      section.className = "result-group";
+
+    	      const header = document.createElement("div");
+    	      header.className = "result-header";
+
+    	      const key = data.subCategory ? `${data.category} > ${data.subCategory}` : data.category;
+    	      const link = linkMap[data.category] || "#";
+
+    	      header.innerHTML = `
+    	        <h3>${data.category} <span class="result-count">(${data.count})</span></h3>
+    	        <a href="${link}" class="more-link"><span class="arrow-icon">&gt;</span></a>
+    	      `;
+    	      section.appendChild(header);
+
+    	      sectionStore.set(key, data.items);
+    	      sectionOffset.set(key, 3);
+
+    	      const list = document.createElement("div");
+    	      list.className = "result-list";
+    	      list.innerHTML = data.items.slice(0, 3).map(item =>
+    	        buildItemHtml(item, data.category, data.subCategory)
+    	      ).join("");
+    	      section.appendChild(list);
+
+    	      if (data.count > 3) {
+    	        const more = document.createElement("div");
+    	        more.className = "result-footer";
+    	        more.innerHTML = `<a href="#" class="more-link" data-key="${key}" data-category="${data.category}" data-subcategory="${data.subCategory}">더보기 ▾</a>`;
+    	        section.appendChild(more);
+    	      }
+
+    	      container.appendChild(section);
+    	      drewSomething = true;
+    	    }
+    	  }
+
+    	  if (!drewSomething) {
+    	    container.innerHTML = `<p class="no-result">선택한 카테고리에 대한 검색 결과가 없습니다.</p>`;
+    	  }
+    	}
+
 
 
    function appendSection(container, key, category, subCategory) {
@@ -265,24 +357,31 @@
               <p class="item-snippet">${highlight(item.subProd1, kw)}</p>
               <p class="item-sub">${item.subProd2 || ""}</p>
             </div>
-            <div class="item-side">
-              <a href="/guide/default/${item.guideUrl}" class="detail-btn">상세보기</a>
-            </div>
           </div>
         `;
       }
 
       if (category === "상품" && ["ETF", "TDF", "펀드"].includes(subCategory)) {
-        return `
-          <div class="result-item">
-            <div class="item-main">
-              <p class="item-title">${highlight(item.prodName, kw)}</p>
-              <p class="item-snippet">유형: ${item.fundTypeCd || "-"} / 위험도: ${item.risk || "-"}</p>
-              <p class="item-sub">운용사: ${item.manager || "-"}</p>
-            </div>
-          </div>
-        `;
-      }
+    	  return `
+	    	  <div class="result-item fund-result">
+	    	    <div class="item-main">
+	    	      <div class="item-info">
+	    	        <p class="item-title">
+	    	          <span class="fund-name" data-prodid="${item.prodId}">${highlight(item.prodName, kw)}</span>
+	    	        </p>
+	    	        <p class="item-snippet">유형: ${item.fundTypeCd || "-"} / 위험도: ${item.risk || "-"}</p>
+	    	        <p class="item-sub">운용사: ${item.manager || "-"}</p>
+	    	      </div>
+	    	      <div class="item-btn-wrapper">
+	    	        <button class="detail-btn" data-prodid="${item.prodId}" data-title="${item.prodName}">상세보기</button>
+	    	      </div>
+	    	    </div>
+	    	  </div>
+	    	`;
+    	}
+
+
+
 
       if (category === "상품" && subCategory === "원리금보장") {
         return `
@@ -305,7 +404,7 @@
             </div>
             <div class="item-side">
               <span class="item-date">${item.createdDate}</span>
-              <a href="/manual/${item.fileName}" class="detail-btn">다운로드</a>
+              <a href="/pdf/manual/${item.fileName}" class="detail-btn">다운로드</a>
             </div>
           </div>
         `;
@@ -318,7 +417,7 @@
               <p class="item-title">${highlight(item.docTitle, kw)}</p>
             </div>
             <div class="item-side">
-              <a href="/disclosure/${item.filePath}" class="detail-btn">다운로드</a>
+              <a href="/pdf/asset/${item.fileName}" class="detail-btn">다운로드</a>
             </div>
           </div>
         `;
@@ -396,6 +495,85 @@
    	    });
    	  });
    	});
+
+
+    /* 모달 !!!!!! */
+    function openAnalysisModal(prodId, title){
+    postJson('/commodity/analysis', { prodId })
+    .then(res => {
+        const data = res.analysisEntity;
+
+        qs('#modalTitle').textContent = title;
+        showModalWithUrl(data.overviewUrl);
+
+        // nav 버튼 URL 세팅
+        qsa('#modalNav button').forEach(btn => {
+            const key = btn.dataset.key;
+            btn.dataset.url = data[key] || '';
+            btn.classList.toggle('active', key === 'overviewUrl');
+        });
+
+        // 파일 링크 처리
+        const files = [
+            ['file1Link', 'file1'],
+            ['file2Link', 'file2'],
+            ['file3Link', 'file3']
+        ];
+        files.forEach(([linkId, key]) => {
+            const linkEl = qs('#' + linkId);
+            if (data[key]) {
+                const url = data[key];
+                const fileName = url.substring(url.lastIndexOf('/') + 1);
+                const encoded = encodeURIComponent(fileName);
+                const commonPart = url.substring(0, url.lastIndexOf('/') + 1);
+                const encodedUrl = commonPart + encoded;
+
+                linkEl.href = encodedUrl;
+                linkEl.classList.remove('disabled');
+            } else {
+                linkEl.href = '#';
+                linkEl.classList.add('disabled');
+            }
+        });
+
+        qs('#analysisModal').classList.add('open');
+    });
+}
+
+	
+	function showModalWithUrl(url) {
+	  document.getElementById('analysisFrame').src = url;
+	}
+	
+	document.getElementById('modalNav').addEventListener('click', e => {
+	  if (e.target.tagName !== 'BUTTON') return;
+	  document.querySelectorAll('#modalNav button').forEach(b => b.classList.remove('active'));
+	  e.target.classList.add('active');
+	  showModalWithUrl(e.target.dataset.url);
+	});
+	
+	document.getElementById('modalCloseBtn').addEventListener('click', () => {
+	  document.getElementById('analysisModal').classList.remove('open');
+	  document.getElementById('analysisFrame').src = 'about:blank';
+	});
+	
+	document.addEventListener('click', (e) => {
+	  if (e.target.classList.contains('detail-btn')) {
+	    const prodId = e.target.dataset.prodid;
+	    const title = e.target.dataset.title;
+	    openAnalysisModal(prodId, title);
+	  }
+
+	  if (e.target.classList.contains('fund-name')) {
+	    const prodId = e.target.dataset.prodid;
+	    const title = e.target.textContent.trim();
+	    if (prodId && title) {
+	      openAnalysisModal(prodId, title);
+	    }
+	  }
+	});
+
+
 
 
 
