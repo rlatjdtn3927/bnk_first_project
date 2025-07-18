@@ -14,7 +14,6 @@
   <main class="search-main">
     <h2 class="search-title">통합 검색</h2>
 
-    <!-- 검색창 -->
     <div class="search-box">
       <i class="fas fa-magnifying-glass search-icon"></i>
       <input type="text" id="search-input" placeholder="검색어를 입력하세요" onkeypress="handleEnter(event)" />
@@ -22,7 +21,6 @@
 
     <p class="search-info" id="search-info"></p>
 
-    <!-- 탭 -->
     <div class="category-tabs">
       <button class="tab-btn active" data-group="전체">전체</button>
       <button class="tab-btn" data-group="상품">상품</button>
@@ -70,13 +68,11 @@
           const list = section.querySelector(".result-list");
 
           if (offset >= full.length) {
-            // 접기
             const collapsed = full.slice(0, 3);
             list.innerHTML = collapsed.map(item => buildItemHtml(item, category, subCategory)).join("");
             sectionOffset.set(key, 3);
             e.target.textContent = "더보기 ▾";
           } else {
-            // 더보기
             const next = full.slice(offset, offset + 5);
             list.insertAdjacentHTML("beforeend", next.map(item => buildItemHtml(item, category, subCategory)).join(""));
             offset += next.length;
@@ -98,24 +94,32 @@
     }
 
     async function fetchResults(keyword) {
-      const info = document.getElementById("search-info");
-      const container = document.getElementById("search-results");
-      container.innerHTML = "";
-      info.textContent = `"${keyword}" 검색 중…`;
+   	  const info = document.getElementById("search-info");
+   	  const container = document.getElementById("search-results");
+   	  container.innerHTML = "";
+   	  info.textContent = `"${keyword}" 검색 중…`;
 
-      try {
-        const res = await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`);
-        allSections = await res.json() || [];
-        const totalCount = allSections.reduce((sum, sec) => sum + sec.count, 0);
-        info.innerHTML = `"${keyword}" 총 <span class="highlight">${totalCount}</span>건이 검색되었습니다.`;
+   	  try {
+   	    const res = await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`);
+   	    allSections = await res.json() || [];
+   	    const totalCount = allSections.reduce((sum, sec) => sum + sec.count, 0);
 
-        updateTabCounts(allSections);
-        renderSections("전체");
-      } catch (err) {
-        console.error(err);
-        info.textContent = "검색 중 오류가 발생했습니다.";
-      }
-    }
+   	    info.innerHTML =
+   	      `"${keyword}" 총 <span class="highlight">${totalCount}</span>건이 검색되었습니다.`;
+
+   	    updateTabCounts(allSections);
+   	    renderSections("전체");
+
+   	    container.classList.remove("fade-animate");
+   	    void container.offsetWidth;
+   	    container.classList.add("fade-animate");
+
+   	  } catch (err) {
+   	    console.error(err);
+   	    info.textContent = "검색 중 오류가 발생했습니다.";
+   	  }
+   	}
+
 
     function updateTabCounts(sections) {
       const counts = {
@@ -137,52 +141,118 @@
       });
     }
 
+
     function renderSections(group) {
-      const container = document.getElementById("search-results");
-      container.innerHTML = "";
+   	  const container = document.getElementById("search-results");
+   	  container.innerHTML = "";
 
-      const filtered = group === "전체"
-        ? allSections
-        : allSections.filter(sec => sec.category === group);
+   	  const filtered = group === "전체"
+   	    ? allSections
+   	    : allSections.filter(sec => sec.category === group);
 
-      filtered.forEach(section => {
-        if (section.count === 0 || !section.items?.length) return;
+   	  const grouped = new Map();
+   	  filtered.forEach(section => {
+   	    if (section.count === 0 || !section.items?.length) return;
 
-        const key = section.subCategory
-          ? `${section.category} > ${section.subCategory}`
-          : section.category;
+   	    if (section.category === "상품") {
+   	      if (!grouped.has("상품")) grouped.set("상품", new Map());
+   	      grouped.get("상품").set(section.subCategory || "기타", section);
+   	    } else {
+   	      grouped.set(section.category, section);
+   	    }
+   	  });
 
-        sectionStore.set(key, section.items);
-        sectionOffset.set(key, 3);
+   	  let drewSomething = false; 
 
-        appendSection(container, key, section.category, section.subCategory);
-      });
-    }
+   	  for (const [category, data] of grouped.entries()) {
+   	    if (category === "상품") {
+   	      const section = document.createElement("section");
+   	      section.className = "result-group";
 
-    function appendSection(container, key, category, subCategory) {
-      const total = sectionStore.get(key).length;
-      const firstBatch = sectionStore.get(key).slice(0, 3);
+   	      const header = document.createElement("div");
+   	      header.className = "result-header";
+   	      header.innerHTML = `<h3>${category}</h3>`;
+   	      section.appendChild(header);
 
-      const section = document.createElement("section");
-      section.className = "result-group";
-      section.dataset.key = key;
+   	      let i = 0;
+   	      for (const [subCategory, subSection] of data.entries()) {
+   	        if (i++ > 0) {
+   	          const hr = document.createElement("hr");
+   	          hr.className = "sub-divider";
+   	          section.appendChild(hr);
+   	        }
 
-      section.innerHTML = `
-        <div class="result-header">
-          <h3>${key} <span>(${total})</span></h3>
-        </div>
-        <div class="result-list">
-          ${firstBatch.map(item => buildItemHtml(item, category, subCategory)).join("")}
-        </div>
-        ${total > 3
-          ? `<div class="result-footer">
-              <a href="#" class="more-link" data-key="${key}" data-category="${category}" data-subcategory="${subCategory}">더보기 ▾</a>
-             </div>`
-          : ""}
-      `;
+   	        const key = `${category} > ${subCategory}`;
+   	        sectionStore.set(key, subSection.items);
+   	        sectionOffset.set(key, 3);
 
-      container.appendChild(section);
-    }
+   	        const subWrap = document.createElement("div");
+   	        subWrap.className = "subcategory-section";
+
+   	        const subHeader = document.createElement("h4");
+   	        subHeader.innerHTML = `${subCategory} <span>(${subSection.count})</span>`;
+   	        subWrap.appendChild(subHeader);
+
+   	        const list = document.createElement("div");
+   	        list.className = "result-list";
+   	        list.innerHTML = subSection.items.slice(0, 3).map(item => buildItemHtml(item, category, subCategory)).join("");
+   	        subWrap.appendChild(list);
+
+   	        if (subSection.count > 3) {
+   	          const more = document.createElement("div");
+   	          more.className = "result-footer";
+   	          more.innerHTML = `<a href="#" class="more-link" data-key="${key}" data-category="${category}" data-subcategory="${subCategory}">더보기 ▾</a>`;
+   	          subWrap.appendChild(more);
+   	        }
+
+   	        section.appendChild(subWrap);
+   	      }
+
+   	      container.appendChild(section);
+   	      drewSomething = true; 
+   	    } else {
+   	      const key = data.subCategory ? `${data.category} > ${data.subCategory}` : data.category;
+   	      sectionStore.set(key, data.items);
+   	      sectionOffset.set(key, 3);
+   	      appendSection(container, key, data.category, data.subCategory);
+   	      drewSomething = true;
+   	    }
+   	  }
+
+   	  if (!drewSomething) {
+   		container.innerHTML = `<p class="no-result">선택한 카테고리에 대한 검색 결과가 없습니다.</p>`;
+   	  }
+   	}
+
+
+   function appendSection(container, key, category, subCategory) {
+   	  const total = sectionStore.get(key).length;
+   	  const firstBatch = sectionStore.get(key).slice(0, 3);
+
+   	  const section = document.createElement("section");
+   	  section.className = "result-group";
+   	  section.dataset.key = key;
+
+	   	section.innerHTML = `
+	   	  <div class="result-header">
+	   	    <h3>${category}<span class="item-count">(${total})</span></h3>
+	   	  </div>
+	   	  <div class="result-list">
+	   	    ${firstBatch.map(item => buildItemHtml(item, category, subCategory)).join("")}
+	   	  </div>
+	   	  ${total > 3 ? `
+	   	    <div class="result-footer">
+	   	      <a href="#" class="more-link"
+	   	         data-key="${key}" data-category="${category}" data-subcategory="${subCategory}">
+	   	         더보기 ▾
+	   	      </a>
+	   	    </div>` : ""}
+	   	`;
+
+
+   	  container.appendChild(section);
+   	}
+
 
     function buildItemHtml(item, category, subCategory) {
       const kw = document.getElementById("search-input").value.trim();
@@ -267,18 +337,21 @@
       }
 
       if (category === "공지사항") {
-        return `
-          <div class="result-item">
-            <div class="item-main">
-              <p class="item-title">${highlight(item.bTitle, kw)}</p>
-              <p class="item-snippet">${highlight(item.bContent, kw)}</p>
-            </div>
-            <div class="item-side">
-              <span class="item-date">${item.bCreatedAt}</span>
-            </div>
-          </div>
-        `;
-      }
+    	  return `
+    	    <div class="result-item">
+    	      <div class="item-main">
+    	        <p class="item-title">${highlight(item.btitle, kw)}</p>
+    	        <p class="item-snippet">${highlight(item.bcontent, kw)}</p>
+    	      </div>
+    	      <div class="item-side">
+    	        <span class="item-date">${formatDateTime(item.bcreatedAt)}</span>
+    	      </div>
+    	    </div>
+    	  `;
+    	}
+
+
+
 
       return `
         <div class="result-item">
@@ -294,6 +367,38 @@
       const regex = new RegExp(`(${kw})`, 'gi');
       return text.replace(regex, "<mark>$1</mark>").replace(/\\n/g, "<br>");
     }
+    
+    function formatDateTime(dateTimeString) {
+   	  const date = new Date(dateTimeString);
+   	  const yyyy = date.getFullYear();
+   	  const mm = String(date.getMonth() + 1).padStart(2, '0');
+   	  const dd = String(date.getDate()).padStart(2, '0');
+   	  return `${yyyy}.${mm}.${dd}`;
+   	}
+    
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+   	  btn.addEventListener("click", () => {
+   	    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+   	    btn.classList.add("active");
+
+   	    const group = btn.dataset.group;
+   	    const container = document.getElementById("search-results");
+
+   	    // 기존 애니메이션 제거
+   	    container.classList.remove("fade-animate");
+
+   	    // 콘텐츠 렌더링
+   	    renderSections(group);
+
+   	    // 애니메이션 클래스 부여 (짧은 delay 후)
+   	    requestAnimationFrame(() => {
+   	      container.classList.add("fade-animate");
+   	    });
+   	  });
+   	});
+
+
+
   </script>
 </body>
 </html>
