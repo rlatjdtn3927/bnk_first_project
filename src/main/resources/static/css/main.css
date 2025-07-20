@@ -109,11 +109,13 @@ html, body {
 }
 
 /* 2. 통합 검색 --------------------------------------------------*/
-.search-section {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
-  padding: 0 30px;
+.search-section{
+  display:flex;
+  flex-direction:column;  
+  align-items:center;     
+  gap:18px;         
+  margin-top:50px;
+  padding:0 30px;
 }
 
 .search-box {
@@ -152,6 +154,7 @@ html, body {
   color: #333;
 }
 
+
 /* 검색 캐릭터 (옵션) */
 .search-characters {
   position: absolute;
@@ -161,6 +164,77 @@ html, body {
   width: 450px;
   z-index: 2;
 }
+
+/* ---------------------------------
+   Quick‑Search Tags  (검색창 아래)
+----------------------------------*/
+.search-tags{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:18px;
+}
+
+.search-tag{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  padding:10px 24px 9px;
+  font-size:17px;
+  font-weight:600;
+  text-decoration:none;
+  border-radius:9999px;        
+  overflow:hidden;
+  transition:transform .25s ease, box-shadow .25s ease;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+.search-tag::before{        
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,.18);
+  mix-blend-mode:overlay;
+  opacity:0;
+  transition:.25s;
+}
+.search-tag:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+.search-tag:hover::before{ opacity:1; }
+
+/* 색상 – util 색 계열 + 텍스트 대비 조정 */
+.tag-yellow{
+  background:#fdf8e3;
+  color:#7a5b00;
+  border:1px solid #f7e9b5;
+}
+.tag-purple{
+  background:#f6f1fd;
+  color:#50338e;
+  border:1px solid #e2d6fa;
+}
+.tag-green{
+  background:#eefaf2;
+  color:#136b3c;
+  border:1px solid #c7f0d8;
+}
+
+/* active(클릭) 효과 */
+.search-tag:active{
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+
+/* 모바일 – 글씨/패딩 살짝 축소 */
+@media(max-width:768px){
+  .search-tag{
+    font-size:13px;
+    padding:6px 14px;
+  }
+}
+
 
 /* 3. 퇴직연금 카드 ---------------------------------------------*/
 .card-section{margin:100px 0 20px;
