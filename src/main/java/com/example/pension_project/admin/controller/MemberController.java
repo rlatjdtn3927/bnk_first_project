@@ -2,6 +2,7 @@ package com.example.pension_project.admin.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,21 +29,39 @@ public class MemberController {
 	
 	@Autowired
     private CertificateService certificateService;
+	
+	@GetMapping("/getUserList")
+	public ResponseEntity<List<MemberDto>>getMemberList(){
+		 try {
+		        List<MemberDto> memberList = memberService.getMemberList();
+		        return ResponseEntity.ok(memberList);
+		    } catch (Exception e) {
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		    }
+		
+	}
 
 	@PostMapping("/logincheck")
 	public ResponseEntity<?> loginCheck(@RequestBody MemberDto memberDto, HttpSession session) {
-		Map<String, Object> response = new HashMap<>();
-		if (memberService.logincheck(memberDto)) {
-			
-			session.setAttribute("userInfo", memberService.getUserInfoByUsername(memberDto.getUsername()));
-			return ResponseEntity.ok(Map.of("status", "success", "message", "로그인에 성공했습니다."));
-		} else {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-					.body(Map.of("status", "fail", "message", "아이디 또는 비밀번호가 올바르지 않습니다."));
-		}
+	    Map<String, Object> response = new HashMap<>();
+	    if (memberService.logincheck(memberDto)) {
+	        MemberDto userInfo = memberService.getUserInfoByUsername(memberDto.getUsername());
+	        session.setAttribute("userInfo", userInfo);
 
+	        // userInfo 안에 getRole() 메서드가 있다고 가정
+	        String roll = userInfo.getRoll();
+
+	        response.put("status", "success");
+	        response.put("message", "로그인에 성공했습니다.");
+	        response.put("roll", roll);
+
+	        return ResponseEntity.ok(response);
+	    } else {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+	                .body(Map.of("status", "fail", "message", "아이디 또는 비밀번호가 올바르지 않습니다."));
+	    }
 	}
-	
+
 	
     
     @PostMapping("/certificateLogin")

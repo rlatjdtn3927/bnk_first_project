@@ -1,6 +1,6 @@
 package com.example.pension_project.jpa.entity.admin;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +23,7 @@ public class Pending {
 	private Integer b_id;
 	private String b_title;
 	private String b_content;
-	private Date b_created_at;
+	private LocalDateTime b_created_at;
 	private String status;
 	private String admin_comment;
 	private String rejected_comment;
