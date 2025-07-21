@@ -7,7 +7,7 @@ build/
 /cache/
 
 
-/src\main\resources\application.properties
+/src/main/resources/*.properties
 
 ### STS ###
 .apt_generated
