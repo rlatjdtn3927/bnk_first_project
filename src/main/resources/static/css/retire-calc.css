@@ -3,7 +3,6 @@ body {
 	font-family: 'Pretendard', sans-serif;
 	margin: 0;
 	padding: 0;
-	background-color: #f8f8f8;
 }
 
 .input-section {
@@ -22,6 +21,7 @@ body {
 /*휜색 카드 느낌*/
 .input-block {
 	background-color: #fff;
+	border: 1px solid #ccc;
 	padding: 60px 30px;
 	border-radius: 28px;
 	max-width: 840px;

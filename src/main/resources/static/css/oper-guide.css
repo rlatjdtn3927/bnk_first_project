@@ -88,7 +88,6 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: stretch;
-	background-color: #f9f9f9;
 	border-bottom: 1px solid #ccc;
 	max-width: 1200px;
 	margin: 0 auto;
@@ -103,7 +102,7 @@ body {
 	background: none;
 	border: none;
 	cursor: pointer;
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 700;
 	color: #333;
 	border-bottom: 3px solid transparent;
@@ -122,6 +121,12 @@ body {
 
 .tab-menu button:hover {
 	background-color: #eee;
+}
+
+@media (max-width: 768px) {
+  	.tab-menu button {
+  		font-size: 13px;
+  	}
 }
 
 /*자산운용 프로세스 탭*/
@@ -145,7 +150,7 @@ body {
 	font-size: 18px;
 	color: #333;
 	list-style-type: none;
-	padding-left: 35px;
+	padding-left: 10px;
 }
 
 .image-wrapper {
@@ -225,6 +230,10 @@ body {
     border: none;
     align-items: center;
   }
+  
+  .section ul {
+  	font-size: 16px;
+  }
 
   /* 이미지: 줄바꿈 시점(768px)부터 고정된 크기 유지 */
   .small-img {
@@ -237,7 +246,6 @@ body {
 
   /* 안내 박스도 살짝 축소 */
   .notice-box {
-    width: 90%;
     font-size: 13px;
   }
 
