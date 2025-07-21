@@ -115,7 +115,7 @@ html, body {
   align-items:center;     
   gap:18px;         
   margin-top:50px;
-  padding:0 30px;
+  padding:0 20px;
 }
 
 .search-box {
@@ -171,7 +171,7 @@ html, body {
 .search-tags{
   display:flex;
   justify-content:center;
-  flex-wrap:wrap;
+  flex-wrap:nowrap;
   gap:12px;
   margin-top:18px;
 }
@@ -188,6 +188,7 @@ html, body {
   overflow:hidden;
   transition:transform .25s ease, box-shadow .25s ease;
   box-shadow:0 2px 6px rgba(0,0,0,.06);
+  white-space: nowrap;
 }
 .search-tag::before{        
   content:'';
@@ -242,7 +243,7 @@ html, body {
               border-bottom:2px solid #ddd}
 .section-title{font-size:24px;font-weight:800;margin-bottom:30px;text-align:left}
 .card-wrapper{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;margin-bottom:0}
-.info-card{flex:1 1 calc(33.333% - 14px);min-width:260px; min-height: 200px; background:#fff;border:1px solid #ddd;border-radius:16px;padding:30px 25px ;display:flex;box-sizing:border-box;box-shadow:0 4px 12px rgba(0,0,0,.04);transition:transform .2s,box-shadow .2s}
+.info-card{flex:1 1 calc(33.333% - 14px);min-width:260px; min-height: 160px; background:#fff;border:1px solid #ddd;border-radius:16px;padding:30px 25px ;display:flex;box-sizing:border-box;box-shadow:0 4px 12px rgba(0,0,0,.04);transition:transform .2s,box-shadow .2s}
 .info-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
 .card-content{display:flex;flex-direction:column;flex:1}
 .card-content h3{font-size:18px;font-weight:700;margin:0 0 8px}
@@ -345,7 +346,7 @@ html, body {
 .notice-guide-section {
   display: flex;
   gap: 40px;
-  padding: 60px 20px;
+  padding: 60px 0;
   box-sizing: border-box;
   position: relative;
   font-family: 'Pretendard', sans-serif;
@@ -356,14 +357,15 @@ html, body {
   position: absolute;
   top: 60px;
   bottom: 80px;
-  left: 58%;
+  left: 55%;
   width: 1px;
   background: #ddd;
 }
 
 /* 공지사항 영역 */
 .notice-box {
-  flex: 0 0 58%;
+  flex: 0 0 55%;
+  padding-left: 0;
   padding-right: 40px;
   box-sizing: border-box;
 }
@@ -469,7 +471,8 @@ html, body {
     animation: run-move 16s linear infinite, run-bounce .7s ease-in-out infinite alternate;
   }
   .cloud { transform: scale(.9); opacity: .65; }
-  .search-box { padding: 26px 32px; border-radius: 36px; }
+  .search-section {padding: 0 12px;}
+  .search-box { padding: 15px 21px; border-radius: 36px; }
   .search-characters { width: 400px; }
 }
 
@@ -508,14 +511,14 @@ html, body {
   .card-content p,.card-link{font-size:13px}
 
   /* Why 섹션 */
-  .guide-section { flex-direction: column; align-items: center; gap: 20px; padding: 10px 16px 40px; }
-  .guide-info   { order: -1; text-align: center; flex: 0 0 140px;}
-  .guide-card   { width: 100%; min-height: 200px; padding: 16px 16px 100px; }
-  .guide-card img { right: 16px; bottom: 16px; width: 120px; }
-  .guide-arrow  { top: 16px; right: 16px; }
+  .guide-section { flex-direction: column; align-items: center; gap: 20px; padding: 10px 0 40px; }
+  .guide-info   { order: -1; text-align: left; flex: 0 0 120px;}
+  .guide-card   { width: 100%; min-height: 160px; padding: 16px 16px 90px 20px; }
+  .guide-card img { right: 12px; bottom: 16px; width: 95px; }
+  .guide-arrow  { top: 16px; right: 12px; }
 
   /* 공지 + 가이드 */
-  .notice-guide-section { flex-direction: column; }
+  .notice-guide-section { flex-direction: column;   padding: 30px 0px;}
   .notice-guide-section::before { display: none; }
   .notice-box, .guide-box { width: 100%; padding: 0; }
 }
