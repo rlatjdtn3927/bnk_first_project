@@ -1101,6 +1101,7 @@ sidebarMenu.addEventListener('click', e => {
 	else if (action === '사용자 목록') showUserList();
 	else if (action === '사용자 등록') showUserRegistrationForm();
 	else if (action === '사용자 권한 변경') showUserRoleManagement();
+	else if(action === '상품 목록') showCommodityList();
 	else showPlaceholderContent(action);
 });
 
