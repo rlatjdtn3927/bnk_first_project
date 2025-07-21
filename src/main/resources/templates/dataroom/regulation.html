@@ -1,50 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>퇴직연금 규약신고</title>
 <link rel="stylesheet" th:href="@{/css/header.css}" />
 <link rel="stylesheet" th:href="@{/css/footer.css}" />
 <link rel="stylesheet" th:href="@{/css/regulation.css}" />
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>퇴직연금 가입안내</title>
-  <style>
-    body {
-      font-family: '맑은 고딕', sans-serif;
-      line-height: 1.6;
-      padding: 30px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      color: #222;
-      margin-top: 40px;
-    }
-    .box {
-      background: #f3f3f3;
-      padding: 15px;
-      border-left: 5px solid #888;
-      margin: 20px 0;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-      vertical-align: top;
-    }
-    th {
-      background-color: #f9f9f9;
-      width: 25%;
-    }
-    ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-  </style>
 </head>
 <body>
 <!-- header -->
@@ -154,7 +116,7 @@
   	
   	<div class="process-step">
     	<h3 class="step-num">2. 근로자대표 동의 또는 의견청취 절차(법 제4조 제3항)</h3>
-    	<ul>
+    	<ul class="step-ul">
       		<li>• 퇴직연금 규약 최초 작성 시 근로자대표의 의견청취* 또는 동의가 필요하며, 규약을 변경하는 경우 근로자대표의 의견청취로 가능합니다.</li>
       		<li style="margin-left: 12px">※ 12.7.26 이후 새로 성립된 사업의 경우, 근로자대표의 의견청취</li>
       		<li>• 단, 불이익한 변경의 경우 근로자대표의 동의 필요</li>
@@ -192,25 +154,25 @@
     	<h3 class="step-num">5. 퇴직연금제도 도입 및 운영</h3>
     	<p class="step-content">근처 부산은행 점포를 방문하면 제도 도입과 규약 컨설팅을 받을 수 있습니다.</p>
     	<div class="download-buttons">
-      		<button><div class="icon"></div> 알기쉬운 퇴직연금 제도</button>
+      	  <button onclick="downloadPdf()">
+      		<div class="icon"></div> 알기쉬운 퇴직연금 제도
+      	  </button>
     	</div>
   	</div>
 </section>
 <!-- footer -->
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
-
-    </li>
-    
-    <li><strong>규약수리통보서 발급</strong><br>
-    제도 시행 후에는 관련서류를 노동부에 제출하고 제도 등록 완료
-    </li>
-    
-    <li><strong>퇴직연금제도 도입 및 운영</strong><br>
-    회사가 거래중인 하나은행 영업점 또는 가까운 하나은행 영업점을 방문하여 퇴직연금 제도 도입 문의 시 회사에 맞는<br>
-    규약 컨설팅을 비롯한 규약신고 절차 전반에 관한 도움을 받으실 수 있습니다.
-    </li>
-  </ol>
-  <div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script>
+  function downloadPdf() {
+    const link = document.createElement('a');
+    link.href = '/pdf/guide/알기쉬운 퇴직연금.pdf';
+    link.download = '알기쉬운 퇴직연금.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
 <script th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>

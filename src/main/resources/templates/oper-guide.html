@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-<title>퇴직연금 가이드</title>
+<title>퇴직연금 - 자산운용 가이드</title>
 <link rel="stylesheet" th:href="@{/css/header.css}" />
 <link rel="stylesheet" th:href="@{/css/footer.css}" />
 <link rel="stylesheet" th:href="@{/css/oper-guide.css}" />
@@ -80,13 +80,11 @@
   		<!-- 왼쪽은 텍스트 -->
   		<div class="flex-text">
 		  	<h2>분산투자</h2>
-		  	<br>
 		  	<h3>대상의 분산</h3>
 			<ul>
 			    <li>• 분산투자란 1개의 금융상품만으로 운용하는 것이 아니고 몇 개의 상품으로 나누어 운용하는 것을 말합니다.</li>
 			    <li>• 상품의 분산투자를 통해 일부 상품의 수익이 마이너스의 경우에도 다른상품에서 얻은 수익이 이를 보완하여 전체적인 위험을 줄일 수 있습니다.</li>
 			</ul>
-			<br>
 			<h3>투자시기의 분산</h3>
 			<ul>
 			    <li>• 운용상품의 시점을 분산시키는 것을 말합니다.</li>
@@ -105,13 +103,11 @@
 	
 		<div class="flex-text">
 		  	<h2>장기투자</h2>
-		  	<br>
 		  	<h3>장기투자</h3>
 			<ul>
 			    <li>• 주식과 같이 단기적으로는 가격이 급하게 오르거나 내려 가격변동이 심하게 되는 경우가 많이 있으나 장기적으로 보면 가격은 완만하게 등락을 하고 있음을 알 수 있습니다.
 			     	따라서 투자를 하는 경우 장기적인 안목으로 운용의 성과를 기대하는 것이 중요합니다.</li>
 			</ul>
-			<br>
 			<h3>복리효과</h3>
 			<ul>
 			    <li>• 복리효과란 ‘이자가 이자를 낳은 효과’라고 할 수 있습니다.</li>
@@ -131,7 +127,7 @@
 	
 	<div class="flex-row">
 		<div class="flex-text">
-			<h2>퇴직연금에는 위험 관리를 위한 투자가능 한도가 적용됩니다.</h2><br>
+			<h2>퇴직연금에는 위험 관리를 위한 투자가능 한도가 적용됩니다.</h2>
 			<p>퇴직연금 감독규정에서는 제도 별로 투자 가능한 운용방법에 대하여 투자한도를 제한하고 있습니다.<br>
 			이는 위험한 운용방법에 투자를 하였을 때 생길 수 있는 큰 손실을 방지하여 근로자의 퇴직급여 수급권을 보호하기 위한 것입니다.
 			</p>
@@ -144,7 +140,6 @@
   	<br><hr class="custom-hr2">
   	
   	<h2>원리금비보장 자산 종류별 투자금지 대상</h2>
-  	<br>
   	<table class="ban-table">
   		<thead>
   			<tr>
@@ -189,7 +184,6 @@
   	</table>
   	
   	<h2>원리금비보장 자산 운용 규제</h2>
-  	<br>
   	<table class="ban-table">
   		<thead>
   			<tr>
@@ -227,13 +221,13 @@
   	
   	
 	<!-- 투자한도 관련 pdf 파일 -->
-	<div class="notice-box">
-	  	<div class="notice-header" onclick="toggleNotice()">
+	<div class="notice-box" >
+	  	<div class="notice-header" onclick="noticeBox()">
 		  	<span>퇴직연금가이드북.pdf</span>
 		  	<span id="toggle-icon">＋</span>
 	  	</div>
 	  	<div class="notice-content" id="notice-content">
-	  		
+	  		<a href="/pdf/퇴직연금가이드북.pdf" target="_blank">퇴직연금 가이드북.pdf</a>
 	  	</div>
 	</div>
 </div>
@@ -266,8 +260,7 @@
 			firstTabButton.click();
 		}
 	});
-
-
+	
 	// 프로세스 내용의 안내 부분
 	function toggleNotice() {
 		const content = document.getElementById("notice-content");
@@ -276,6 +269,19 @@
 		
 		content.style.display = isVisible ? "none" : "block";
 		icon.textContent = isVisible ? "＋" : "－";
+	}
+	
+	//투자제한 관련 pdf
+	function noticeBox() {
+		event.stopPropagation(); // 자식 요소에서 부모로 이벤트 전파 방지
+		
+		const content = document.getElementById("notice-content");
+		const icon = document.getElementById("toggle-icon");
+
+		const isOpen = content.style.display === "block";
+
+		content.style.display = isOpen ? "none" : "block";
+		icon.textContent = isOpen ? "＋" : "－";
 	}
 </script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
