@@ -1,33 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>계약서 리스트</title>
+<meta charset="UTF-8" />
+<title>퇴직연금 - 운용관리 및 자산관리 약관</title>
+<link rel="stylesheet" th:href="@{/css/header.css}" />
+<link rel="stylesheet" th:href="@{/css/footer.css}" />
+<link rel="stylesheet" th:href="@{/css/asset.css}" />
 </head>
 <body>
+<!-- header -->
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+<!-- 경로 표시 -->
+<div th:replace="~{fragments/location :: location(category1='공시', category2='운용관리 및 자산관리 약관')}"></div>
 
-<h2>운용관리/자산관리 계약 약관</h2>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>첨부파일</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="contract : ${contractList}">
-            <td th:text="${contract.orderIndex}">1</td>
-            <td th:text="${contract.title}">제목</td>
-            <td>
-                <a th:href="@{/pdf/asset/{file}(file=${contract.fileName})}">
-                    <button>⬇</button>
-                </a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="section">
+	<h2 class="title">운용관리 및 자산관리 계약 약관</h2>
+	<p>퇴직연금 제도별 운용관리 및 자산관리 계약약관입니다.</p>
+	
+	<div class="card-grid">
+	  <div class="card" th:each="contract : ${contractList}">
+	  <div class="card-header">
+		  <!-- 카드 제목 조건별 출력 -->
+		  <div class="title-wrapper">
+		    <h3 th:if="${contract.title.contains('확정급여형')}" >확정급여형(DB)</h3>
+	        <h3 th:if="${contract.title.contains('확정기여형')}" >확정기여형(DC)</h3>
+	        <h3 th:if="${contract.title.contains('기업형')}" >개인형 퇴직연금제도(기업형)</h3>
+	        <h3 th:if="${contract.title.contains('개인형')}" >개인형 퇴직연금제도(개인형)</h3>
+	        <h3 th:if="${contract.title.contains('개정')}" >계약서 개정 대비표</h3>
+	      </div>
+	      <!-- 아이콘 조건별 출력 -->
+	      <div class="icon">
+	        <img th:if="${contract.title.contains('확정급여형')}" src="/images/pig.png" alt="DB 아이콘">
+	        <img th:if="${contract.title.contains('확정기여형')}" src="/images/pig2.png" alt="DC 아이콘">
+	        <img th:if="${contract.title.contains('기업형')}" src="/images/building.png" alt="기업형 아이콘">
+	        <img th:if="${contract.title.contains('개인형')}" src="/images/hand.png" alt="개인형 아이콘">
+	        <img th:if="${contract.title.contains('개정')}" src="/images/coin.png" alt="개정 아이콘">
+	      </div>
+      </div>
+      <!-- 파일 다운로드 버튼 -->
+      <div class="button-group">
+        <a th:if="${contract.fileName.contains('운용관리')}" 
+           th:href="@{/pdf/asset/{file}(file=${contract.fileName})}">
+          <button>운용관리 계약서</button>
+        </a>
+        <a th:if="${contract.fileName.contains('자산관리')}"
+           th:href="@{/pdf/asset/{file}(file=${contract.fileName})}">
+          <button>자산관리 신탁 계약서</button>
+        </a>
+        <a th:if="${contract.fileName.contains('개정')}"
+           th:href="@{/pdf/asset/{file}(file=${contract.fileName})}">
+          <button>계약서 개정 대비표</button>
+        </a>
+      </div>
+    </div>
+	</div>
+</div>
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <script th:src="@{/js/chatbot.js}"></script>
 </body>
