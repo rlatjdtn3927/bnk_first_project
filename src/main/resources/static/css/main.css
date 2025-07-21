@@ -238,7 +238,7 @@ html, body {
 
 /* 3. 퇴직연금 카드 ---------------------------------------------*/
 .card-section{margin:100px 0 20px;
-              padding-bottom:50px;
+              padding-bottom:60px;
               border-bottom:2px solid #ddd}
 .section-title{font-size:24px;font-weight:800;margin-bottom:30px;text-align:left}
 .card-wrapper{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;margin-bottom:0}
@@ -251,10 +251,18 @@ html, body {
 .card-link:hover{text-decoration:underline}
 
 /* 4. Why 부산은행 섹션 -----------------------------------------*/
+.guide-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  flex: 1 1 200px; /* guide-card와 동일하게 맞춤 */
+  min-width: 200px;
+}
+
 .guide-section {
   display: flex;
   gap: 40px;
-  padding: 20px 0px 40px;
+  padding: 40px 0px 60px;
   border-bottom: 2px solid #ddd;
   flex-wrap: wrap;
   box-sizing: border-box;
