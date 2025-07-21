@@ -5,6 +5,21 @@ body {
 	color: #222;
 }
 
+button {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  display: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  z-index: 1000;
+}
+
 /* 기본 영역 */
 .section {
   max-width: 1200px;
@@ -19,17 +34,20 @@ body {
 }
 
 .subtitle {
-  font-size: 18px;
-  margin-top: 20px;
-  font-weight: 500;
+  font-size: 24px;
+  margin-top: 25px;
   line-height: 1.4;
 }
 
-.subtitle span {
-	font-weight: 300;
-	font-size: 15px;
+.notice {
+	line-height: 1.6;
+	margin-top: 30px;
 }
 
+.red-line {
+	border-left: 5px solid #D71921;
+	margin-right: 10px;
+}
 
 /* ===== 테이블 기본 ===== */
 .table-section {
@@ -51,29 +69,16 @@ body {
 
 }
 
-.table-section td {
-  background-color: #fff;
-}
-
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
+  margin-top: 10px;
+  margin-bottom: 60px;
 }
 
 .fee-table th:nth-child(1),
 .fee-table td:nth-child(1) {
   width: 20%; /* 1열 크기 */
-}
-
-.notice {
-	line-height: 1.6;
-	margin-top: 40px;
-	margin-bottom: 50px;
-}
-
-.red-line {
-	border-left: 5px solid #D71921;
-	margin-right: 10px;
 }
 
 /* 모바일 대응 */
@@ -91,7 +96,7 @@ body {
   }
   
   .subtitle {
-    font-size: 15px;
+    font-size: 18px;
   }
   
   .notice {
@@ -99,10 +104,6 @@ body {
   }
   
 }
-
-
-
-
 
 
 
