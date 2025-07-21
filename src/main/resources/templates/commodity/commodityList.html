@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!--모바일용-->
-    <title>상품 페이지</title>
-	
-	<!------------------------------------------I have to handle analysis post case + condition is somewhat wrong ----------------------------------------------------------->
-	
+    <title>상품 페이지</title>	
     <!-- external css -->
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
@@ -20,8 +17,7 @@
 <div th:replace="~{fragments/location :: location(category1='상품 안내', category2='')}"></div>
 
 
-<div class="container">
-
+<div class="wrapper">
     <!-- ---------- Header + Search ---------- -->
     <header class="page-header">
         <h1>퇴직연금 상품찾기</h1>
