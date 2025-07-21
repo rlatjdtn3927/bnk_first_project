@@ -44,6 +44,9 @@ public class VectorStoreInitializer {
 
     public void init() {
         try {
+        	vectorStore.getAll().clear();
+            System.out.println("🧹 vectorStore 초기화 완료 (중복 로딩 방지)");
+        	
             if (!vectorStore.getAll().isEmpty()) {
                 System.out.println("🟡 이미 메모리에 벡터 있음 → 로딩 생략");
                 vectorStore.markInitialized();

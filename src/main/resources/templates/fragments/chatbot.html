@@ -1,51 +1,20 @@
 <!-- templates/fragments/chatbot.html -->
 <div th:fragment="chatbot">
-  <!-- 오른쪽 상단 고정 챗봇 버튼 -->
-<div id="chatbot-floating-btn"
-     style="position: fixed; top: 20px; right: 20px; z-index: 1000;
-            background-color: #007bff; color: white; font-size: 24px;
-            border-radius: 50%; width: 60px; height: 60px;
-            display: flex; justify-content: center; align-items: center;
-            cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-  💬
-</div>
+  <!-- 챗봇 버튼 -->
+  <div id="chatbot-floating-btn">💬</div>
 
-<!-- 배경 어둡게 (모달 열릴 때만 보임) -->
-<div id="chatbot-modal-bg"
-     style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.4); z-index: 999;">
-</div>
+  <!-- 배경 -->
+  <div id="chatbot-modal-bg"></div>
 
-<!-- 챗봇 모달창 -->
-<div id="chatbot-modal"
-     style="display: none; position: fixed; bottom: 100px; right: 20px; width: 400px; height: 600px;
-            background-color: white; border: 1px solid #ccc; z-index: 1001;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3); border-radius: 10px; flex-direction: column;">
-  
-  <!-- 상단 닫기 버튼 -->
-  <div style="display: flex; justify-content: flex-end; padding: 10px;">
-    <button id="chatbot-close-btn"
-            style="background: none; border: none; font-size: 20px; cursor: pointer;">
-      ✖
-    </button>
+  <!-- 챗봇 모달 -->
+  <div id="chatbot-modal">
+    <div style="display: flex; justify-content: flex-end; padding: 10px;">
+      <button id="chatbot-close-btn">✖</button>
+    </div>
+    <div id="chatbot-messages"></div>
+    <form id="chatbot-form">
+      <input id="chatbot-input" type="text" placeholder="메시지를 입력하세요..." />
+      <button type="submit">전송</button>
+    </form>
   </div>
-
-  <!-- 메시지 영역 -->
-  <div id="chatbot-messages"
-       style="flex: 1; padding: 20px; overflow-y: auto; font-size: 14px; line-height: 1.4;">
-  </div>
-
-  <!-- 입력 영역 -->
-  <form id="chatbot-form" style="display: flex; border-top: 1px solid #eee;">
-    <input id="chatbot-input" type="text"
-           placeholder="메시지를 입력하세요..."
-           style="flex: 1; padding: 10px; border: none; outline: none; font-size: 14px;">
-    <button type="submit"
-            style="padding: 10px 15px; background-color: #007bff; color: white;
-                   border: none; cursor: pointer; font-size: 14px;">
-      전송
-    </button>
-  </form>
-</div>
-
 </div>
