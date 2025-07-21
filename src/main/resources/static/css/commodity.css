@@ -469,13 +469,8 @@
 		  	#filterModal .modal-body{ 
 			    height: auto;
 		  	}
-		  	.dropdown-options {
-			    display: block;
-			    position: static;
-			    min-width: 140px;
-			    max-width: 140px;  
-			}
-			.selectors {
+		  	.selectors {
+		  		box-sizing: border-box;
 				height: auto;
 			    padding: 10px;
 			    display:none;
@@ -484,11 +479,23 @@
 			    row-gap: 1rem;
 			    justify-items: center;  /* 가로 정렬 (열 기준) */
 			}
-			.dropdown-toggle {
-			  pointer-events: none;
-			  min-width: 140px;
-			  max-width: 140px;
+			.dropdown-box {
+			  box-sizing: border-box;
+			  width: 140px;
+            }
+		  	.dropdown-options {
+			    display: block;
+			    box-sizing: border-box;
+			    position: static;
+			    min-width: 100%;  
 			}
+
+			.dropdown-toggle {
+			  box-sizing: border-box;
+			  pointer-events: none;
+			  min-width: 100%;
+			}
+
 			/*------아래 분석 모달--------*/
 			.modal-content{ 
 				max-height: 90%;
