@@ -1,5 +1,8 @@
 package com.example.pension_project.admin.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,4 +51,17 @@ public class MemberService {
 		System.out.println("(MemberService)요청받은 사용자 이름: "+ username);
 		return convertToDto(memberRepository.findByUsername(username));
 	}
+	
+	//사용자 정보 로딩
+	public List<MemberDto> getMemberList() {
+		List<Member>list = memberRepository.findAll();
+		List<MemberDto> dtoList = new ArrayList<>();
+		for(Member m : list) {
+			MemberDto memberDto = convertToDto(m);
+			dtoList.add(memberDto);
+		}
+		return dtoList;
+	}
+	//사용자 정보 상세 조회
+	
 }

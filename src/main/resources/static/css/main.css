@@ -1,10 +1,16 @@
-body, html {
+
+/* 0. 기본 공통 ---------------------------------------------------*/
+html, body {
   margin: 0;
   padding: 0;
   font-family: 'Pretendard', sans-serif;
+  color: #111;
+  background: #fff;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 공통 중앙 정렬 wrapper */
+/* 공통 내부 최대 폭 래퍼 */
 .main-inner {
   max-width: 1200px;
   margin: 0 auto;
@@ -12,47 +18,49 @@ body, html {
   box-sizing: border-box;
 }
 
-/* ① 배너 전체 래퍼 */
-.banner-wrapper {
-  margin-top: 70px;
-  box-sizing: border-box;
-  position: relative;
-  width: 100%;
-  height: 60vh;
-  background: #ffeef0;
-  overflow: hidden;
+.section-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 30px;
 }
 
-/* ② 하늘 배경 + 구름 */
+/* 1. 배너 -------------------------------------------------------*/
+.banner-wrapper {
+  position: relative;
+  width: 100%;
+  height: 65vh;
+  min-height: 420px;
+  margin-top: 70px; /* 헤더 높이 여백 */
+  background: #ffeef0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 하늘 배경 + 그라디언트 */
 .sky {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, #ffeef0, #ffffff);
+  inset: 0;
+  background: linear-gradient(to bottom, #ffeef0 0%, #ffffff 100%);
   z-index: 1;
 }
 
+/* 구름 */
 .cloud {
   position: absolute;
-  background: #fff;
-  border-radius: 50%;
-  opacity: 0.7;
-  box-shadow:
-    30px 0px 0px #fff,
-    60px 10px 0px #fff,
-    90px -5px 0px #fff;
   width: 80px;
   height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: .7;
+  box-shadow: 30px 0 0 #fff, 60px 10px 0 #fff, 90px -5px 0 #fff;
   z-index: 2;
 }
 .cloud1 { top: 10%; left: 10%; transform: scale(1.2); }
 .cloud2 { top: 20%; left: 60%; transform: scale(1); }
-.cloud3 { top: 5%;  left: 30%; transform: scale(0.9); }
+.cloud3 { top:  5%; left: 30%; transform: scale(.9); }
 .cloud4 { top: 12%; left: 75%; transform: scale(1.1); }
 
-/* ③ 트랙 */
+/* 트랙 (SVG가 HTML에 직접 배치됨) */
 .track {
   position: absolute;
   bottom: 0;
@@ -63,37 +71,36 @@ body, html {
   z-index: 2;
 }
 
-/* ④ 캐릭터 */
+/* 캐릭터 */
 .runner {
   position: absolute;
   bottom: 11vh;
-  height: 26vh;
   left: -20%;
+  height: 26vh;
   z-index: 4;
-  animation: run-move 15s linear infinite, run-bounce 0.6s ease-in-out infinite alternate;
+  animation: run-move 15s linear infinite,
+             run-bounce .6s ease-in-out infinite alternate;
 }
-
 @keyframes run-move {
-  0% { left: -20%; }
+  0%   { left: -20%; }
   100% { left: 100%; }
 }
-
 @keyframes run-bounce {
   from { transform: translateY(0); }
-  to { transform: translateY(-8px); }
+  to   { transform: translateY(-8px); }
 }
 
-/* ⑤ 텍스트 */
+/* 배너 텍스트 */
 .banner-content {
   position: relative;
-  z-index: 3;
-  text-align: center;
   margin-top: 6vh;
+  text-align: center;
+  z-index: 3;
 }
-
 .banner-content h1 {
   font-size: clamp(28px, 2.8vw, 42px);
-  margin-bottom: 0.4em;
+  margin: 0 0 .4em;
+  font-weight: 800;
 }
 .banner-content p {
   font-size: clamp(18px, 1.6vw, 20px);
@@ -101,97 +108,34 @@ body, html {
   color: #5a3a2f;
 }
 
-/* ⑥ 반응형 - 태블릿용 (769px~1024px) */
-@media (max-width: 1024px) and (min-width: 769px) {
-  .runner {
-    height: 24vh;
-    bottom: 12vh;
-    animation: run-move 16s linear infinite, run-bounce 0.7s ease-in-out infinite alternate;
-  }
-
-  .cloud {
-    transform: scale(0.9);
-    opacity: 0.65;
-  }
-
-  .search-characters {
-    width: 400px;
-  }
-
-  .search-box {
-    padding: 26px 32px;
-    border-radius: 36px;
-  }
-}
-
-/* ⑦ 반응형 - 모바일 */
-@media screen and (max-width: 768px) {
-  .banner-wrapper {
-    height: 65vh;
-  }
-
-  .banner-content {
-    margin-top: 5vh;
-    padding: 0 16px;
-  }
-
-  .banner-content h1 {
-    font-size: clamp(22px, 5vw, 36px);
-  }
-
-  .banner-content p {
-    font-size: clamp(14px, 3.5vw, 18px);
-  }
-
-  .runner {
-    bottom: 13vh;
-    height: 28vh;
-    animation: run-move 18s linear infinite, run-bounce 0.8s ease-in-out infinite alternate;
-  }
-
-  .cloud {
-    transform: scale(0.8);
-    opacity: 0.6;
-  }
-
-  .cloud1 { top: 8%;  left: 5%; }
-  .cloud2 { top: 16%; left: 50%; }
-  .cloud3 { top: 4%;  left: 25%; }
-  .cloud4 { top: 10%; left: 75%; }
-
-  .track {
-    height: 25vh;
-    min-height: 100px;
-  }
-}
-
-/* ⑧ 통합 검색 영역 */
-.search-section {
-  margin-top: 40px;
-  padding: 0 20px;
-  display: flex;
-  justify-content: center;
+/* 2. 통합 검색 --------------------------------------------------*/
+.search-section{
+  display:flex;
+  flex-direction:column;  
+  align-items:center;     
+  gap:18px;         
+  margin-top:50px;
+  padding:0 30px;
 }
 
 .search-box {
   position: relative;
-  width: 100%;
-  max-width: 800px;
-  background: white;
-  border-radius: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-  padding: 30px 40px;
   display: flex;
   align-items: center;
+  width: 100%;
+  max-width: 800px;
+  padding: 30px 40px;
+  border-radius: 40px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
   box-sizing: border-box;
 }
 
 .search-text {
   display: flex;
   align-items: center;
+  flex: 1 1 auto;
   font-size: clamp(16px, 1.8vw, 22px);
-  color: #222;
-  z-index: 1;
 }
 
 .search-icon {
@@ -200,18 +144,18 @@ body, html {
   margin-right: 10px;
 }
 
-.search-text input {
-  font-size: clamp(14px, 1.6vw, 20px);
+#search-input {
+  flex: 1 1 auto;
   border: none;
   outline: none;
-  width: 100%;
-  font-family: 'Pretendard', sans-serif;
-  color: #333;
   background: transparent;
-  margin-left: 10px;
+  font-family: inherit;
+  font-size: clamp(14px, 1.6vw, 20px);
+  color: #333;
 }
 
-/* 캐릭터 이미지 */
+
+/* 검색 캐릭터 (옵션) */
 .search-characters {
   position: absolute;
   left: 50%;
@@ -221,256 +165,146 @@ body, html {
   z-index: 2;
 }
 
-/* 모바일 전용 */
-@media screen and (max-width: 768px) {
-  .search-characters {
-    width: 320px;
-  }
-
-  .search-box {
-    padding: clamp(16px, 4vw, 30px) clamp(20px, 6vw, 40px);
-    border-radius: 28px;
-  }
-
-  .search-box input {
-    font-size: 14px;
-  }
-
-  .search-icon {
-    font-size: 16px;
-  }
+/* ---------------------------------
+   Quick‑Search Tags  (검색창 아래)
+----------------------------------*/
+.search-tags{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:18px;
 }
 
+.search-tag{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  padding:10px 24px 9px;
+  font-size:17px;
+  font-weight:600;
+  text-decoration:none;
+  border-radius:9999px;        
+  overflow:hidden;
+  transition:transform .25s ease, box-shadow .25s ease;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+}
+.search-tag::before{        
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(255,255,255,.18);
+  mix-blend-mode:overlay;
+  opacity:0;
+  transition:.25s;
+}
+.search-tag:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+.search-tag:hover::before{ opacity:1; }
 
-/* 퇴직연금 가입 영역 */
-/* 전체 섹션 */
-.card-section {
-  margin: 80px auto;
-  max-width: 1200px;
-  padding: 0 20px;
-  font-family: 'Pretendard', sans-serif;
+/* 색상 – util 색 계열 + 텍스트 대비 조정 */
+.tag-yellow{
+  background:#fdf8e3;
+  color:#7a5b00;
+  border:1px solid #f7e9b5;
+}
+.tag-purple{
+  background:#f6f1fd;
+  color:#50338e;
+  border:1px solid #e2d6fa;
+}
+.tag-green{
+  background:#eefaf2;
+  color:#136b3c;
+  border:1px solid #c7f0d8;
 }
 
-.card-section h2 {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 40px;
-  color: #111;
+/* active(클릭) 효과 */
+.search-tag:active{
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(0,0,0,.05);
 }
 
-/* 카드 감싸는 영역 */
-.card-wrapper {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-/* 개별 카드 */
-.info-card {
-  flex: 1 1 calc(33.333% - 14px);
-  min-width: 280px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 16px;
-  box-sizing: border-box;
-  display: flex;
-  padding: 24px;
-  transition: box-shadow 0.3s ease;
-  height: 220px;
-}
-
-.info-card:hover {
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-/* 카드 내부 콘텐츠 */
-.card-content {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.card-content h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #000;
-}
-
-.card-content p {
-  font-size: 14px;
-  color: #555;
-  flex-grow: 1;
-  line-height: 1.5;
-}
-
-/* 바로가기 링크 */
-.card-link {
-  font-size: 14px;
-  color: #222;
-  text-decoration: none;
-  font-weight: 500;
-  align-self: flex-end;
-}
-
-.card-link:hover {
-  text-decoration: underline;
-}
-
-@media screen and (max-width: 768px) {
-  .card-wrapper {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .info-card {
-    flex: 1 1 100%;
-    height: auto;
-  }
-
-  .card-content h3 {
-    font-size: 17px;
-  }
-
-  .card-content p,
-  .card-link {
-    font-size: 13px;
+/* 모바일 – 글씨/패딩 살짝 축소 */
+@media(max-width:768px){
+  .search-tag{
+    font-size:13px;
+    padding:6px 14px;
   }
 }
 
 
-/* ------------------------- */
-/* 공통 제목 스타일          */
-/* ------------------------- */
-.section-title {
-  font-size: 24px;
-  font-weight: 800;
-  color: #111;
-  margin-bottom: 30px;
-  text-align: left;
-}
+/* 3. 퇴직연금 카드 ---------------------------------------------*/
+.card-section{margin:100px 0 20px;
+              padding-bottom:50px;
+              border-bottom:2px solid #ddd}
+.section-title{font-size:24px;font-weight:800;margin-bottom:30px;text-align:left}
+.card-wrapper{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;margin-bottom:0}
+.info-card{flex:1 1 calc(33.333% - 14px);min-width:260px; min-height: 200px; background:#fff;border:1px solid #ddd;border-radius:16px;padding:30px 25px ;display:flex;box-sizing:border-box;box-shadow:0 4px 12px rgba(0,0,0,.04);transition:transform .2s,box-shadow .2s}
+.info-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.card-content{display:flex;flex-direction:column;flex:1}
+.card-content h3{font-size:18px;font-weight:700;margin:0 0 8px}
+.card-content p{font-size:14px;color:#555;margin:0 0 16px}
+.card-link{font-size:14px;font-weight:500;text-decoration:none;margin-top:auto;align-self:flex-end}
+.card-link:hover{text-decoration:underline}
 
-/* ------------------------- */
-/* ① 퇴직연금 카드 영역      */
-/* ------------------------- */
-.card-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 20px;
-  border-bottom: 2px solid #ddd;
-}
-
-.card-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: space-between;
-}
-
-.info-card {
-  flex: 1 1 300px;
-  background-color: #fff;
-  border: 1px solid #eee;
-  border-radius: 16px;
-  padding: 24px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
-}
-
-.info-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.card-content h3 {
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #222;
-}
-
-.card-content p {
-  font-size: 15px;
-  color: #555;
-  margin-bottom: 16px;
-}
-
-.card-link {
-  font-size: 14px;
-  color: #222;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-/* ------------------------- */
-/* ② Why 부산은행 영역       */
-/* ------------------------- */
+/* 4. Why 부산은행 섹션 -----------------------------------------*/
 .guide-section {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   gap: 40px;
-  padding: 60px 20px;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 20px 0px 40px;
   border-bottom: 2px solid #ddd;
+  flex-wrap: wrap;
+  box-sizing: border-box;
 }
 
 .guide-cards {
   display: flex;
+  flex: 1 1 65%;
   gap: 20px;
   flex-wrap: wrap;
-  flex: 1 1 65%;
   min-width: 300px;
 }
 
 .guide-card {
   position: relative;
   flex: 1 1 200px;
-  background-color: #f5f9ff;
-  border-radius: 16px;
-  padding: 20px;
-  padding-bottom: 100px; /* 이미지 영역 확보 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
   min-height: 220px;
+  padding: 20px 20px 100px;
+  background: #f5f9ff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.06);
+  transition: transform .2s ease, box-shadow .2s ease;
+  box-sizing: border-box;
 }
-
 .guide-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 20px rgba(0,0,0,.12);
 }
 
 .guide-subtitle {
   font-size: 13px;
   color: #999;
-  margin-bottom: 6px;
+  margin: 0 0 6px;
 }
-
 .guide-title {
   font-size: 17px;
   font-weight: 700;
+  margin: 0;
   color: #222;
   line-height: 1.4;
-  margin: 0;
 }
-
 .guide-arrow {
-  font-size: 20px;
-  color: #ccc;
   position: absolute;
   top: 20px;
   right: 20px;
-  transition: color 0.2s;
+  font-size: 20px;
+  color: #ccc;
+  transition: color .2s;
 }
-
-.guide-card:hover .guide-arrow {
-  color: #e30000;
-}
+.guide-card:hover .guide-arrow { color: #e30000; }
 
 .guide-card img {
   position: absolute;
@@ -486,99 +320,28 @@ body, html {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0;
-  text-align: left;
 }
-
-.guide-info .section-title {
-  font-size: 26px;
-  font-weight: 800;
-  color: #111;
+.guide-info h2 {
   margin-bottom: 8px;
+  text-align: center;
 }
-
 .guide-info h3 {
   font-size: 24px;
   color: #666;
   margin: 0;
-}
-
-/* ------------------------- */
-/* 반응형 대응             */
-/* ------------------------- */
-@media screen and (max-width: 768px) {
-
-  /* 카드 섹션 (info-card) */
-  .card-wrapper {
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .card-content h3 {
-    font-size: 16px;
-  }
-
-  .card-content p {
-    font-size: 14px;
-  }
-
-  .card-link {
-    font-size: 13px;
-  }
-
-  /* 가이드 섹션 (guide-card) */
-  .guide-section {
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 16px;
-    gap: 20px;
-  }
-
-  .guide-info {
-    order: -1;
     text-align: center;
-    padding: 0;
-  }
-
-  .guide-cards {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .guide-card {
-    width: 100%;
-    min-height: 200px;
-    padding: 16px;
-    padding-bottom: 100px;
-    text-align: left;
-  }
-
-  .guide-card img {
-    right: 16px;
-    bottom: 16px;
-    width: 65px;
-  }
-
-  .guide-arrow {
-    top: 16px;
-    right: 16px;
-  }
+  
 }
 
+/* 5. 공지 + 가이드 ---------------------------------------------*/
 .notice-guide-section {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 60px 20px;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  box-sizing: border-box;
   gap: 40px;
+  padding: 60px 20px;
+  box-sizing: border-box;
   position: relative;
 }
 
-/* 중앙 세로선 */
 .notice-guide-section::before {
   content: "";
   position: absolute;
@@ -586,63 +349,48 @@ body, html {
   bottom: 80px;
   left: 58%;
   width: 1px;
-  background-color: #ddd;
+  background: #ddd;
 }
-/* 공지사항 */
+
+/* 공지 영역 */
 .notice-box {
   flex: 0 0 58%;
   padding-right: 40px;
   box-sizing: border-box;
 }
-
 .notice-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
 }
-
 .notice-header h2 {
   font-size: 22px;
   font-weight: 800;
   margin: 0;
 }
-
-.notice-header .more-link {
+.more-link {
   font-size: 14px;
   color: #333;
   text-decoration: none;
 }
-
 .notice-list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
-
 .notice-list li {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
   border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
 }
+.notice-title { font-size: 16px; font-weight: 500; }
+.notice-date  { font-size: 14px; color: #999; margin-top: 4px; }
 
-.notice-title {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.notice-date {
-  font-size: 14px;
-  color: #999;
-  margin-top: 4px;
-}
-
-/* 퇴직연금 이해하기 */
+/* 가이드 박스 */
 .guide-box {
   flex: 0 0 42%;
-  box-sizing: border-box;
 }
-
 .guide-box h2 {
   font-size: 22px;
   font-weight: 800;
@@ -653,56 +401,82 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  text-decoration: none;
-  border-radius: 14px;
   padding: 16px 20px;
   margin-bottom: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,.05);
+  transition: transform .2s ease, box-shadow .2s ease;
   min-height: 80px;
+  color: inherit;
 }
-
 .guide-item:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 18px rgba(0,0,0,.1);
 }
+.item-text { font-size: 16px; font-weight: 600; }
+.item-img  { width: 50px; height: 50px; object-fit: contain; }
 
-.item-text {
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-}
+/* 배경색 util */
+.yellow { background: #fdf8e3; }
+.purple { background: #f6f1fd; }
+.green  { background: #eefaf2; }
 
-.item-img {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-}
-
-/* 배경색 클래스 */
-.yellow {
-  background-color: #fdf8e3;
-}
-.purple {
-  background-color: #f6f1fd;
-}
-.green {
-  background-color: #eefaf2;
-}
-
-/* 반응형 처리 */
-@media screen and (max-width: 1024px) {
-  .notice-guide-section {
-    flex-direction: column;
+/* 6. 반응형 -----------------------------------------------------*/
+@media (max-width: 1024px) and (min-width: 769px) {
+  .runner {
+    height: 24vh;
+    bottom: 12vh;
+    animation: run-move 16s linear infinite, run-bounce .7s ease-in-out infinite alternate;
   }
+  .cloud { transform: scale(.9); opacity: .65; }
+  .search-box { padding: 26px 32px; border-radius: 36px; }
+  .search-characters { width: 400px; }
+}
 
-  .notice-guide-section::before {
-    display: none;
+@media (max-width: 768px) {
+  /* 배너 & 러너 */
+  .banner-wrapper { height: 65vh; }
+  .banner-content { margin-top: 5vh; padding: 0 16px; }
+  .banner-content h1 { font-size: clamp(22px, 5vw, 36px); }
+  .banner-content p  { font-size: clamp(14px, 3.5vw, 18px); }
+  .runner {
+    height: 28vh;
+    bottom: 13vh;
+    animation: run-move 18s linear infinite, run-bounce .8s ease-in-out infinite alternate;
   }
+  .cloud { transform: scale(.8); opacity: .6; }
+  .cloud1 { top: 8%;  left: 5%; }
+  .cloud2 { top: 16%; left: 50%; }
+  .cloud3 { top: 4%;  left: 25%; }
+  .cloud4 { top: 10%; left: 75%; }
+  .track { height: 25vh; min-height: 100px; }
 
-  .notice-box,
-  .guide-box {
-    width: 100%;
-    padding: 0;
+  /* 검색 */
+  .search-box {
+    padding: clamp(16px, 4vw, 30px) clamp(20px, 6vw, 40px);
+    border-radius: 28px;
   }
+  .search-characters { width: 320px; }
+  .search-text{font-size:18px}
+  .search-icon{font-size:18px}
+  #search-input{font-size:16px}
+
+  /* 카드 */
+  .card-wrapper{flex-direction:column;gap:16px}
+  .info-card{padding:30px 18px;min-width:unset}
+  .card-content h3{font-size:17px}
+  .card-content p,.card-link{font-size:13px}
+
+  /* Why 섹션 */
+  .guide-section { flex-direction: column; align-items: center; gap: 20px; padding: 10px 16px 40px; }
+  .guide-info   { order: -1; text-align: center; flex: 0 0 140px;}
+  .guide-card   { width: 100%; min-height: 200px; padding: 16px 16px 100px; }
+  .guide-card img { right: 16px; bottom: 16px; width: 120px; }
+  .guide-arrow  { top: 16px; right: 16px; }
+
+  /* 공지 + 가이드 */
+  .notice-guide-section { flex-direction: column; }
+  .notice-guide-section::before { display: none; }
+  .notice-box, .guide-box { width: 100%; padding: 0; }
 }

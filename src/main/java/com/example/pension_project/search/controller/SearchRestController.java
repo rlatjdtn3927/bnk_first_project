@@ -58,8 +58,8 @@ public class SearchRestController {
         sections.add(new SearchResultSection<>("상품", "디폴트옵션", defaults.size(), defaults));
 
         /* 2) 상품 ─ 원리금보장 */
-//        List<PrincipalDto> principals = principalService.search(keyword);
-//        sections.add(new SearchResultSection<>("상품", "원리금보장", principals.size(), principals));
+        List<PrincipalDto> principals = principalService.search(keyword);
+        sections.add(new SearchResultSection<>("상품", "원리금보장", principals.size(), principals));
 
         /* 3) 상품 ─ 펀드 */
         List<FundDto> funds = fundService.search(keyword);

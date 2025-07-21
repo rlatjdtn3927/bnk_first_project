@@ -60,6 +60,12 @@
 				</div>
                 <!-- <img src="/images/search_characters5.png" alt="검색 캐릭터" class="search-characters"> -->
             </div>
+            <div class="search-tags">
+			  <a href="#" class="search-tag tag-yellow" data-keyword="퇴직연금">#퇴직연금</a>
+			  <a href="#" class="search-tag tag-purple" data-keyword="디폴트옵션">#디폴트옵션</a>
+			  <a href="#" class="search-tag tag-green"  data-keyword="부산은행">#부산은행</a>
+			</div>
+            
         </section>
         <section class="card-section">
             <h2 class="section-title">퇴직연금을 가입해보세요</h2>
@@ -171,32 +177,29 @@
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 <!-- body 가장 아래에 추가 -->
 <script>
-  // 엔터 키 입력 처리
-  function handleEnter(event) {
-    if (event.key === "Enter") {
-      submitSearch();
-    }
-  }
+  /* 엔터 입력 */
+  function handleEnter(e){ if(e.key==="Enter") submitSearch(); }
 
-  // 돋보기 클릭 이벤트 등록
-  document.addEventListener("DOMContentLoaded", () => {
-    const button = document.getElementById("search-button");
-    if (button) {
-      button.addEventListener("click", submitSearch);
-    }
+  /* 돋보기 아이콘 */
+  document.addEventListener("DOMContentLoaded",()=>{
+    const btn = document.getElementById("search-button");
+    if(btn) btn.addEventListener("click", submitSearch);
+
+    /* ▼ 해시태그 → 즉시 검색 페이지로 이동 */
+    document.querySelectorAll(".search-tag").forEach(tag=>{
+      tag.addEventListener("click", e=>{
+        e.preventDefault();
+        const kw = tag.dataset.keyword;
+        window.location.href = `/search?keyword=${encodeURIComponent(kw)}`;
+      });
+    });
   });
 
-  // 검색 실행 함수
-  function submitSearch() {
-    const input = document.getElementById("search-input");
+  /* 기존 검색창 제출 */
+  function submitSearch(){
+    const input   = document.getElementById("search-input");
     const keyword = input.value.trim();
-
-    if (!keyword) {
-      alert("검색어를 입력해주세요.");
-      input.focus();
-      return;
-    }
-    
+    if(!keyword){ alert("검색어를 입력해주세요."); input.focus(); return; }
     window.location.href = `/search?keyword=${encodeURIComponent(keyword)}`;
   }
 </script>

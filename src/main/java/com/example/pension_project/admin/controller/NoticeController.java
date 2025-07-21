@@ -1,9 +1,12 @@
 package com.example.pension_project.admin.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.pension_project.admin.dto.CorrectionTest;
 import com.example.pension_project.admin.dto.MemberDto;
 import com.example.pension_project.admin.dto.NoticeDto;
 import com.example.pension_project.admin.dto.PendingDto;
@@ -145,8 +149,16 @@ public class NoticeController {
 				
 				// 결재가 승인된 내용들을 공지사항 데이터베이스에 저장
 				NoticeDto notice = new NoticeDto();
+				// 🔥 중요: b_id를 설정해야 UPDATE가 됩니다
+				notice.setB_id(existingData.getB_id());  // 이 부분이 누락되어 있었습니다!
 				notice.setB_title(existingData.getB_title());
 				notice.setB_content(existingData.getB_content());
+				// 수정 시에는 조회수를 유지하기 위해 기존 Notice 조회 후 설정
+				Optional<NoticeDto> existingNotice = noticeService.getNoticeByBid(existingData.getB_id());
+				if (existingNotice.isPresent()) {
+					notice.setB_view(existingNotice.get().getB_view());
+				}
+				
 				noticeService.registNotice(notice);
 				
 				return ResponseEntity.ok("승인 처리가 완료되었습니다.");
@@ -174,4 +186,74 @@ public class NoticeController {
 			return ResponseEntity.badRequest().body("처리 중 오류가 발생했습니다: " + e.getMessage());
 		}
 	}
+	
+	//수정기능 -------------------------------------------
+	@PostMapping("/updateField")
+	public ResponseEntity<?> updateField(@RequestBody CorrectionTest correction) {
+		System.out.println("넘어온 데이터: "+ correction);
+		//데이터 넘어오는거 확인
+		//넘어온 데이터: CorrectionTest(b_id=1, field=b_title, value=[상품 상세 내역 안내])
+		Map<String, Object> response = new HashMap<>();
+		
+		
+		PendingDto pendingDto = new PendingDto();
+		//수정을 하면 status를 수정으로 바꿔야한다.
+		//1. 넘어온 b_id를 통해 해당하는 자료를 가져와서 데이터를 완성한다.
+		Optional<NoticeDto> notice = noticeService.getNoticeByBid(correction.getB_id());
+		System.out.println("DB에서 넘어온 Notice: "+notice);
+		//2. field에 값을 통해 어떤 값을 바꿀지 분기점을 만든다.
+		if(correction.getField().equals("b_title")) {
+			//제목이 수정된 경우
+			pendingDto.setB_id(notice.get().getB_id());//b_id
+			pendingDto.setB_title(correction.getValue());//b_title
+			pendingDto.setB_content(notice.get().getB_content());//b_content
+			pendingDto.setB_created_at(notice.get().getB_created_at());//b_created_at
+			pendingDto.setAdmin_comment(correction.getAdmin_comment());//admin_comment(구현해야함)
+			//rejected_comment
+			pendingDto.setStatus("수정요청");//status(수정요청으로 등록)
+			
+			System.out.println("제목이 변경됨: "+ pendingDto);
+			//pending 데이터 저장 
+			noticeService.correctionNotice(pendingDto);
+			response.put("success", true); 
+			response.put("message", "수정이 완료되었습니다.");
+			return ResponseEntity.ok(response);
+		}else if(correction.getField().equals("b_content")){
+			//내용이 수정된 경우 
+			pendingDto.setB_id(notice.get().getB_id());//b_id
+			pendingDto.setB_title(notice.get().getB_title());//b_title
+			pendingDto.setB_content(correction.getValue());//b_content
+			pendingDto.setB_created_at(notice.get().getB_created_at());//b_created_at
+			pendingDto.setAdmin_comment(correction.getAdmin_comment());//admin_comment(구현해야함)
+			//rejected_comment
+			pendingDto.setStatus("수정요청");//status(수정요청으로 등록)
+			System.out.println("내용이 변경됨: "+ pendingDto);
+			//pending 데이터 저장
+			noticeService.correctionNotice(pendingDto);
+			response.put("success", true); 
+			response.put("message", "수정이 완료되었습니다.");
+			return ResponseEntity.ok(response);
+		}else {
+			//지정된 양식이 아닌 경우
+			response.put("success",false); 
+			response.put("message", "수정에 실패했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
