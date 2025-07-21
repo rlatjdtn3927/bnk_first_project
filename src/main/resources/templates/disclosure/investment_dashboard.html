@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>퇴직연금 - 적립금 운용금액 및 수익률</title>
 <link rel="stylesheet" th:href="@{/css/header.css}" />
 <link rel="stylesheet" th:href="@{/css/footer.css}" />
@@ -332,15 +333,6 @@
 </div>
 
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
-<p style="margin-top:1em;">
-  <small>
-    * 분기말 기준 적립금과 직전 1년간의 운용수익률을 확인할 수 있습니다.<br>
-    * 상품은 근로자퇴직급여보장법령에 따라 원리금보장상품과 비원리금보장상품으로 구별됩니다.<br>
-    <strong>-원리금 보장상품</strong>: 적격 금융기관이 원리금 지급을 보장하는 상품(예금 등) 및 국공채 등 정부가 원리금 상환을 보장하는 상품<br>
-    <strong>-원리금 비보장상품</strong>: 원리금보장상품 이외의 금융상품<br>
-    * 적립금은 해당분기말(또는 년도말) 잔액입니다.
-  </small>
-</p>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <script th:src="@{/js/chatbot.js}"></script>
 </body>
