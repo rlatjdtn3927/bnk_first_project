@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>공지사항 상세</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+  <link rel="stylesheet" th:href="@{/css/notice-detail.css}" />
+</head>
+
+<!-- 공지 ID를 body의 data 속성으로 전달 -->
+<body th:attr="data-notice-id=${noticeId}">
+<div class="wrapper">
+
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+<div th:replace="~{fragments/location :: location(category1='퇴직연금 이해하기', category2='공지사항')}"></div>
+
+<section class="notice-section">
+  <div class="notice-detail" id="notice-detail">
+    <h3 id="detail-title">제목 로딩 중...</h3>
+    <div class="meta" id="detail-date">날짜 로딩 중...</div>
+    <div class="content" id="detail-content">내용 로딩 중...</div>
+  </div>
+
+  <div class="back">
+    <a href="/dataroom/notice">← 목록으로</a>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
+
+</div>
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const noticeId = document.body.dataset.noticeId;
+
+    if (!noticeId) {
+      showError("공지사항 ID가 존재하지 않습니다.");
+      return;
+    }
+
+    fetch(`/api/notice/${noticeId}`)
+      .then(res => {
+        if (!res.ok) throw new Error("공지사항을 불러올 수 없습니다.");
+        return res.json();
+      })
+      .then(data => {
+        document.getElementById("detail-title").textContent = data.b_title;
+        document.getElementById("detail-date").textContent = new Date(data.b_created_at).toLocaleString();
+        document.getElementById("detail-content").innerHTML = data.b_content;
+      })
+      .catch(err => {
+        showError(err.message);
+      });
+
+    function showError(message) {
+      document.getElementById("detail-title").textContent = "공지사항을 찾을 수 없습니다.";
+      document.getElementById("detail-date").textContent = "";
+      document.getElementById("detail-content").textContent = message;
+    }
+  });
+</script>
+
+</body>
+</html>

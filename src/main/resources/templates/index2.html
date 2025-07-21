@@ -122,34 +122,15 @@
             </div>
         </section>
         <section class="notice-guide-section">
-            <div class="notice-box">
-                <div class="notice-header">
-                    <h2>공지사항 TOP 5</h2>
-                    <a href="#" class="more-link">더보기 &gt;</a>
-                </div>
-                <ul class="notice-list">
-                    <li>
-                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
-                        <p class="notice-date">2025.06.09</p>
-                    </li>
-                    <li>
-                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
-                        <p class="notice-date">2025.06.09</p>
-                    </li>
-                    <li>
-                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
-                        <p class="notice-date">2025.06.09</p>
-                    </li>
-                    <li>
-                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
-                        <p class="notice-date">2025.06.09</p>
-                    </li>
-                    <li>
-                        <p class="notice-title">퇴직연금 상품제안서(전체상품목록) 2025년 06월 기준</p>
-                        <p class="notice-date">2025.06.09</p>
-                    </li>
-                </ul>
-            </div>
+			<div class="notice-box">
+			  <div class="notice-header">
+			    <h2>공지사항 TOP 5</h2>
+			    <a href="/dataroom/notice" class="more-link">더보기 &gt;</a>
+			  </div>
+			  <ul class="notice-list" id="top5-list">
+			    <!-- JS로 삽입 -->
+			  </ul>
+			</div>
 
             <div class="guide-box">
                 <h2>퇴직연금 이해하기</h2>
@@ -159,13 +140,13 @@
                     <img src="/images/icon_money.png" alt="연금 제도 아이콘" class="item-img" />
                 </a>
 
-                <a href="#" class="guide-item purple">
+                <a href="/retriement-type" class="guide-item purple">
                     <span class="item-text">연금 종류</span>
                     <img src="/images/icon_pig.png" alt="연금 종류 아이콘" class="item-img" />
                 </a>
 
-                <a href="#" class="guide-item green">
-                    <span class="item-text">가입 프로세스</span>
+                <a href="/oper-guide" class="guide-item green">
+                    <span class="item-text">퇴직연금 가이드</span>
                     <img src="/images/icon_hand.png" alt="가입 프로세스 아이콘" class="item-img" />
                 </a>
             </div>
@@ -202,6 +183,40 @@
     if(!keyword){ alert("검색어를 입력해주세요."); input.focus(); return; }
     window.location.href = `/search?keyword=${encodeURIComponent(keyword)}`;
   }
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("/api/notice/top")
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("top5-list");
+        data.forEach(notice => {
+          const li = document.createElement("li");
+
+          const title = document.createElement("p");
+          title.className = "notice-title";
+
+          const link = document.createElement("a");
+          link.href = `/notice/${notice.b_id}`;
+          link.textContent = notice.b_title;
+          title.appendChild(link);
+
+          const date = document.createElement("p");
+          date.className = "notice-date";
+          const created = new Date(notice.b_created_at);
+          date.textContent = created.toISOString().slice(0, 10).replace(/-/g, ".");
+
+          li.appendChild(title);
+          li.appendChild(date);
+
+          list.appendChild(li);
+        });
+      })
+      .catch(err => {
+        document.getElementById("top5-list").innerHTML =
+          "<li><p class='notice-title'>공지사항을 불러올 수 없습니다.</p></li>";
+      });
+  });
 </script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <script th:src="@{/js/chatbot.js}"></script>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>공지사항</title>
+  <link rel="stylesheet" th:href="@{/css/header.css}" />
+  <link rel="stylesheet" th:href="@{/css/footer.css}" />
+  <link rel="stylesheet" th:href="@{/css/notice.css}" />
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: mainHeader}"></div>
+<div th:replace="~{fragments/location :: location(category1='퇴직연금 이해하기', category2='공지사항')}"></div>
+
+<section class="notice-section">
+  <h2>공지사항</h2>
+  <ul id="notice-list" class="notice-list"></ul>
+  <div class="pagination" id="pagination"></div>
+</section>
+
+<div th:replace="~{fragments/footer :: mainFooter}"></div>
+
+<script>
+let currentPage = 0;
+const pageSize = 10;
+
+document.addEventListener("DOMContentLoaded", function () {
+  loadNotices(currentPage);
+});
+
+function loadNotices(page) {
+  fetch(`/api/notice?page=${page}&size=${pageSize}`)
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById("notice-list");
+      list.innerHTML = "";
+
+      data.content.forEach(notice => {
+        const li = document.createElement("li");
+        li.className = "notice-item";
+        li.innerHTML = `
+          <a href="/notice/${notice.b_id}">${notice.b_title}</a>
+          <span class="date">${new Date(notice.b_created_at).toLocaleDateString()}</span>
+        `;
+        list.appendChild(li);
+      });
+
+      renderPagination(data);
+    });
+}
+
+function renderPagination(data) {
+  const pagination = document.getElementById("pagination");
+  pagination.innerHTML = "";
+
+  for (let i = 0; i < data.totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i + 1;
+    if (i === data.number) {
+      btn.classList.add("active");
+    }
+    btn.onclick = () => {
+      currentPage = i;
+      loadNotices(i);
+    };
+    pagination.appendChild(btn);
+  }
+}
+</script>
+
+</body>
+</html>
