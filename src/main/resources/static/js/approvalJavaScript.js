@@ -1085,6 +1085,7 @@ topMenu.addEventListener('click', e => {
 	else if (menuKey === 'approval') showPendingNoticeList();
 	else if (menuKey === 'management') showUserList();
 	else if (menuKey === 'logout') logout();
+	else if(menuKey === 'product') showCommodityList();
 	else showPlaceholderContent(menuKey);
 });
 
@@ -1830,4 +1831,11 @@ function applyRoleChange(userid) {
 				alert('Error: ' + err.message);
 			});
 	}
+}
+
+/**************상품 관련 함수****************/
+
+function showCommodityList() {
+	mainContentArea.innerHTML;
+
 }
