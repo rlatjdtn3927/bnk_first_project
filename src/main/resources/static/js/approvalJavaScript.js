@@ -11,10 +11,10 @@ function logout() {
 		});
 }
 
-// --- DOM Elements --- (HTML 구조에 맞게 수정)
-const topMenu = document.querySelector('.topMenu'); // HTML에서는 class="topMenu"
-const sidebarMenu = document.getElementById('sidebarMenu'); // HTML에서는 id="sidebarMenu"  
-const mainContentArea = document.getElementById('main-content-area'); // HTML에서는 id="main-content-area"
+//DOM 요소 설정
+const topMenu = document.querySelector('.topMenu'); // HTML class="topMenu"
+const sidebarMenu = document.getElementById('sidebarMenu'); // HTML id="sidebarMenu"  
+const mainContentArea = document.getElementById('main-content-area'); // HTML id="main-content-area"
 
 // 소분류 매뉴 배열
 const submenus = {
@@ -47,9 +47,9 @@ function showNoticeList() {
 
 			console.log("공지사항 개수:", data.length);
 
-			// 🔥 순차 번호 적용 (index + 1)
+			//인덱스 표시
 			let tableRows = data.map((notice, index) => {
-				const sequentialNumber = index + 1; // 1부터 시작하는 순차 번호
+				const sequentialNumber = index + 1;
 				return `
                     <tr>
                         <td>${sequentialNumber}</td>
@@ -63,7 +63,7 @@ function showNoticeList() {
                         <td>
                             <button onclick="viewNoticeContent(${notice.b_id})" 
                                     style="padding: 5px 10px; border: 1px solid #007bff; 
-                                           background: #007bff; color: white; border-radius: 3px; cursor: pointer;">
+                                           background: #f56565; color: white; border-radius: 3px; cursor: pointer;">
                                 보기
                             </button>
                         </td>
@@ -77,7 +77,7 @@ function showNoticeList() {
                     <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
                         <small style="color: #666;">총 ${data.length}개의 공지사항</small>
                         <button onclick="showUserNoticeForm()" 
-                                style="padding: 8px 15px; background: #28a745; color: white; 
+                                style="padding: 8px 15px; background: #F56565; color: white; 
                                        border: none; border-radius: 5px; cursor: pointer;">
                             새 공지사항 작성
                         </button>
@@ -118,26 +118,26 @@ function showNoticeList() {
 
 // 공지사항 상세 보기 함수
 function viewNoticeContent(b_id) {
-    console.log("공지사항 상세 보기 - ID:", b_id);
+	console.log("공지사항 상세 보기 - ID:", b_id);
 
-    fetch('/notice/getNoticeList')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // 해당 ID의 공지사항 찾기
-            const notice = data.find(item => item.b_id == b_id);
+	fetch('/notice/getNoticeList')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			return response.json();
+		})
+		.then(data => {
+			// 해당 ID의 공지사항 찾기
+			const notice = data.find(item => item.b_id == b_id);
 
-            if (!notice) {
-                throw new Error('해당 공지사항을 찾을 수 없습니다.');
-            }
+			if (!notice) {
+				throw new Error('해당 공지사항을 찾을 수 없습니다.');
+			}
 
-            console.log('찾은 공지사항:', notice);
+			console.log('찾은 공지사항:', notice);
 
-            mainContentArea.innerHTML = `
+			mainContentArea.innerHTML = `
                 <div class="approval-section">
                     <div style="margin-bottom: 20px;">
                         <button onclick="showNoticeList()"
@@ -234,15 +234,15 @@ function viewNoticeContent(b_id) {
                 </div>
             `;
 
-            // 인라인 수정 이벤트 리스너 추가
-            initializeInlineEdit();
-            // 통합 버튼 이벤트 리스너 추가
-            initializeUnifiedButtons();
-        })
-        .catch(err => {
-            console.error('공지사항 상세 조회 에러:', err);
-            alert('공지사항 상세 조회 실패: ' + err.message);
-        });
+			// 인라인 수정 이벤트 리스너 추가
+			initializeInlineEdit();
+			// 통합 버튼 이벤트 리스너 추가
+			initializeUnifiedButtons();
+		})
+		.catch(err => {
+			console.error('공지사항 상세 조회 에러:', err);
+			alert('공지사항 상세 조회 실패: ' + err.message);
+		});
 }
 
 // 전역 변수로 수정 상태 관리
@@ -251,375 +251,375 @@ let currentNoticeId = null;
 
 // 인라인 수정 기능 초기화
 function initializeInlineEdit() {
-    const editableElements = document.querySelectorAll('.editable-content');
+	const editableElements = document.querySelectorAll('.editable-content');
 
-    editableElements.forEach(element => {
-        // 호버 효과
-        element.addEventListener('mouseenter', function() {
-            if (!this.classList.contains('editing')) {
-                this.style.backgroundColor = '#e9ecef';
-            }
-        });
+	editableElements.forEach(element => {
+		// 호버 효과
+		element.addEventListener('mouseenter', function() {
+			if (!this.classList.contains('editing')) {
+				this.style.backgroundColor = '#e9ecef';
+			}
+		});
 
-        element.addEventListener('mouseleave', function() {
-            if (!this.classList.contains('editing')) {
-                this.style.backgroundColor = '#f8f9fa';
-            }
-        });
+		element.addEventListener('mouseleave', function() {
+			if (!this.classList.contains('editing')) {
+				this.style.backgroundColor = '#f8f9fa';
+			}
+		});
 
-        // 더블클릭 이벤트
-        element.addEventListener('dblclick', function() {
-            startInlineEdit(this);
-        });
-    });
+		// 더블클릭 이벤트
+		element.addEventListener('dblclick', function() {
+			startInlineEdit(this);
+		});
+	});
 }
 
 // 통합 버튼 이벤트 리스너
 function initializeUnifiedButtons() {
-    const saveBtn = document.getElementById('unified-save-btn');
-    const cancelBtn = document.getElementById('unified-cancel-btn');
+	const saveBtn = document.getElementById('unified-save-btn');
+	const cancelBtn = document.getElementById('unified-cancel-btn');
 
-    saveBtn.addEventListener('click', saveAllChanges);
-    cancelBtn.addEventListener('click', cancelAllChanges);
+	saveBtn.addEventListener('click', saveAllChanges);
+	cancelBtn.addEventListener('click', cancelAllChanges);
 }
 
 // 저장 버튼 영역 표시/숨김
 function toggleSaveButtonArea() {
-    const editStatus = document.getElementById('edit-status');
-    const saveBtn = document.getElementById('unified-save-btn');
-    const cancelBtn = document.getElementById('unified-cancel-btn');
-    
-    if (editingElements.size > 0) {
-        // 수정 중일 때
-        editStatus.style.display = 'block';
-        saveBtn.disabled = false;
-        cancelBtn.disabled = false; 
-        saveBtn.style.opacity = '1';
-        cancelBtn.style.opacity = '1';
-        saveBtn.style.cursor = 'pointer';
-        cancelBtn.style.cursor = 'pointer';
-    } else {
-        // 수정 중이 아닐 때
-        editStatus.style.display = 'none';
-        saveBtn.disabled = true;
-        cancelBtn.disabled = true;
-        saveBtn.style.opacity = '0.5';
-        cancelBtn.style.opacity = '0.5';
-        saveBtn.style.cursor = 'not-allowed';
-        cancelBtn.style.cursor = 'not-allowed';
-    }
+	const editStatus = document.getElementById('edit-status');
+	const saveBtn = document.getElementById('unified-save-btn');
+	const cancelBtn = document.getElementById('unified-cancel-btn');
+
+	if (editingElements.size > 0) {
+		// 수정 중일 때
+		editStatus.style.display = 'block';
+		saveBtn.disabled = false;
+		cancelBtn.disabled = false;
+		saveBtn.style.opacity = '1';
+		cancelBtn.style.opacity = '1';
+		saveBtn.style.cursor = 'pointer';
+		cancelBtn.style.cursor = 'pointer';
+	} else {
+		// 수정 중이 아닐 때
+		editStatus.style.display = 'none';
+		saveBtn.disabled = true;
+		cancelBtn.disabled = true;
+		saveBtn.style.opacity = '0.5';
+		cancelBtn.style.opacity = '0.5';
+		saveBtn.style.cursor = 'not-allowed';
+		cancelBtn.style.cursor = 'not-allowed';
+	}
 }
 
 // 관리자 의견 가져오기 함수
 function getAdminComment() {
-    const adminCommentElement = document.getElementById('admin-comment');
-    return adminCommentElement ? adminCommentElement.value.trim() : '';
+	const adminCommentElement = document.getElementById('admin-comment');
+	return adminCommentElement ? adminCommentElement.value.trim() : '';
 }
 
 // 인라인 수정 시작
 function startInlineEdit(element) {
-    if (element.classList.contains('editing')) return;
+	if (element.classList.contains('editing')) return;
 
-    element.classList.add('editing');
-    const originalText = element.textContent;
-    const field = element.getAttribute('data-field');
-    const noticeId = element.getAttribute('data-notice-id');
-    currentNoticeId = noticeId;
+	element.classList.add('editing');
+	const originalText = element.textContent;
+	const field = element.getAttribute('data-field');
+	const noticeId = element.getAttribute('data-notice-id');
+	currentNoticeId = noticeId;
 
-    // 기존 내용을 저장
-    element.setAttribute('data-original', originalText);
+	// 기존 내용을 저장
+	element.setAttribute('data-original', originalText);
 
-    // 입력 필드 생성
-    let inputElement;
-    if (field === 'b_content') {
-        inputElement = document.createElement('textarea');
-        inputElement.style.minHeight = '200px';
-        inputElement.style.resize = 'vertical';
-    } else {
-        inputElement = document.createElement('input');
-        inputElement.type = 'text';
-    }
+	// 입력 필드 생성
+	let inputElement;
+	if (field === 'b_content') {
+		inputElement = document.createElement('textarea');
+		inputElement.style.minHeight = '200px';
+		inputElement.style.resize = 'vertical';
+	} else {
+		inputElement = document.createElement('input');
+		inputElement.type = 'text';
+	}
 
-    inputElement.value = originalText;
-    inputElement.style.width = '100%';
-    inputElement.style.padding = '8px';
-    inputElement.style.border = '2px solid #007bff';
-    inputElement.style.borderRadius = '5px';
-    inputElement.style.fontFamily = 'inherit';
-    inputElement.style.fontSize = 'inherit';
-    inputElement.style.backgroundColor = 'white';
-    inputElement.style.boxSizing = 'border-box';
+	inputElement.value = originalText;
+	inputElement.style.width = '100%';
+	inputElement.style.padding = '8px';
+	inputElement.style.border = '2px solid #007bff';
+	inputElement.style.borderRadius = '5px';
+	inputElement.style.fontFamily = 'inherit';
+	inputElement.style.fontSize = 'inherit';
+	inputElement.style.backgroundColor = 'white';
+	inputElement.style.boxSizing = 'border-box';
 
-    // 수정 중인 요소들을 맵에 저장
-    editingElements.set(field, {
-        element: element,
-        inputElement: inputElement,
-        originalText: originalText
-    });
+	// 수정 중인 요소들을 맵에 저장
+	editingElements.set(field, {
+		element: element,
+		inputElement: inputElement,
+		originalText: originalText
+	});
 
-    // 기존 내용 숨기기
-    element.style.display = 'none';
+	// 기존 내용 숨기기
+	element.style.display = 'none';
 
-    // 입력 필드 추가
-    element.parentNode.appendChild(inputElement);
+	// 입력 필드 추가
+	element.parentNode.appendChild(inputElement);
 
-    // 포커스 설정
-    inputElement.focus();
-    inputElement.select();
+	// 포커스 설정
+	inputElement.focus();
+	inputElement.select();
 
-    // 저장 버튼 영역 활성화
-    toggleSaveButtonArea();
+	// 저장 버튼 영역 활성화
+	toggleSaveButtonArea();
 
-    // Escape 키로 개별 취소
-    inputElement.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            cancelSingleEdit(field);
-        }
-    });
+	// Escape 키로 개별 취소
+	inputElement.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape') {
+			cancelSingleEdit(field);
+		}
+	});
 
-    // Enter로 전체 저장 (제목인 경우)
-    if (field === 'b_title') {
-        inputElement.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                saveAllChanges();
-            }
-        });
-    }
+	// Enter로 전체 저장 (제목인 경우)
+	if (field === 'b_title') {
+		inputElement.addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') {
+				saveAllChanges();
+			}
+		});
+	}
 
-    // Ctrl+Enter로 전체 저장
-    inputElement.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.key === 'Enter') {
-            saveAllChanges();
-        }
-    });
+	// Ctrl+Enter로 전체 저장
+	inputElement.addEventListener('keydown', function(e) {
+		if (e.ctrlKey && e.key === 'Enter') {
+			saveAllChanges();
+		}
+	});
 }
 
 // 개별 수정 취소
 function cancelSingleEdit(field) {
-    const editData = editingElements.get(field);
-    if (!editData) return;
+	const editData = editingElements.get(field);
+	if (!editData) return;
 
-    const { element, inputElement } = editData;
-    
-    element.classList.remove('editing');
-    element.style.display = 'block';
-    element.style.backgroundColor = '#f8f9fa';
-    
-    inputElement.remove();
-    editingElements.delete(field);
-    
-    toggleSaveButtonArea();
+	const { element, inputElement } = editData;
+
+	element.classList.remove('editing');
+	element.style.display = 'block';
+	element.style.backgroundColor = '#f8f9fa';
+
+	inputElement.remove();
+	editingElements.delete(field);
+
+	toggleSaveButtonArea();
 }
 
 // 모든 변경사항 저장
 function saveAllChanges() {
-    if (editingElements.size === 0) {
-        alert('수정된 내용이 없습니다.');
-        return;
-    }
+	if (editingElements.size === 0) {
+		alert('수정된 내용이 없습니다.');
+		return;
+	}
 
-    // 입력값 검증
-    for (let [field, editData] of editingElements) {
-        const newValue = editData.inputElement.value.trim();
-        if (!newValue) {
-            alert(`${field === 'b_title' ? '제목' : '내용'}을 입력해주세요.`);
-            editData.inputElement.focus();
-            return;
-        }
-    }
+	// 입력값 검증
+	for (let [field, editData] of editingElements) {
+		const newValue = editData.inputElement.value.trim();
+		if (!newValue) {
+			alert(`${field === 'b_title' ? '제목' : '내용'}을 입력해주세요.`);
+			editData.inputElement.focus();
+			return;
+		}
+	}
 
-    // 로딩 상태로 변경
-    const saveBtn = document.getElementById('unified-save-btn');
-    const cancelBtn = document.getElementById('unified-cancel-btn');
-    
-    saveBtn.disabled = true;
-    cancelBtn.disabled = true;
-    saveBtn.textContent = '⏳ 저장 중...';
-    saveBtn.style.backgroundColor = '#6c757d';
-    
-    // 모든 입력 필드 비활성화
-    editingElements.forEach(editData => {
-        editData.inputElement.disabled = true;
-    });
+	// 로딩 상태로 변경
+	const saveBtn = document.getElementById('unified-save-btn');
+	const cancelBtn = document.getElementById('unified-cancel-btn');
 
-    const adminComment = getAdminComment();
-    const updates = [];
-    
-    // 각 수정사항을 배열에 저장
-    editingElements.forEach((editData, field) => {
-        const newValue = editData.inputElement.value.trim();
-        updates.push({
-            field: field,
-            value: newValue,
-            editData: editData
-        });
-    });
+	saveBtn.disabled = true;
+	cancelBtn.disabled = true;
+	saveBtn.textContent = '⏳ 저장 중...';
+	saveBtn.style.backgroundColor = '#6c757d';
 
-    // 순차적으로 업데이트 실행
-    processUpdates(updates, adminComment, 0);
+	// 모든 입력 필드 비활성화
+	editingElements.forEach(editData => {
+		editData.inputElement.disabled = true;
+	});
+
+	const adminComment = getAdminComment();
+	const updates = [];
+
+	// 각 수정사항을 배열에 저장
+	editingElements.forEach((editData, field) => {
+		const newValue = editData.inputElement.value.trim();
+		updates.push({
+			field: field,
+			value: newValue,
+			editData: editData
+		});
+	});
+
+	// 순차적으로 업데이트 실행
+	processUpdates(updates, adminComment, 0);
 }
 
 // 순차적으로 업데이트 처리
 function processUpdates(updates, adminComment, index) {
-    if (index >= updates.length) {
-        // 모든 업데이트 완료
-        handleAllUpdatesComplete();
-        return;
-    }
+	if (index >= updates.length) {
+		// 모든 업데이트 완료
+		handleAllUpdatesComplete();
+		return;
+	}
 
-    const update = updates[index];
-    
-    updateNoticeField(currentNoticeId, update.field, update.value, adminComment)
-        .then(success => {
-            if (success) {
-                // 성공 시 화면 업데이트
-                update.editData.element.textContent = update.value;
-                cleanupSingleEdit(update.field);
-                
-                // 다음 업데이트 처리
-                processUpdates(updates, adminComment, index + 1);
-            } else {
-                throw new Error('서버에서 실패 응답');
-            }
-        })
-        .catch(error => {
-            console.error('수정 실패:', error);
-            handleUpdateError(error.message);
-        });
+	const update = updates[index];
+
+	updateNoticeField(currentNoticeId, update.field, update.value, adminComment)
+		.then(success => {
+			if (success) {
+				// 성공 시 화면 업데이트
+				update.editData.element.textContent = update.value;
+				cleanupSingleEdit(update.field);
+
+				// 다음 업데이트 처리
+				processUpdates(updates, adminComment, index + 1);
+			} else {
+				throw new Error('서버에서 실패 응답');
+			}
+		})
+		.catch(error => {
+			console.error('수정 실패:', error);
+			handleUpdateError(error.message);
+		});
 }
 
 // 모든 업데이트 완료 처리
 function handleAllUpdatesComplete() {
-    // 관리자 의견 초기화
-    const adminCommentElement = document.getElementById('admin-comment');
-    if (adminCommentElement) {
-        adminCommentElement.value = '';
-    }
+	// 관리자 의견 초기화
+	const adminCommentElement = document.getElementById('admin-comment');
+	if (adminCommentElement) {
+		adminCommentElement.value = '';
+	}
 
-    // 저장 버튼 영역 비활성화
-    toggleSaveButtonArea();
-    
-    // 성공 메시지
-    showSuccessMessage('모든 변경사항이 저장되었습니다.');
-    
-    // 버튼 상태 복원
-    resetButtonState();
+	// 저장 버튼 영역 비활성화
+	toggleSaveButtonArea();
+
+	// 성공 메시지
+	showSuccessMessage('모든 변경사항이 저장되었습니다.');
+
+	// 버튼 상태 복원
+	resetButtonState();
 }
 
 // 업데이트 에러 처리
 function handleUpdateError(errorMessage) {
-    alert('수정 중 오류가 발생했습니다: ' + errorMessage);
-    
-    // 모든 입력 필드 다시 활성화
-    editingElements.forEach(editData => {
-        editData.inputElement.disabled = false;
-    });
-    
-    // 버튼 상태 복원
-    resetButtonState();
+	alert('수정 중 오류가 발생했습니다: ' + errorMessage);
+
+	// 모든 입력 필드 다시 활성화
+	editingElements.forEach(editData => {
+		editData.inputElement.disabled = false;
+	});
+
+	// 버튼 상태 복원
+	resetButtonState();
 }
 
 // 버튼 상태 복원
 function resetButtonState() {
-    const saveBtn = document.getElementById('unified-save-btn');
-    const cancelBtn = document.getElementById('unified-cancel-btn');
-    
-    saveBtn.disabled = false;
-    cancelBtn.disabled = false;
-    saveBtn.textContent = '💾 변경사항 저장';
-    saveBtn.style.backgroundColor = '#28a745';
+	const saveBtn = document.getElementById('unified-save-btn');
+	const cancelBtn = document.getElementById('unified-cancel-btn');
+
+	saveBtn.disabled = false;
+	cancelBtn.disabled = false;
+	saveBtn.textContent = '💾 변경사항 저장';
+	saveBtn.style.backgroundColor = '#28a745';
 }
 
 // 단일 수정 정리
 function cleanupSingleEdit(field) {
-    const editData = editingElements.get(field);
-    if (!editData) return;
+	const editData = editingElements.get(field);
+	if (!editData) return;
 
-    const { element, inputElement } = editData;
-    
-    element.classList.remove('editing');
-    element.style.display = 'block';
-    element.style.backgroundColor = '#f8f9fa';
-    
-    inputElement.remove();
-    editingElements.delete(field);
+	const { element, inputElement } = editData;
+
+	element.classList.remove('editing');
+	element.style.display = 'block';
+	element.style.backgroundColor = '#f8f9fa';
+
+	inputElement.remove();
+	editingElements.delete(field);
 }
 
 // 모든 수정 취소
 function cancelAllChanges() {
-    if (editingElements.size === 0) return;
+	if (editingElements.size === 0) return;
 
-    if (confirm('모든 수정 내용을 취소하시겠습니까? 입력한 내용이 모두 사라집니다.')) {
-        // 모든 수정사항 원복
-        editingElements.forEach((editData, field) => {
-            cleanupSingleEdit(field);
-        });
-        
-        editingElements.clear();
-        toggleSaveButtonArea();
-    }
+	if (confirm('모든 수정 내용을 취소하시겠습니까? 입력한 내용이 모두 사라집니다.')) {
+		// 모든 수정사항 원복
+		editingElements.forEach((editData, field) => {
+			cleanupSingleEdit(field);
+		});
+
+		editingElements.clear();
+		toggleSaveButtonArea();
+	}
 }
 
 // 서버에 공지사항 필드 업데이트 요청
 function updateNoticeField(noticeId, field, value, adminComment) {
-    return fetch('/notice/updateField', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            b_id: noticeId,
-            field: field,
-            value: value,
-            admin_comment: adminComment || ''
-        })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            return data.success === true;
-        });
+	return fetch('/notice/updateField', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			b_id: noticeId,
+			field: field,
+			value: value,
+			admin_comment: adminComment || ''
+		})
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			return response.json();
+		})
+		.then(data => {
+			return data.success === true;
+		});
 }
 
 // 성공 메시지 표시
 function showSuccessMessage(message) {
-    const successDiv = document.createElement('div');
-    successDiv.textContent = message;
-    successDiv.style.position = 'fixed';
-    successDiv.style.top = '20px';
-    successDiv.style.right = '20px';
-    successDiv.style.padding = '15px 25px';
-    successDiv.style.backgroundColor = '#28a745';
-    successDiv.style.color = 'white';
-    successDiv.style.borderRadius = '8px';
-    successDiv.style.zIndex = '9999';
-    successDiv.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-    successDiv.style.fontWeight = 'bold';
-    successDiv.style.animation = 'slideIn 0.3s ease-out';
+	const successDiv = document.createElement('div');
+	successDiv.textContent = message;
+	successDiv.style.position = 'fixed';
+	successDiv.style.top = '20px';
+	successDiv.style.right = '20px';
+	successDiv.style.padding = '15px 25px';
+	successDiv.style.backgroundColor = '#28a745';
+	successDiv.style.color = 'white';
+	successDiv.style.borderRadius = '8px';
+	successDiv.style.zIndex = '9999';
+	successDiv.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+	successDiv.style.fontWeight = 'bold';
+	successDiv.style.animation = 'slideIn 0.3s ease-out';
 
-    // 애니메이션 CSS 추가
-    if (!document.getElementById('success-animation-style')) {
-        const style = document.createElement('style');
-        style.id = 'success-animation-style';
-        style.textContent = `
+	// 애니메이션 CSS 추가
+	if (!document.getElementById('success-animation-style')) {
+		const style = document.createElement('style');
+		style.id = 'success-animation-style';
+		style.textContent = `
             @keyframes slideIn {
                 from { transform: translateX(100%); opacity: 0; }
                 to { transform: translateX(0); opacity: 1; }
             }
         `;
-        document.head.appendChild(style);
-    }
+		document.head.appendChild(style);
+	}
 
-    document.body.appendChild(successDiv);
+	document.body.appendChild(successDiv);
 
-    setTimeout(() => {
-        successDiv.style.animation = 'slideIn 0.3s ease-out reverse';
-        setTimeout(() => successDiv.remove(), 300);
-    }, 3000);
+	setTimeout(() => {
+		successDiv.style.animation = 'slideIn 0.3s ease-out reverse';
+		setTimeout(() => successDiv.remove(), 300);
+	}, 3000);
 }
 
 // --- View Render Functions ---
@@ -666,13 +666,13 @@ function showPendingNoticeList() {
 
 			// 결재대기와 수정요청 상태인 항목만 필터링
 			const pendingOnlyNotices = data.filter(item => {
-			    const status = item.status ? item.status.toString().trim() : '';
-			    const isPending = status === '결재대기';
-			    const isModificationRequest = status === '수정요청';
-			    const shouldShow = isPending || isModificationRequest;
-			    
-			    console.log(`ID ${item.p_id}: 상태="${status}" -> 표시 여부: ${shouldShow} (결재대기: ${isPending}, 수정요청: ${isModificationRequest})`);
-			    return shouldShow;
+				const status = item.status ? item.status.toString().trim() : '';
+				const isPending = status === '결재대기';
+				const isModificationRequest = status === '수정요청';
+				const shouldShow = isPending || isModificationRequest;
+
+				console.log(`ID ${item.p_id}: 상태="${status}" -> 표시 여부: ${shouldShow} (결재대기: ${isPending}, 수정요청: ${isModificationRequest})`);
+				return shouldShow;
 			});
 
 			console.log("필터링된 결재대기 항목:", pendingOnlyNotices);
@@ -1346,50 +1346,105 @@ function viewUserDetail(userid) {
 // 사용자 등록 폼
 function showUserRegistrationForm() {
 	mainContentArea.innerHTML = `
-        <div class="approval-section">
-            <h2>새 사용자 등록</h2>
-            <div class="form-group">
-                <h3>유저 아이디</h3>
-                <input type="text" id="username" placeholder="유저 아이디 입력 (로그인용)">
-            </div>
-            <div class="form-group">
-                <h3>비밀번호</h3>
-                <input type="password" id="password" placeholder="비밀번호 입력">
-            </div>
-            <div class="form-group">
-                <h3>이름</h3>
-                <input type="text" id="name" placeholder="실명 입력">
-            </div>
-            <div class="form-group">
-                <h3>이메일</h3>
-                <input type="email" id="email" placeholder="이메일 주소 입력">
-            </div>
-            <div class="form-group">
-                <h3>전화번호</h3>
-                <input type="tel" id="phone" placeholder="전화번호 입력 (예: 010-1234-5678)" maxlength="13">
-            </div>
-            <div class="form-group">
-                <h3>역할</h3>
-                <select id="roll">
-                    <option value="">역할 선택</option>
-                    <option value="user">사용자</option>
-                    <option value="master">마스터</option>
-                    <option value="admin">관리자</option>
-                </select>
-            </div>
-            <div class="actions">
-                <button onclick="registerUser()" 
-                        style="padding: 10px 20px; background: #28a745; color: white; 
-                               border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
-                    등록
-                </button>
-                <button onclick="showUserList()" 
-                        style="padding: 10px 20px; background: #6c757d; color: white; 
-                               border: none; border-radius: 5px; cursor: pointer;">
-                    취소
-                </button>
-            </div>
-        </div>
+	        <div class="user-registration-container">
+	            <div class="registration-header">
+	                <div class="header-icon">
+	                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+	                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+	                        <circle cx="9" cy="7" r="4"></circle>
+	                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+	                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+	                    </svg>
+	                </div>
+	                <h2>새 사용자 등록</h2>
+	                <p class="header-subtitle">시스템에 새로운 사용자를 추가합니다</p>
+	            </div>
+
+	            <form class="registration-form" id="userRegistrationForm">
+	                <div class="form-row">
+	                    <div class="form-field">
+	                        <label for="username">
+	                            <span class="field-icon">👤</span>
+	                            유저 아이디 <span class="required">*</span>
+	                        </label>
+	                        <input type="text" id="username" name="username" 
+	                               placeholder="로그인에 사용할 아이디를 입력하세요" 
+	                               required>
+	                        <div class="field-hint">영문, 숫자만 사용 가능 (4-20자)</div>
+	                    </div>
+	                </div>
+
+	                <div class="form-row">
+	                    <div class="form-field">
+	                        <label for="password">
+	                            <span class="field-icon">🔒</span>
+	                            비밀번호 <span class="required">*</span>
+	                        </label>
+	                        <input type="password" id="password" name="password" 
+	                               placeholder="안전한 비밀번호를 입력하세요" 
+	                               required>
+	                        <div class="field-hint">최소 8자 이상, 영문/숫자/특수문자 조합</div>
+	                    </div>
+	                </div>
+
+	                <div class="form-row double">
+	                    <div class="form-field">
+	                        <label for="name">
+	                            <span class="field-icon">📝</span>
+	                            이름 <span class="required">*</span>
+	                        </label>
+	                        <input type="text" id="name" name="name" 
+	                               placeholder="실명을 입력하세요" 
+	                               required>
+	                    </div>
+	                    <div class="form-field">
+	                        <label for="roll">
+	                            <span class="field-icon">⚡</span>
+	                            역할 <span class="required">*</span>
+	                        </label>
+	                        <select id="roll" name="roll" required>
+	                            <option value="" disabled selected>역할을 선택하세요</option>
+	                            <option value="USER">👤 사용자</option>
+	                            <option value="MASTER">⭐ 마스터</option>
+	                            <option value="ADMIN">👑 관리자</option>
+	                        </select>
+	                    </div>
+	                </div>
+
+	                <div class="form-row double">
+	                    <div class="form-field">
+	                        <label for="email">
+	                            <span class="field-icon">📧</span>
+	                            이메일 <span class="required">*</span>
+	                        </label>
+	                        <input type="email" id="email" name="email" 
+	                               placeholder="example@company.com" 
+	                               required>
+	                    </div>
+	                    <div class="form-field">
+	                        <label for="phone">
+	                            <span class="field-icon">📱</span>
+	                            전화번호
+	                        </label>
+	                        <input type="tel" id="phone" name="phone" 
+	                               placeholder="010-1234-5678" 
+	                               maxlength="13"
+	                               pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
+	                    </div>
+	                </div>
+
+	                <div class="form-actions">
+	                    <button type="button" class="btn btn-secondary" onclick="showUserList()">
+	                        <span class="btn-icon">↩️</span>
+	                        취소
+	                    </button>
+	                    <button type="submit" class="btn btn-primary" onclick="registerUser(); return false;">
+	                        <span class="btn-icon">✅</span>
+	                        사용자 등록
+	                    </button>
+	                </div>
+	            </form>
+	        </div>
     `;
 
 	// 전화번호 자동 포맷팅
@@ -1440,7 +1495,7 @@ function registerUser() {
 	}
 
 	// 역할 유효성 검사
-	if (!['user', 'master', 'admin'].includes(roll)) {
+	if (!['USER', 'MASTER', 'ADMIN'].includes(roll)) {
 		alert('올바른 역할을 선택해주세요.');
 		return;
 	}
@@ -1470,7 +1525,7 @@ function registerUser() {
 
 	console.log("서버로 전송할 사용자 데이터:", userData);
 
-	fetch('/member/registerUser', {
+	fetch('/member/registMember', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -1547,17 +1602,8 @@ function editUser(userid) {
                     <div class="form-group">
                         <h3>전화번호</h3>
                         <input type="tel" id="edit-phone" value="${user.phone || ''}" placeholder="전화번호 입력" maxlength="13">
-                    </div>
-                    
-                    <div class="form-group">
-                        <h3>역할</h3>
-                        <select id="edit-roll">
-                            <option value="">역할 선택</option>
-                            <option value="user" ${user.roll === 'user' ? 'selected' : ''}>사용자</option>
-                            <option value="master" ${user.roll === 'master' ? 'selected' : ''}>마스터</option>
-                            <option value="admin" ${user.roll === 'admin' ? 'selected' : ''}>관리자</option>
-                        </select>
-                    </div>
+                    </div>                  
+             
                     
                     <div class="actions">
                         <button onclick="updateUser()" 
@@ -1747,9 +1793,9 @@ function showUserRoleManagement() {
                         <td>${user.email || '-'}</td>
                         <td>
                             <select id="role-${user.userid}">
-                                <option value="user" ${user.roll === 'user' ? 'selected' : ''}>사용자</option>
-                                <option value="master" ${user.roll === 'master' ? 'selected' : ''}>마스터</option>
-                                <option value="admin" ${user.roll === 'admin' ? 'selected' : ''}>관리자</option>
+                                <option value="USER" ${user.roll === 'USER' ? 'selected' : ''}>사용자</option>
+                                <option value="MASTER" ${user.roll === 'MASTER' ? 'selected' : ''}>마스터</option>
+                                <option value="ADMIN" ${user.roll === 'ADMIN' ? 'selected' : ''}>관리자</option>
                             </select>
                         </td>
                         <td>
@@ -1803,7 +1849,7 @@ function applyRoleChange(userid) {
 			roll: newRole
 		};
 
-		fetch('/member/changeUserRole', {
+		fetch('/member/changeUserRoll', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -1831,3 +1877,6 @@ function applyRoleChange(userid) {
 			});
 	}
 }
+
+
+
