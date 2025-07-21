@@ -2,6 +2,7 @@ package com.example.pension_project.admin.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class MemberService {
 	}
 	private MemberDto convertToDto(Member member) {
 	    MemberDto dto = new MemberDto();
-	    dto.setUserid(member.getUserid());
+	    
 	    dto.setUsername(member.getUsername());
 	    dto.setPassword(member.getPassword());
 	    dto.setName(member.getName());
@@ -36,6 +37,8 @@ public class MemberService {
 	    dto.setRoll(member.getRoll());
 	    return dto;
 	}
+	
+	
 	
 	public boolean logincheck(MemberDto memberDto) {
 		Member member = new Member();
@@ -63,5 +66,14 @@ public class MemberService {
 		return dtoList;
 	}
 	//사용자 정보 상세 조회
-	
+	public MemberDto getUserInfoById(Integer userid) {
+		Optional<Member> member = memberRepository.findById(userid);
+		return member.map(this::convertToDto)
+                .orElse(null); // 또는 예외 던지기 가능;
+	}
+	//사용자 등록
+	public void registMember(MemberDto memberDto) {
+		memberDto.setUserid(null);
+		memberRepository.save(convert(memberDto));
+	}
 }

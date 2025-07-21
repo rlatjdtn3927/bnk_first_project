@@ -11,10 +11,10 @@ function logout() {
 		});
 }
 
-// --- DOM Elements --- (HTML 구조에 맞게 수정)
-const topMenu = document.querySelector('.topMenu'); // HTML에서는 class="topMenu"
-const sidebarMenu = document.getElementById('sidebarMenu'); // HTML에서는 id="sidebarMenu"  
-const mainContentArea = document.getElementById('main-content-area'); // HTML에서는 id="main-content-area"
+//DOM 요소 설정
+const topMenu = document.querySelector('.topMenu'); // HTML class="topMenu"
+const sidebarMenu = document.getElementById('sidebarMenu'); // HTML id="sidebarMenu"  
+const mainContentArea = document.getElementById('main-content-area'); // HTML id="main-content-area"
 
 // 소분류 매뉴 배열
 const submenus = {
@@ -47,9 +47,9 @@ function showNoticeList() {
 
 			console.log("공지사항 개수:", data.length);
 
-			// 🔥 순차 번호 적용 (index + 1)
+			//인덱스 표시
 			let tableRows = data.map((notice, index) => {
-				const sequentialNumber = index + 1; // 1부터 시작하는 순차 번호
+				const sequentialNumber = index + 1;
 				return `
                     <tr>
                         <td>${sequentialNumber}</td>
@@ -63,7 +63,7 @@ function showNoticeList() {
                         <td>
                             <button onclick="viewNoticeContent(${notice.b_id})" 
                                     style="padding: 5px 10px; border: 1px solid #007bff; 
-                                           background: #007bff; color: white; border-radius: 3px; cursor: pointer;">
+                                           background: #f56565; color: white; border-radius: 3px; cursor: pointer;">
                                 보기
                             </button>
                         </td>
@@ -77,7 +77,7 @@ function showNoticeList() {
                     <div style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
                         <small style="color: #666;">총 ${data.length}개의 공지사항</small>
                         <button onclick="showUserNoticeForm()" 
-                                style="padding: 8px 15px; background: #28a745; color: white; 
+                                style="padding: 8px 15px; background: #F56565; color: white; 
                                        border: none; border-radius: 5px; cursor: pointer;">
                             새 공지사항 작성
                         </button>
@@ -118,26 +118,26 @@ function showNoticeList() {
 
 // 공지사항 상세 보기 함수
 function viewNoticeContent(b_id) {
-    console.log("공지사항 상세 보기 - ID:", b_id);
+	console.log("공지사항 상세 보기 - ID:", b_id);
 
-    fetch('/notice/getNoticeList')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            // 해당 ID의 공지사항 찾기
-            const notice = data.find(item => item.b_id == b_id);
+	fetch('/notice/getNoticeList')
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			return response.json();
+		})
+		.then(data => {
+			// 해당 ID의 공지사항 찾기
+			const notice = data.find(item => item.b_id == b_id);
 
-            if (!notice) {
-                throw new Error('해당 공지사항을 찾을 수 없습니다.');
-            }
+			if (!notice) {
+				throw new Error('해당 공지사항을 찾을 수 없습니다.');
+			}
 
-            console.log('찾은 공지사항:', notice);
+			console.log('찾은 공지사항:', notice);
 
-            mainContentArea.innerHTML = `
+			mainContentArea.innerHTML = `
                 <div class="approval-section">
                     <div style="margin-bottom: 20px;">
                         <button onclick="showNoticeList()"
@@ -234,15 +234,15 @@ function viewNoticeContent(b_id) {
                 </div>
             `;
 
-            // 인라인 수정 이벤트 리스너 추가
-            initializeInlineEdit();
-            // 통합 버튼 이벤트 리스너 추가
-            initializeUnifiedButtons();
-        })
-        .catch(err => {
-            console.error('공지사항 상세 조회 에러:', err);
-            alert('공지사항 상세 조회 실패: ' + err.message);
-        });
+			// 인라인 수정 이벤트 리스너 추가
+			initializeInlineEdit();
+			// 통합 버튼 이벤트 리스너 추가
+			initializeUnifiedButtons();
+		})
+		.catch(err => {
+			console.error('공지사항 상세 조회 에러:', err);
+			alert('공지사항 상세 조회 실패: ' + err.message);
+		});
 }
 
 // 전역 변수로 수정 상태 관리
@@ -251,375 +251,375 @@ let currentNoticeId = null;
 
 // 인라인 수정 기능 초기화
 function initializeInlineEdit() {
-    const editableElements = document.querySelectorAll('.editable-content');
+	const editableElements = document.querySelectorAll('.editable-content');
 
-    editableElements.forEach(element => {
-        // 호버 효과
-        element.addEventListener('mouseenter', function() {
-            if (!this.classList.contains('editing')) {
-                this.style.backgroundColor = '#e9ecef';
-            }
-        });
+	editableElements.forEach(element => {
+		// 호버 효과
+		element.addEventListener('mouseenter', function() {
+			if (!this.classList.contains('editing')) {
+				this.style.backgroundColor = '#e9ecef';
+			}
+		});
 
-        element.addEventListener('mouseleave', function() {
-            if (!this.classList.contains('editing')) {
-                this.style.backgroundColor = '#f8f9fa';
-            }
-        });
+		element.addEventListener('mouseleave', function() {
+			if (!this.classList.contains('editing')) {
+				this.style.backgroundColor = '#f8f9fa';
+			}
+		});
 
-        // 더블클릭 이벤트
-        element.addEventListener('dblclick', function() {
-            startInlineEdit(this);
-        });
-    });
+		// 더블클릭 이벤트
+		element.addEventListener('dblclick', function() {
+			startInlineEdit(this);
+		});
+	});
 }
 
 // 통합 버튼 이벤트 리스너
 function initializeUnifiedButtons() {
-    const saveBtn = document.getElementById('unified-save-btn');
-    const cancelBtn = document.getElementById('unified-cancel-btn');
+	const saveBtn = document.getElementById('unified-save-btn');
+	const cancelBtn = document.getElementById('unified-cancel-btn');
 
-    saveBtn.addEventListener('click', saveAllChanges);
-    cancelBtn.addEventListener('click', cancelAllChanges);
+	saveBtn.addEventListener('click', saveAllChanges);
+	cancelBtn.addEventListener('click', cancelAllChanges);
 }
 
 // 저장 버튼 영역 표시/숨김
 function toggleSaveButtonArea() {
-    const editStatus = document.getElementById('edit-status');
-    const saveBtn = document.getElementById('unified-save-btn');
-    const cancelBtn = document.getElementById('unified-cancel-btn');
-    
-    if (editingElements.size > 0) {
-        // 수정 중일 때
-        editStatus.style.display = 'block';
-        saveBtn.disabled = false;
-        cancelBtn.disabled = false; 
-        saveBtn.style.opacity = '1';
-        cancelBtn.style.opacity = '1';
-        saveBtn.style.cursor = 'pointer';
-        cancelBtn.style.cursor = 'pointer';
-    } else {
-        // 수정 중이 아닐 때
-        editStatus.style.display = 'none';
-        saveBtn.disabled = true;
-        cancelBtn.disabled = true;
-        saveBtn.style.opacity = '0.5';
-        cancelBtn.style.opacity = '0.5';
-        saveBtn.style.cursor = 'not-allowed';
-        cancelBtn.style.cursor = 'not-allowed';
-    }
+	const editStatus = document.getElementById('edit-status');
+	const saveBtn = document.getElementById('unified-save-btn');
+	const cancelBtn = document.getElementById('unified-cancel-btn');
+
+	if (editingElements.size > 0) {
+		// 수정 중일 때
+		editStatus.style.display = 'block';
+		saveBtn.disabled = false;
+		cancelBtn.disabled = false;
+		saveBtn.style.opacity = '1';
+		cancelBtn.style.opacity = '1';
+		saveBtn.style.cursor = 'pointer';
+		cancelBtn.style.cursor = 'pointer';
+	} else {
+		// 수정 중이 아닐 때
+		editStatus.style.display = 'none';
+		saveBtn.disabled = true;
+		cancelBtn.disabled = true;
+		saveBtn.style.opacity = '0.5';
+		cancelBtn.style.opacity = '0.5';
+		saveBtn.style.cursor = 'not-allowed';
+		cancelBtn.style.cursor = 'not-allowed';
+	}
 }
 
 // 관리자 의견 가져오기 함수
 function getAdminComment() {
-    const adminCommentElement = document.getElementById('admin-comment');
-    return adminCommentElement ? adminCommentElement.value.trim() : '';
+	const adminCommentElement = document.getElementById('admin-comment');
+	return adminCommentElement ? adminCommentElement.value.trim() : '';
 }
 
 // 인라인 수정 시작
 function startInlineEdit(element) {
-    if (element.classList.contains('editing')) return;
+	if (element.classList.contains('editing')) return;
 
-    element.classList.add('editing');
-    const originalText = element.textContent;
-    const field = element.getAttribute('data-field');
-    const noticeId = element.getAttribute('data-notice-id');
-    currentNoticeId = noticeId;
+	element.classList.add('editing');
+	const originalText = element.textContent;
+	const field = element.getAttribute('data-field');
+	const noticeId = element.getAttribute('data-notice-id');
+	currentNoticeId = noticeId;
 
-    // 기존 내용을 저장
-    element.setAttribute('data-original', originalText);
+	// 기존 내용을 저장
+	element.setAttribute('data-original', originalText);
 
-    // 입력 필드 생성
-    let inputElement;
-    if (field === 'b_content') {
-        inputElement = document.createElement('textarea');
-        inputElement.style.minHeight = '200px';
-        inputElement.style.resize = 'vertical';
-    } else {
-        inputElement = document.createElement('input');
-        inputElement.type = 'text';
-    }
+	// 입력 필드 생성
+	let inputElement;
+	if (field === 'b_content') {
+		inputElement = document.createElement('textarea');
+		inputElement.style.minHeight = '200px';
+		inputElement.style.resize = 'vertical';
+	} else {
+		inputElement = document.createElement('input');
+		inputElement.type = 'text';
+	}
 
-    inputElement.value = originalText;
-    inputElement.style.width = '100%';
-    inputElement.style.padding = '8px';
-    inputElement.style.border = '2px solid #007bff';
-    inputElement.style.borderRadius = '5px';
-    inputElement.style.fontFamily = 'inherit';
-    inputElement.style.fontSize = 'inherit';
-    inputElement.style.backgroundColor = 'white';
-    inputElement.style.boxSizing = 'border-box';
+	inputElement.value = originalText;
+	inputElement.style.width = '100%';
+	inputElement.style.padding = '8px';
+	inputElement.style.border = '2px solid #007bff';
+	inputElement.style.borderRadius = '5px';
+	inputElement.style.fontFamily = 'inherit';
+	inputElement.style.fontSize = 'inherit';
+	inputElement.style.backgroundColor = 'white';
+	inputElement.style.boxSizing = 'border-box';
 
-    // 수정 중인 요소들을 맵에 저장
-    editingElements.set(field, {
-        element: element,
-        inputElement: inputElement,
-        originalText: originalText
-    });
+	// 수정 중인 요소들을 맵에 저장
+	editingElements.set(field, {
+		element: element,
+		inputElement: inputElement,
+		originalText: originalText
+	});
 
-    // 기존 내용 숨기기
-    element.style.display = 'none';
+	// 기존 내용 숨기기
+	element.style.display = 'none';
 
-    // 입력 필드 추가
-    element.parentNode.appendChild(inputElement);
+	// 입력 필드 추가
+	element.parentNode.appendChild(inputElement);
 
-    // 포커스 설정
-    inputElement.focus();
-    inputElement.select();
+	// 포커스 설정
+	inputElement.focus();
+	inputElement.select();
 
-    // 저장 버튼 영역 활성화
-    toggleSaveButtonArea();
+	// 저장 버튼 영역 활성화
+	toggleSaveButtonArea();
 
-    // Escape 키로 개별 취소
-    inputElement.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            cancelSingleEdit(field);
-        }
-    });
+	// Escape 키로 개별 취소
+	inputElement.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape') {
+			cancelSingleEdit(field);
+		}
+	});
 
-    // Enter로 전체 저장 (제목인 경우)
-    if (field === 'b_title') {
-        inputElement.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                saveAllChanges();
-            }
-        });
-    }
+	// Enter로 전체 저장 (제목인 경우)
+	if (field === 'b_title') {
+		inputElement.addEventListener('keypress', function(e) {
+			if (e.key === 'Enter') {
+				saveAllChanges();
+			}
+		});
+	}
 
-    // Ctrl+Enter로 전체 저장
-    inputElement.addEventListener('keydown', function(e) {
-        if (e.ctrlKey && e.key === 'Enter') {
-            saveAllChanges();
-        }
-    });
+	// Ctrl+Enter로 전체 저장
+	inputElement.addEventListener('keydown', function(e) {
+		if (e.ctrlKey && e.key === 'Enter') {
+			saveAllChanges();
+		}
+	});
 }
 
 // 개별 수정 취소
 function cancelSingleEdit(field) {
-    const editData = editingElements.get(field);
-    if (!editData) return;
+	const editData = editingElements.get(field);
+	if (!editData) return;
 
-    const { element, inputElement } = editData;
-    
-    element.classList.remove('editing');
-    element.style.display = 'block';
-    element.style.backgroundColor = '#f8f9fa';
-    
-    inputElement.remove();
-    editingElements.delete(field);
-    
-    toggleSaveButtonArea();
+	const { element, inputElement } = editData;
+
+	element.classList.remove('editing');
+	element.style.display = 'block';
+	element.style.backgroundColor = '#f8f9fa';
+
+	inputElement.remove();
+	editingElements.delete(field);
+
+	toggleSaveButtonArea();
 }
 
 // 모든 변경사항 저장
 function saveAllChanges() {
-    if (editingElements.size === 0) {
-        alert('수정된 내용이 없습니다.');
-        return;
-    }
+	if (editingElements.size === 0) {
+		alert('수정된 내용이 없습니다.');
+		return;
+	}
 
-    // 입력값 검증
-    for (let [field, editData] of editingElements) {
-        const newValue = editData.inputElement.value.trim();
-        if (!newValue) {
-            alert(`${field === 'b_title' ? '제목' : '내용'}을 입력해주세요.`);
-            editData.inputElement.focus();
-            return;
-        }
-    }
+	// 입력값 검증
+	for (let [field, editData] of editingElements) {
+		const newValue = editData.inputElement.value.trim();
+		if (!newValue) {
+			alert(`${field === 'b_title' ? '제목' : '내용'}을 입력해주세요.`);
+			editData.inputElement.focus();
+			return;
+		}
+	}
 
-    // 로딩 상태로 변경
-    const saveBtn = document.getElementById('unified-save-btn');
-    const cancelBtn = document.getElementById('unified-cancel-btn');
-    
-    saveBtn.disabled = true;
-    cancelBtn.disabled = true;
-    saveBtn.textContent = '⏳ 저장 중...';
-    saveBtn.style.backgroundColor = '#6c757d';
-    
-    // 모든 입력 필드 비활성화
-    editingElements.forEach(editData => {
-        editData.inputElement.disabled = true;
-    });
+	// 로딩 상태로 변경
+	const saveBtn = document.getElementById('unified-save-btn');
+	const cancelBtn = document.getElementById('unified-cancel-btn');
 
-    const adminComment = getAdminComment();
-    const updates = [];
-    
-    // 각 수정사항을 배열에 저장
-    editingElements.forEach((editData, field) => {
-        const newValue = editData.inputElement.value.trim();
-        updates.push({
-            field: field,
-            value: newValue,
-            editData: editData
-        });
-    });
+	saveBtn.disabled = true;
+	cancelBtn.disabled = true;
+	saveBtn.textContent = '⏳ 저장 중...';
+	saveBtn.style.backgroundColor = '#6c757d';
 
-    // 순차적으로 업데이트 실행
-    processUpdates(updates, adminComment, 0);
+	// 모든 입력 필드 비활성화
+	editingElements.forEach(editData => {
+		editData.inputElement.disabled = true;
+	});
+
+	const adminComment = getAdminComment();
+	const updates = [];
+
+	// 각 수정사항을 배열에 저장
+	editingElements.forEach((editData, field) => {
+		const newValue = editData.inputElement.value.trim();
+		updates.push({
+			field: field,
+			value: newValue,
+			editData: editData
+		});
+	});
+
+	// 순차적으로 업데이트 실행
+	processUpdates(updates, adminComment, 0);
 }
 
 // 순차적으로 업데이트 처리
 function processUpdates(updates, adminComment, index) {
-    if (index >= updates.length) {
-        // 모든 업데이트 완료
-        handleAllUpdatesComplete();
-        return;
-    }
+	if (index >= updates.length) {
+		// 모든 업데이트 완료
+		handleAllUpdatesComplete();
+		return;
+	}
 
-    const update = updates[index];
-    
-    updateNoticeField(currentNoticeId, update.field, update.value, adminComment)
-        .then(success => {
-            if (success) {
-                // 성공 시 화면 업데이트
-                update.editData.element.textContent = update.value;
-                cleanupSingleEdit(update.field);
-                
-                // 다음 업데이트 처리
-                processUpdates(updates, adminComment, index + 1);
-            } else {
-                throw new Error('서버에서 실패 응답');
-            }
-        })
-        .catch(error => {
-            console.error('수정 실패:', error);
-            handleUpdateError(error.message);
-        });
+	const update = updates[index];
+
+	updateNoticeField(currentNoticeId, update.field, update.value, adminComment)
+		.then(success => {
+			if (success) {
+				// 성공 시 화면 업데이트
+				update.editData.element.textContent = update.value;
+				cleanupSingleEdit(update.field);
+
+				// 다음 업데이트 처리
+				processUpdates(updates, adminComment, index + 1);
+			} else {
+				throw new Error('서버에서 실패 응답');
+			}
+		})
+		.catch(error => {
+			console.error('수정 실패:', error);
+			handleUpdateError(error.message);
+		});
 }
 
 // 모든 업데이트 완료 처리
 function handleAllUpdatesComplete() {
-    // 관리자 의견 초기화
-    const adminCommentElement = document.getElementById('admin-comment');
-    if (adminCommentElement) {
-        adminCommentElement.value = '';
-    }
+	// 관리자 의견 초기화
+	const adminCommentElement = document.getElementById('admin-comment');
+	if (adminCommentElement) {
+		adminCommentElement.value = '';
+	}
 
-    // 저장 버튼 영역 비활성화
-    toggleSaveButtonArea();
-    
-    // 성공 메시지
-    showSuccessMessage('모든 변경사항이 저장되었습니다.');
-    
-    // 버튼 상태 복원
-    resetButtonState();
+	// 저장 버튼 영역 비활성화
+	toggleSaveButtonArea();
+
+	// 성공 메시지
+	showSuccessMessage('모든 변경사항이 저장되었습니다.');
+
+	// 버튼 상태 복원
+	resetButtonState();
 }
 
 // 업데이트 에러 처리
 function handleUpdateError(errorMessage) {
-    alert('수정 중 오류가 발생했습니다: ' + errorMessage);
-    
-    // 모든 입력 필드 다시 활성화
-    editingElements.forEach(editData => {
-        editData.inputElement.disabled = false;
-    });
-    
-    // 버튼 상태 복원
-    resetButtonState();
+	alert('수정 중 오류가 발생했습니다: ' + errorMessage);
+
+	// 모든 입력 필드 다시 활성화
+	editingElements.forEach(editData => {
+		editData.inputElement.disabled = false;
+	});
+
+	// 버튼 상태 복원
+	resetButtonState();
 }
 
 // 버튼 상태 복원
 function resetButtonState() {
-    const saveBtn = document.getElementById('unified-save-btn');
-    const cancelBtn = document.getElementById('unified-cancel-btn');
-    
-    saveBtn.disabled = false;
-    cancelBtn.disabled = false;
-    saveBtn.textContent = '💾 변경사항 저장';
-    saveBtn.style.backgroundColor = '#28a745';
+	const saveBtn = document.getElementById('unified-save-btn');
+	const cancelBtn = document.getElementById('unified-cancel-btn');
+
+	saveBtn.disabled = false;
+	cancelBtn.disabled = false;
+	saveBtn.textContent = '💾 변경사항 저장';
+	saveBtn.style.backgroundColor = '#28a745';
 }
 
 // 단일 수정 정리
 function cleanupSingleEdit(field) {
-    const editData = editingElements.get(field);
-    if (!editData) return;
+	const editData = editingElements.get(field);
+	if (!editData) return;
 
-    const { element, inputElement } = editData;
-    
-    element.classList.remove('editing');
-    element.style.display = 'block';
-    element.style.backgroundColor = '#f8f9fa';
-    
-    inputElement.remove();
-    editingElements.delete(field);
+	const { element, inputElement } = editData;
+
+	element.classList.remove('editing');
+	element.style.display = 'block';
+	element.style.backgroundColor = '#f8f9fa';
+
+	inputElement.remove();
+	editingElements.delete(field);
 }
 
 // 모든 수정 취소
 function cancelAllChanges() {
-    if (editingElements.size === 0) return;
+	if (editingElements.size === 0) return;
 
-    if (confirm('모든 수정 내용을 취소하시겠습니까? 입력한 내용이 모두 사라집니다.')) {
-        // 모든 수정사항 원복
-        editingElements.forEach((editData, field) => {
-            cleanupSingleEdit(field);
-        });
-        
-        editingElements.clear();
-        toggleSaveButtonArea();
-    }
+	if (confirm('모든 수정 내용을 취소하시겠습니까? 입력한 내용이 모두 사라집니다.')) {
+		// 모든 수정사항 원복
+		editingElements.forEach((editData, field) => {
+			cleanupSingleEdit(field);
+		});
+
+		editingElements.clear();
+		toggleSaveButtonArea();
+	}
 }
 
 // 서버에 공지사항 필드 업데이트 요청
 function updateNoticeField(noticeId, field, value, adminComment) {
-    return fetch('/notice/updateField', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            b_id: noticeId,
-            field: field,
-            value: value,
-            admin_comment: adminComment || ''
-        })
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            return data.success === true;
-        });
+	return fetch('/notice/updateField', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			b_id: noticeId,
+			field: field,
+			value: value,
+			admin_comment: adminComment || ''
+		})
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			return response.json();
+		})
+		.then(data => {
+			return data.success === true;
+		});
 }
 
 // 성공 메시지 표시
 function showSuccessMessage(message) {
-    const successDiv = document.createElement('div');
-    successDiv.textContent = message;
-    successDiv.style.position = 'fixed';
-    successDiv.style.top = '20px';
-    successDiv.style.right = '20px';
-    successDiv.style.padding = '15px 25px';
-    successDiv.style.backgroundColor = '#28a745';
-    successDiv.style.color = 'white';
-    successDiv.style.borderRadius = '8px';
-    successDiv.style.zIndex = '9999';
-    successDiv.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
-    successDiv.style.fontWeight = 'bold';
-    successDiv.style.animation = 'slideIn 0.3s ease-out';
+	const successDiv = document.createElement('div');
+	successDiv.textContent = message;
+	successDiv.style.position = 'fixed';
+	successDiv.style.top = '20px';
+	successDiv.style.right = '20px';
+	successDiv.style.padding = '15px 25px';
+	successDiv.style.backgroundColor = '#28a745';
+	successDiv.style.color = 'white';
+	successDiv.style.borderRadius = '8px';
+	successDiv.style.zIndex = '9999';
+	successDiv.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+	successDiv.style.fontWeight = 'bold';
+	successDiv.style.animation = 'slideIn 0.3s ease-out';
 
-    // 애니메이션 CSS 추가
-    if (!document.getElementById('success-animation-style')) {
-        const style = document.createElement('style');
-        style.id = 'success-animation-style';
-        style.textContent = `
+	// 애니메이션 CSS 추가
+	if (!document.getElementById('success-animation-style')) {
+		const style = document.createElement('style');
+		style.id = 'success-animation-style';
+		style.textContent = `
             @keyframes slideIn {
                 from { transform: translateX(100%); opacity: 0; }
                 to { transform: translateX(0); opacity: 1; }
             }
         `;
-        document.head.appendChild(style);
-    }
+		document.head.appendChild(style);
+	}
 
-    document.body.appendChild(successDiv);
+	document.body.appendChild(successDiv);
 
-    setTimeout(() => {
-        successDiv.style.animation = 'slideIn 0.3s ease-out reverse';
-        setTimeout(() => successDiv.remove(), 300);
-    }, 3000);
+	setTimeout(() => {
+		successDiv.style.animation = 'slideIn 0.3s ease-out reverse';
+		setTimeout(() => successDiv.remove(), 300);
+	}, 3000);
 }
 
 // --- View Render Functions ---
@@ -666,13 +666,13 @@ function showPendingNoticeList() {
 
 			// 결재대기와 수정요청 상태인 항목만 필터링
 			const pendingOnlyNotices = data.filter(item => {
-			    const status = item.status ? item.status.toString().trim() : '';
-			    const isPending = status === '결재대기';
-			    const isModificationRequest = status === '수정요청';
-			    const shouldShow = isPending || isModificationRequest;
-			    
-			    console.log(`ID ${item.p_id}: 상태="${status}" -> 표시 여부: ${shouldShow} (결재대기: ${isPending}, 수정요청: ${isModificationRequest})`);
-			    return shouldShow;
+				const status = item.status ? item.status.toString().trim() : '';
+				const isPending = status === '결재대기';
+				const isModificationRequest = status === '수정요청';
+				const shouldShow = isPending || isModificationRequest;
+
+				console.log(`ID ${item.p_id}: 상태="${status}" -> 표시 여부: ${shouldShow} (결재대기: ${isPending}, 수정요청: ${isModificationRequest})`);
+				return shouldShow;
 			});
 
 			console.log("필터링된 결재대기 항목:", pendingOnlyNotices);
@@ -1085,7 +1085,6 @@ topMenu.addEventListener('click', e => {
 	else if (menuKey === 'approval') showPendingNoticeList();
 	else if (menuKey === 'management') showUserList();
 	else if (menuKey === 'logout') logout();
-	else if(menuKey === 'product') showCommodityList();
 	else showPlaceholderContent(menuKey);
 });
 
@@ -1101,7 +1100,6 @@ sidebarMenu.addEventListener('click', e => {
 	else if (action === '사용자 목록') showUserList();
 	else if (action === '사용자 등록') showUserRegistrationForm();
 	else if (action === '사용자 권한 변경') showUserRoleManagement();
-	else if(action === '상품 목록') showCommodityList();
 	else showPlaceholderContent(action);
 });
 
@@ -1348,50 +1346,105 @@ function viewUserDetail(userid) {
 // 사용자 등록 폼
 function showUserRegistrationForm() {
 	mainContentArea.innerHTML = `
-        <div class="approval-section">
-            <h2>새 사용자 등록</h2>
-            <div class="form-group">
-                <h3>유저 아이디</h3>
-                <input type="text" id="username" placeholder="유저 아이디 입력 (로그인용)">
-            </div>
-            <div class="form-group">
-                <h3>비밀번호</h3>
-                <input type="password" id="password" placeholder="비밀번호 입력">
-            </div>
-            <div class="form-group">
-                <h3>이름</h3>
-                <input type="text" id="name" placeholder="실명 입력">
-            </div>
-            <div class="form-group">
-                <h3>이메일</h3>
-                <input type="email" id="email" placeholder="이메일 주소 입력">
-            </div>
-            <div class="form-group">
-                <h3>전화번호</h3>
-                <input type="tel" id="phone" placeholder="전화번호 입력 (예: 010-1234-5678)" maxlength="13">
-            </div>
-            <div class="form-group">
-                <h3>역할</h3>
-                <select id="roll">
-                    <option value="">역할 선택</option>
-                    <option value="user">사용자</option>
-                    <option value="master">마스터</option>
-                    <option value="admin">관리자</option>
-                </select>
-            </div>
-            <div class="actions">
-                <button onclick="registerUser()" 
-                        style="padding: 10px 20px; background: #28a745; color: white; 
-                               border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
-                    등록
-                </button>
-                <button onclick="showUserList()" 
-                        style="padding: 10px 20px; background: #6c757d; color: white; 
-                               border: none; border-radius: 5px; cursor: pointer;">
-                    취소
-                </button>
-            </div>
-        </div>
+	        <div class="user-registration-container">
+	            <div class="registration-header">
+	                <div class="header-icon">
+	                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+	                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+	                        <circle cx="9" cy="7" r="4"></circle>
+	                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+	                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+	                    </svg>
+	                </div>
+	                <h2>새 사용자 등록</h2>
+	                <p class="header-subtitle">시스템에 새로운 사용자를 추가합니다</p>
+	            </div>
+
+	            <form class="registration-form" id="userRegistrationForm">
+	                <div class="form-row">
+	                    <div class="form-field">
+	                        <label for="username">
+	                            <span class="field-icon">👤</span>
+	                            유저 아이디 <span class="required">*</span>
+	                        </label>
+	                        <input type="text" id="username" name="username" 
+	                               placeholder="로그인에 사용할 아이디를 입력하세요" 
+	                               required>
+	                        <div class="field-hint">영문, 숫자만 사용 가능 (4-20자)</div>
+	                    </div>
+	                </div>
+
+	                <div class="form-row">
+	                    <div class="form-field">
+	                        <label for="password">
+	                            <span class="field-icon">🔒</span>
+	                            비밀번호 <span class="required">*</span>
+	                        </label>
+	                        <input type="password" id="password" name="password" 
+	                               placeholder="안전한 비밀번호를 입력하세요" 
+	                               required>
+	                        <div class="field-hint">최소 8자 이상, 영문/숫자/특수문자 조합</div>
+	                    </div>
+	                </div>
+
+	                <div class="form-row double">
+	                    <div class="form-field">
+	                        <label for="name">
+	                            <span class="field-icon">📝</span>
+	                            이름 <span class="required">*</span>
+	                        </label>
+	                        <input type="text" id="name" name="name" 
+	                               placeholder="실명을 입력하세요" 
+	                               required>
+	                    </div>
+	                    <div class="form-field">
+	                        <label for="roll">
+	                            <span class="field-icon">⚡</span>
+	                            역할 <span class="required">*</span>
+	                        </label>
+	                        <select id="roll" name="roll" required>
+	                            <option value="" disabled selected>역할을 선택하세요</option>
+	                            <option value="USER">👤 사용자</option>
+	                            <option value="MASTER">⭐ 마스터</option>
+	                            <option value="ADMIN">👑 관리자</option>
+	                        </select>
+	                    </div>
+	                </div>
+
+	                <div class="form-row double">
+	                    <div class="form-field">
+	                        <label for="email">
+	                            <span class="field-icon">📧</span>
+	                            이메일 <span class="required">*</span>
+	                        </label>
+	                        <input type="email" id="email" name="email" 
+	                               placeholder="example@company.com" 
+	                               required>
+	                    </div>
+	                    <div class="form-field">
+	                        <label for="phone">
+	                            <span class="field-icon">📱</span>
+	                            전화번호
+	                        </label>
+	                        <input type="tel" id="phone" name="phone" 
+	                               placeholder="010-1234-5678" 
+	                               maxlength="13"
+	                               pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}">
+	                    </div>
+	                </div>
+
+	                <div class="form-actions">
+	                    <button type="button" class="btn btn-secondary" onclick="showUserList()">
+	                        <span class="btn-icon">↩️</span>
+	                        취소
+	                    </button>
+	                    <button type="submit" class="btn btn-primary" onclick="registerUser(); return false;">
+	                        <span class="btn-icon">✅</span>
+	                        사용자 등록
+	                    </button>
+	                </div>
+	            </form>
+	        </div>
     `;
 
 	// 전화번호 자동 포맷팅
@@ -1442,7 +1495,7 @@ function registerUser() {
 	}
 
 	// 역할 유효성 검사
-	if (!['user', 'master', 'admin'].includes(roll)) {
+	if (!['USER', 'MASTER', 'ADMIN'].includes(roll)) {
 		alert('올바른 역할을 선택해주세요.');
 		return;
 	}
@@ -1472,7 +1525,7 @@ function registerUser() {
 
 	console.log("서버로 전송할 사용자 데이터:", userData);
 
-	fetch('/member/registerUser', {
+	fetch('/member/registMember', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
@@ -1549,17 +1602,8 @@ function editUser(userid) {
                     <div class="form-group">
                         <h3>전화번호</h3>
                         <input type="tel" id="edit-phone" value="${user.phone || ''}" placeholder="전화번호 입력" maxlength="13">
-                    </div>
-                    
-                    <div class="form-group">
-                        <h3>역할</h3>
-                        <select id="edit-roll">
-                            <option value="">역할 선택</option>
-                            <option value="user" ${user.roll === 'user' ? 'selected' : ''}>사용자</option>
-                            <option value="master" ${user.roll === 'master' ? 'selected' : ''}>마스터</option>
-                            <option value="admin" ${user.roll === 'admin' ? 'selected' : ''}>관리자</option>
-                        </select>
-                    </div>
+                    </div>                  
+             
                     
                     <div class="actions">
                         <button onclick="updateUser()" 
@@ -1749,9 +1793,9 @@ function showUserRoleManagement() {
                         <td>${user.email || '-'}</td>
                         <td>
                             <select id="role-${user.userid}">
-                                <option value="user" ${user.roll === 'user' ? 'selected' : ''}>사용자</option>
-                                <option value="master" ${user.roll === 'master' ? 'selected' : ''}>마스터</option>
-                                <option value="admin" ${user.roll === 'admin' ? 'selected' : ''}>관리자</option>
+                                <option value="USER" ${user.roll === 'USER' ? 'selected' : ''}>사용자</option>
+                                <option value="MASTER" ${user.roll === 'MASTER' ? 'selected' : ''}>마스터</option>
+                                <option value="ADMIN" ${user.roll === 'ADMIN' ? 'selected' : ''}>관리자</option>
                             </select>
                         </td>
                         <td>
@@ -1805,7 +1849,7 @@ function applyRoleChange(userid) {
 			roll: newRole
 		};
 
-		fetch('/member/changeUserRole', {
+		fetch('/member/changeUserRoll', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -1834,694 +1878,5 @@ function applyRoleChange(userid) {
 	}
 }
 
-/**************상품 관련 함수****************/
 
-function showCommodityList() {
-	mainContentArea.innerHTML = `
-	<div class="wrapper">
-	    <!-- ---------- Header + Search ---------- -->
-	    <header class="page-header">
-	        <h1>퇴직연금 상품찾기</h1>
-	        <div class="search-area">
-	            <div class="search-input">
-	                <span class="icon"><i class="fas fa-search"></i></span>
-	                <input type="text" id="searchKeyword" placeholder="어떤 상품을 찾으세요?" />
-	            </div>
-	            <button class="search-btn" id="searchBtn">검색</button>
-	            <button class="filter-btn" id="filterBtn">
-				    <i class="fas fa-sliders-h"></i>
-				</button>
-	        </div>
-	        
-	        <div class="total-cnt">
-	    	</div>
-	    </header>
-		
-	    <!-- ---------- Tabs ---------- -->
-	    <div class="choice">
-		    <div id="buttons">
-		        <button class="commodity-button active" id="fundBtn"><span>펀드</span></button>
-		        <button class="commodity-button" id="etfBtn"><span>ETF</span></button>
-		        <button class="commodity-button" id="tdfBtn"><span>TDF</span></button>
-		        <button class="commodity-button" id="defaultBtn"><span>디폴트옵션</span></button>
-		        <button class="commodity-button" id="guaranteeBtn"><span>예금</span></button>
-		    </div>
-		
-		    <!-- ---------- Filters ---------- -->
-		    <form class="selectors" onsubmit="return false;"> </form>
-	    </div>
-
-
-	    <!-- ---------- Results ---------- -->
-	    <main id="commodity_main"></main>
-	    
-	    <!-- ---------- ANALYSIS MODAL ---------- -->
-		<div id="analysisModal" class="modal">
-		    <div class="modal-content">
-		        <div class="modal-header">
-		            <h2 id="modalTitle">상품 분석</h2>
-		            <button class="close-btn" id="modalCloseBtn">&times;</button>
-		        </div>
-		        <select id="modalNavSelect" hidden="hidden"></select>
-		        <nav class="modal-nav" id="modalNav">
-		            <button data-key="overviewUrl" class="active">개요</button>
-		            <button data-key="navUrl">기준가</button>
-		            <button data-key="performanceChartUrl">성과 차트</button>
-		            <button data-key="performanceAnalysisUrl">성과 분석</button>
-		            <button data-key="riskAnalysisUrl">위험 분석</button>
-		            <button data-key="portfolioAnalysisUrl">포트폴리오</button>
-		            <button data-key="holdingsUrl">보유종목</button>
-		        </nav>
-				<div class="files" id="modalFiles">
-				  <a id="file1Link" class="file-link" href="#" target="_blank">
-				    <i class="fas fa-file-pdf"></i> 투자설명서
-				  </a>
-				  <a id="file2Link" class="file-link" href="#" target="_blank">
-				    <i class="fas fa-file-pdf"></i> 상품약관
-				  </a>
-				  <a id="file3Link" class="file-link" href="#" target="_blank">
-				    <i class="fas fa-file-pdf"></i> 간이투자설명서
-				  </a>
-				</div>
-		        <div class="modal-body"><iframe id="analysisFrame" title="analysis"></iframe></div>
-		    </div>
-		</div>
-		
-		<!-- ▽ 기존 analysisModal 아래, </div> 바로 앞에 모바일 필터 모달 추가 -->
-		<div id="filterModal" class="modal">                 <!-- 기존 .modal 재활용 -->
-		    <div class="modal-content mobile-filter">
-		        <div class="modal-header">
-		            <h2 style="font-size:1rem;">검색 필터</h2>
-		            <button class="close-btn" id="filterCloseBtn">&times;</button>
-		        </div>
-		
-		        <div class="modal-body" id="filterBody"></div>
-		
-		        <button id="filterApplyBtn"
-		                style="margin:1rem auto .8rem; padding:.6rem 2rem;"
-		                class="search-btn">적용하기
-		        </button>
-		    </div>
-		</div>
-		<button id="loadMoreBtn">더보기</button>
-	</div>`;
-	commodityInit();
-}
-
-
-function commodityInit() {	
-	/* dom 선택 helper */
-	function qs(sel, scope = document){return scope.querySelector(sel);}
-	const qsa     = (sel,scope=document)=>[...scope.querySelectorAll(sel)];
-		
-	// tab active helper
-	function setActiveTab(id){
-	    document.querySelectorAll('#buttons .commodity-button').forEach(btn=>btn.classList.remove('active'));
-	    qs('#'+id).classList.add('active');
-	}
-
-	/* ajax helpers */
-	const postJson = (url, body) => fetch(url, {
-	    method: 'POST',
-	    headers: { 'Content-Type': 'application/json' },
-	    body: JSON.stringify(body)
-	})
-	.then(res => {
-	    if (!res.ok) throw new Error(`요청 실패: ${res.status}`);
-	    return res.json();
-	})
-	.then(json => {
-		if(json.totalCnt != null) {
-	        totalCount = json.totalCnt ?? 0;   // 전체 건수 갱신
-	        
-	        qs('.total-cnt').innerHTML = '';
-	        const totalMsg = document.createElement('div');
-	        totalMsg.classList.add('total-message');
-	        totalMsg.innerHTML = `총 <span class="total-number"></span>개의 상품이 있습니다.`;
-	        qs('.total-cnt').appendChild(totalMsg);
-	        qs('.total-number').textContent = totalCount.toLocaleString();
-	        
-		}
-		if(json.entityList != null) {
-			return json.entityList ?? [];	
-		}
-		
-		return json.analysisEntity;
-	});
-
-	/* render helpers */
-	const clearMain = () => {
-		const cards = commodityMain.querySelectorAll('.fund-card');
-	    cards.forEach(card => card.remove());
-	    const message = commodityMain.querySelector('#no-commodity-message');
-	    if(message != null) message.remove();
-	}
-	
-
-	/* === 모바일 필터 모달 === */
-	const filterBtn       = qs('#filterBtn');
-	const filterModal     = qs('#filterModal');
-	const filterCloseBtn  = qs('#filterCloseBtn');
-	const filterApplyBtn  = qs('#filterApplyBtn');
-	const selectorsElm    = qs('.selectors');   // 데스크톱용 드롭박스
-	const filterBody      = qs('#filterBody');  // 모달 안 자리
-
-	/* 열기 – 모달 안에 selectors 옮기기 */
-	filterBtn.addEventListener('click', ()=>{
-	  selectorsElm.style.display = 'grid';
-	  filterBody.appendChild(selectorsElm);          // ⬇ 모달 안으로 이동
-	  filterModal.classList.add('open');
-	});
-
-	/* 닫기 – 다시 원래 자리로 */
-	function closeFilterModal(){
-	  selectorsElm.style.display = 'none';
-	  qs('.choice').appendChild(selectorsElm);       // ⬆ 헤더로 복귀
-	  filterModal.classList.remove('open');
-	}
-	filterCloseBtn.addEventListener('click', closeFilterModal);
-
-	/* 적용하기 버튼 – 검색 실행 후 닫기 */
-	filterApplyBtn.addEventListener('click', ()=>{
-	  closeFilterModal();
-	  handleSearch();   // 이미 정의된 함수 그대로 사용
-	});
-	/* state */
-	let currentPage = 0; //현재 페이지
-	const pageSize = 10; //페이지 크기
-	let totalCount = 0; //불러온 상품 총 개수(실제 불러온 값이 아니라, 검색 대상 상품 기준 개수)
-	let lastRequest  = { url:'', body:{} }; //가장 최근 조회 상태
-
-	let currentTab = 'fund';
-	const commodityMain = qs('#commodity_main');
-
-	    
-	const metricBox = (val,label) => {
-		const display = isNaN(val)?val:Number(val).toFixed(2)+'%';
-		if(label === '1개월' || label ==='누적') {
-			return `<div class="metric-box omitable"><span class="value">${display}</span><span class="label">${label}</span></div>`;
-		} else {
-			return `<div class="metric-box"><span class="value">${display}</span><span class="label">${label}</span></div>`;	
-		}
-	};
-
-	const formatDate = str => str?`${str.slice(0,4)}-${str.slice(4,6)}-${str.slice(6)}`:'';
-
-
-	//펀드 카드
-	function createFundCard(f){
-	    return buildCard(`
-	        <div class="fund-name">${f.prodName}</div>
-	        <div class="fund-sub">${f.risk} | <span>${f.fundTypeCd}</span> | ${f.manager}</div>
-	        <div class="fund-sub" style="font-size:.75rem;color:#999;">
-	            <span style="margin-right: 3px;">• 기준가: ${parseFloat(f.nav).toLocaleString()}</span>
-	            <span style="margin-right: 3px;">• 설정일: ${formatDate(f.setDate)}</span>
-	            <span>• 총 보수: ${f.totalFee}%</span>
-	        </div>
-	        <div class="metric-grid">
-	            ${metricBox(f.oneMonth,'1개월')}
-	            ${metricBox(f.threeMonth,'3개월')}
-	            ${metricBox(f.sixMonth,'6개월')}
-	            ${metricBox(f.year,'12개월')}
-	            ${metricBox(f.accum,'누적')}
-	        </div>`, f.prodId);
-	}
-
-	//디폴트 카드
-	function createDefaultCard(d){
-		const extractFileName = url => url.substring(url.lastIndexOf('/') + 1);
-
-		const guide = extractFileName(d["guideUrl"]);
-		const desc = extractFileName(d["descUrl"]);
-		
-		const ecguide = encodeURIComponent(guide);
-		const ecdesc = encodeURIComponent(desc);
-		
-		const commonPart = d["guideUrl"].substring(0, d["guideUrl"].lastIndexOf('/')+1);
-		const encodedguide = commonPart + ecguide;
-		const encodedDesc = commonPart + ecdesc;
-		
-	    const riskLabel = d.risk ? `<span style="color:#D71921;">${d.risk}</span>` : '';
-	    const gradeLabel = d.riskGrade ? ` (등급 ${d.riskGrade})` : '';
-		
-	    return buildCard(`
-	        <div class="notFund-name">${d.prodName}</div>
-	        ${d.risk || d.riskGrade ? `<div class="fund-sub">위험도: ${riskLabel}${gradeLabel}</div>` : ''}
-	        <ul style="margin-top:.8rem;font-size:.85rem;color:#555;padding-left:1rem;list-style:disc;">
-	            ${d.subProd1?`<li>${d.subProd1}</li>`:''}
-	            ${d.subProd2?`<li>${d.subProd2}</li>`:''}
-	        </ul>
-			<div class="nofundfiles">
-			  <a id="file1Link" class="file-link" href="${encodedDesc}" target="_blank">
-			    <i class="fas fa-file-pdf"></i>상품설명서
-			  </a>
-			  <a id="file2Link" class="file-link" href="${encodedguide}" target="_blank">
-			    <i class="fas fa-file-pdf"></i>상품안내
-			  </a>
-			</div>`, null);
-	}
-
-	//원리금 보장 카드
-	function createGuaranteeCard(g){
-		
-		const extractFileName = url => url.substring(url.lastIndexOf('/') + 1);
-
-		const terms = extractFileName(g["termsUrl"]);
-		const desc = extractFileName(g["descUrl"]);
-		const threeMonth = extractFileName(g["threeMonth"]);
-		
-		const ecTerms = encodeURIComponent(terms);
-		const ecdesc = encodeURIComponent(desc);
-		const ecthreeMonth = encodeURIComponent(threeMonth);
-		
-		const commonPart = g["termsUrl"].substring(0, g["termsUrl"].lastIndexOf('/')+1);
-		const encodedTerms = commonPart + ecTerms;
-		const encodedDesc = commonPart + ecdesc;
-		const encodedThreeMonth= commonPart + ecthreeMonth;
-		
-	    return buildCard(`
-	        <div class="notFund-name">${g.bank} ${g.prodName} (${g.maturityDate})</div>
-	        <div class="metric-grid" style="grid-template-columns:repeat(3,1fr);">
-	            ${metricBox(g.dbYn,'DB')}
-	            ${metricBox(g.dcYn,'DC')}
-	            ${metricBox(g.irpYn,'IRP')}
-	        </div>
-			<div class="nofundfiles">
-			  <a id="file1Link" class="file-link" href="${encodedTerms}" target="_blank">
-			    <i class="fas fa-file-pdf"></i> 약관
-			  </a>
-			  <a id="file2Link" class="file-link" href="${encodedDesc}" target="_blank">
-			    <i class="fas fa-file-pdf"></i> 설명서
-			  </a>
-			  <a id="file3Link" class="file-link" href="${encodedThreeMonth}" target="_blank">
-			    <i class="fas fa-file-pdf"></i> 3개월추이
-			  </a>
-			</div>`, null);
-	}
-
-	// 카드 생성시 스타일 fund-card로 지정하고 상품 id 값 저장
-	function buildCard(innerHtml, prodId){
-	    const div=document.createElement('div');
-	    div.className='fund-card';
-	    if(prodId) div.dataset.prodid = prodId;
-	    div.innerHTML = innerHtml;
-	    return div;
-	}
-
-	//카테고리별로 카드 구성 각각 생성
-	function renderJson(data){
-	    const arr = Array.isArray(data)?data:[data];
-	    console.log(arr);
-	    // 상품이 없는 경우
-	    if (arr.length === 0) {
-	        commodityMain.innerHTML = `
-	        	<div id="no-commodity-message">
-	        		<div style="display: inline-block;">조회된 상품이 없습니다.</div>
-	           </div>
-	            `; 
-	    } else {
-	        arr.forEach(item=>{
-	            let card;
-	            switch(currentTab){
-	                case 'default':   card=createDefaultCard(item); break;
-	                case 'guarantee': card=createGuaranteeCard(item); break;
-	                default: card = createFundCard(item); break;
-	            }
-	            commodityMain.appendChild(card);
-	        });        	
-	    }
-	    
-	    // 목록 다 그리고 버튼 보일지 말지 정함.
-	    const loadMoreBtn = qs('#loadMoreBtn');
-	    toggleLoadMoreButton(loadMoreBtn);
-	}
-
-	// 목록 보일지 말지 정하는 함수
-	function toggleLoadMoreButton(loadMoreBtn) {
-	  const totalPages = Math.ceil(totalCount / pageSize);
-	  loadMoreBtn.style.display = currentPage < totalPages - 1 ? 'block' : 'none';
-	}
-
-	// 카테고리 변경 시에 실행되는 함수(fund, etf, tdf인 경우에)
-	// 카테고리 변경 시에는 폼 초기화 및 폼 변경
-	const fetchAndRender = (url, body) => {
-	    // 카테고리를 옮기면 항상 새로운 결과 목록 --> 더보기 버튼은 불러온 목록을 기준으로 더 보여줘야 함.
-	   	currentPage = 0;
-	   	lastRequest = {url, body}; // 카테고리 옮겼을 때의 상태
-	   
-		const form = qs(".selectors");
-		const searchBar = qs('.search-area');
-		const keywordDom = qs('#searchKeyword');
-		keywordDom.value = '';
-		switch(url) {
-			case '/commodity/fund':
-				searchBar.classList.add('visible');
-				form.innerHTML = 
-					`<!-- 위험등급 -->
-		    	    <div class="dropdown-box" id="riskBox">
-		                <button type="button" class="dropdown-toggle">위험등급 선택 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="checkbox" name="riskGrade" value="1"/> 매우높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="2"/> 높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="3"/> 다소높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="4"/> 보통위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="5"/> 낮은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="6"/> 매우낮은위험</label>
-		                </div>
-		            </div>
-		
-		            <!-- 펀드유형 -->
-		            <div class="dropdown-box" id="typeBox">
-		                <button type="button" class="dropdown-toggle">펀드 유형 선택 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="checkbox" name="type" value="MMF"/> MMF</label>
-		                    <label><input type="checkbox" name="type" value="채권형"/> 채권형</label>
-		                    <label><input type="checkbox" name="type" value="채권혼합형"/> 채권혼합형</label>
-		                    <label><input type="checkbox" name="type" value="주식혼합형"/> 주식혼합형</label>
-		                    <label><input type="checkbox" name="type" value="주식형"/> 주식형</label>
-		                    <label><input type="checkbox" name="type" value="파생상품형"/> 파생상품형</label>
-		                    <label><input type="checkbox" name="type" value="재간접"/> 재간접</label>
-		                </div>
-		            </div>
-		
-		            <!-- 채널구분 -->
-		            <div class="dropdown-box" id="channelBox">
-		                <button type="button" class="dropdown-toggle">채널 구분 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="radio" name="channel" value="전체" checked/> 전체</label>
-		                    <label><input type="radio" name="channel" value="온라인전용"/> 온라인전용</label>
-		                </div>
-		            </div>
-		            
-		            <!-- 수익률 정렬 -->
-		    	    <div class="dropdown-box" id="rateBox">
-		                <button type="button" class="dropdown-toggle">수익률 정렬 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="radio" name="interPeriod" value="1"/> 1개월</label>
-		                    <label><input type="radio" name="interPeriod" value="3"/> 3개월</label>
-		                    <label><input type="radio" name="interPeriod" value="6"/> 6개월</label>
-		                    <label><input type="radio" name="interPeriod" value="12"/> 12개월</label>
-		                    <label><input type="radio" name="interPeriod" value="100"/> 누적</label>
-		                </div>
-	            	</div>`;  break;
-			case '/commodity/etf':
-				searchBar.classList.add('visible');
-				form.innerHTML = 
-					`<!-- 위험등급 -->
-		    	    <div class="dropdown-box" id="riskBox">
-		                <button type="button" class="dropdown-toggle">위험등급 선택 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="checkbox" name="riskGrade" value="1"/> 매우높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="2"/> 높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="3"/> 다소높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="4"/> 보통위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="5"/> 낮은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="6"/> 매우낮은위험</label>
-		                </div>
-		            </div>
-		
-		            <!-- 펀드유형 -->
-		            <div class="dropdown-box" id="typeBox">
-		                <button type="button" class="dropdown-toggle">펀드 유형 선택 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="checkbox" name="type" value="주식형"/> 주식형</label>
-		                    <label><input type="checkbox" name="type" value="채권형"/> 채권형</label>
-		                    <label><input type="checkbox" name="type" value="혼합형"/> 혼합형</label>
-		                    <label><input type="checkbox" name="type" value="원자재"/> 원자재</label>
-		                    <label><input type="checkbox" name="type" value="부동산"/> 부동산</label>
-		                    <label><input type="checkbox" name="type" value="기타"/> 기타</label>
-		                </div>
-		            </div>
-		
-		            <!-- 채널구분 -->
-		            <div class="dropdown-box" id="channelBox">
-		                <button type="button" class="dropdown-toggle">채널 구분 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="radio" name="channel" value="전체" checked/> 전체</label>
-		                    <label><input type="radio" name="channel" value="온라인전용"/> 온라인전용</label>
-		                </div>
-		            </div>
-		            
-		            <!-- 수익률 정렬 -->
-		    	    <div class="dropdown-box" id="rateBox">
-		                <button type="button" class="dropdown-toggle">수익률 정렬 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="radio" name="interPeriod" value="1"/> 1개월</label>
-		                    <label><input type="radio" name="interPeriod" value="3"/> 3개월</label>
-		                    <label><input type="radio" name="interPeriod" value="6"/> 6개월</label>
-		                    <label><input type="radio" name="interPeriod" value="12"/> 12개월</label>
-		                    <label><input type="radio" name="interPeriod" value="100"/> 누적</label>
-		                </div>
-	            	</div>`; break;
-			case '/commodity/tdf':
-				searchBar.classList.add('visible');
-				form.innerHTML = 
-					`<!-- 위험등급 -->
-		    	    <div class="dropdown-box" id="riskBox">
-		                <button type="button" class="dropdown-toggle">위험등급 선택 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="checkbox" name="riskGrade" value="1"/> 매우높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="2"/> 높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="3"/> 다소높은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="4"/> 보통위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="5"/> 낮은위험</label>
-		                    <label><input type="checkbox" name="riskGrade" value="6"/> 매우낮은위험</label>
-		                </div>
-		            </div>
-		
-		            <!-- 수익률 정렬 -->
-		    	    <div class="dropdown-box" id="rateBox">
-		                <button type="button" class="dropdown-toggle">수익률 정렬 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="radio" name="interPeriod" value="1"/> 1개월</label>
-		                    <label><input type="radio" name="interPeriod" value="3"/> 3개월</label>
-		                    <label><input type="radio" name="interPeriod" value="6"/> 6개월</label>
-		                    <label><input type="radio" name="interPeriod" value="12"/> 12개월</label>
-		                    <label><input type="radio" name="interPeriod" value="100"/> 누적</label>
-		                </div>
-	            	</div>`; break;
-			case '/commodity/guarantee':
-				searchBar.classList.add('visible');
-				form.innerHTML = 
-					`<!--예금 정렬 카테고리-->
-		    	    <div class="dropdown-box" id="categoryBox">
-		                <button type="button" class="dropdown-toggle">금리 정렬 ▼</button>
-		                <div class="dropdown-options">
-		                    <label><input type="radio" name="guaranteeCategory" value="db"/> DB금리순</label>
-		                    <label><input type="radio" name="guaranteeCategory" value="dc"/> DC금리순</label>
-		                    <label><input type="radio" name="guaranteeCategory" value="irp"/ >IRP금리순</label>
-		                </div>
-	            	</div>`; break;
-	        default:
-	        	form.innerHTML = '';
-		        if (searchBar.classList.contains('visible')) {
-		            searchBar.classList.remove('visible');
-		        }
-		}
-		
-		if(url != 'commodity/default') {
-	    	// dropdowns open/close
-	    	document.querySelectorAll('.dropdown-box').forEach(box => {
-	    	    box.querySelector('.dropdown-toggle').addEventListener('click', () => box.classList.toggle('open'));
-	    	});
-	    	
-	        /* search */
-	        const searchBtn = qs('#searchBtn');
-	        searchBtn.removeEventListener("click", handleSearch);
-	        searchBtn.addEventListener('click', handleSearch);	
-		}
-		
-	    clearMain();
-	    postJson(url,body)
-	        .then(renderJson)
-	        .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
-
-	};
-	
-	fetchAndRender('/commodity/fund', {channel:1, page:currentPage, size:pageSize}); //초기 랜더링
-
-	function handleSearch() {
-		
-		document.querySelectorAll('.dropdown-box.open').forEach(box => box.classList.remove('open'));
-		
-	    const riskGrades = Array.from(document.querySelectorAll('input[name="riskGrade"]:checked')).map(e=>+e.value);
-	    const types      = Array.from(document.querySelectorAll('input[name="type"]:checked')).map(e=>e.value);
-	    const channelInp = qs('input[name="channel"]:checked');
-	    const channel    = channelInp && channelInp.value==='온라인전용' ? 2 : 1;
-	    const rateDom = qs('input[name="interPeriod"]:checked');
-	    const rate = rateDom ? parseInt(rateDom.value) : 100;
-	    const keywordDom = qs('#searchKeyword');
-	    const keyword = keywordDom ? keywordDom.value : null;
-	    const guaranteeCategory = qs('input[name="guaranteeCategory"]:checked');
-	    const categoryVal = guaranteeCategory ? guaranteeCategory.value : null
-	    
-	    const body = {  
-	    		channel,
-				riskGrade: riskGrades.length?riskGrades:null,
-				category: types.length?types:null,
-				interPeriod:rate,
-				keyword,
-				page: 0,
-				size: 10,
-				guaranteeCategory: categoryVal
-	    	  };
-	    
-	    let url='';
-	    switch(currentTab){
-	        case 'fund':      url='/commodity/fund'; break;
-	        case 'etf':       url='/commodity/etf';  break;
-	        case 'tdf':       url='/commodity/tdf';  break;
-	        case 'default':   url='/commodity/default'; break;
-	        case 'guarantee': url='/commodity/guarantee'; break;
-	    }
-	    searchAndRender(url, body);
-	}
-
-	// 검색시에 부르는 함수 --> 여기서 불러온 것을 기준으로 페이지네이션 되어야함.
-	// 검색 시에는 폼 초기화 되면 안됨.
-	function searchAndRender(url, body) {
-		currentPage = 0; // 검색시 페이지는 초기화 되니까
-		lastRequest = {url, body}; // 검색 후 상태를 기억해야함.
-		
-	    clearMain();
-	    postJson(url,body)
-	        .then(data => {
-	        	renderJson(data);
-	        })
-	        .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
-	}
-
-	// 더보기 버튼을 눌렀을 시 호츌되는 함수
-	function searchMoreAndRender(url, body) {
-	    postJson(url,body)
-	    .then(renderJson)
-	    .catch(err=>commodityMain.innerHTML=`<p style="color:red;">${err.message}</p>`); 
-	}
-
-	qs('#loadMoreBtn').addEventListener('click', () => {
-	    currentPage++;
-	    lastRequest.body.page=currentPage; // 제일 최근 검색 요청에서 page값만 변경함
-	 	// 더보기 목록 추가
-	    searchMoreAndRender(lastRequest.url, lastRequest.body);
-	});
-
-
-
-
-	/*************************  CARD CLICK -> OPEN MODAL  *************************/
-	commodityMain.addEventListener('click',e=>{
-		
-		if (!e.target.classList.contains('fund-name')) return; // 오직 펀드의 이름만 반응하도록
-
-	    const card=e.target.closest('.fund-card');
-	    const prodId = card?.dataset.prodid;
-		
-	    if (!prodId) return; // 유효성 검사
-	    const fundName = e.target.textContent.trim();
-	    
-	    if(!card||!card.dataset.prodid) return; // guarantee/default cards have no prod analysis
-	    openAnalysisModal(card.dataset.prodid, fundName);
-	});
-
-	function openAnalysisModal(prodId, title){
-	    postJson('/commodity/analysis',{prodId})
-	    .then(data=>{
-	        qs('#modalTitle').textContent=title;
-	        console.log(data.overviewUrl);
-	        showModalWithUrl(data.overviewUrl);
-	        // set active nav btns urls
-	        qsa('#modalNav button').forEach(btn=>{
-	            const key=btn.dataset.key;
-	            btn.dataset.url = data[key]||'';
-	            btn.classList.toggle('active', key==='overviewUrl');
-	        });
-
-	         // ▼ 모바일 드롭다운(navSelect) 세팅 ---------------
-	         const navSelect = qs('#modalNavSelect');
-	         if (window.matchMedia('(max-width:768px)').matches) {
-	             navSelect.innerHTML = '';                      // 옵션 비우기
-	             qsa('#modalNav button').forEach(btn => {
-	                 const opt = document.createElement('option');
-	                 opt.value = btn.dataset.url || '';
-	                 opt.textContent = btn.textContent;
-	                 if (btn.classList.contains('active')) opt.selected = true;
-	                 navSelect.appendChild(opt);
-	             });
-	             navSelect.onchange = e => showModalWithUrl(e.target.value);
-	             navSelect.hidden = false;                      // 모바일에서 표시
-
-	         } else {
-	             navSelect.hidden = true;                       // PC에서는 숨김
-	         }
-	         /* ──────────────────────────────────────────────── */
-	        const files = [
-	            ['file1Link','file1'],
-	            ['file2Link','file2'],
-	            ['file3Link','file3']
-	        ];
-	        files.forEach(([linkId,key])=>{
-	            const linkEl = qs('#'+linkId);
-	            if(data[key]){                // 값이 있으면 활성화
-	            	const url = data[key];
-	            	const fileName = url.substring(url.lastIndexOf('/')+1);
-	            	const encoded = encodeURIComponent(fileName);
-	            	const commonPart = url.substring(0, url.lastIndexOf('/')+1);
-	            	const encodedUrl = commonPart + encoded;
-	                linkEl.href = encodedUrl;
-	                linkEl.classList.remove('disabled');
-	            }else{                        // 없으면 비활성/회색
-	                linkEl.href = '#';
-	                linkEl.classList.add('disabled');
-	            }
-	        });
-	        
-	        qs('#analysisModal').classList.add('open');
-	    });
-	}
-
-	function showModalWithUrl(url){
-	    qs('#analysisFrame').src=url;
-	}
-
-	/*************************  MODAL NAV & CLOSE  *************************/
-	qs('#modalNav').addEventListener('click',e=>{
-	    if(e.target.tagName!=='BUTTON') return;
-	    qsa('#modalNav button').forEach(b=>b.classList.remove('active'));
-	    e.target.classList.add('active');
-	    showModalWithUrl(e.target.dataset.url);
-	});
-	qs('#modalCloseBtn').addEventListener('click',()=>{
-	    qs('#analysisModal').classList.remove('open');
-	    qs('#analysisFrame').src='about:blank';
-	});
-
-	/* tab listeners */
-	const tabMap = [
-	    ['fundBtn','fund','/commodity/fund', 'fund'],
-	    ['etfBtn','etf','/commodity/etf', 'fund'],
-	    ['tdfBtn','tdf','/commodity/tdf', 'fund'],
-	    ['defaultBtn','default','/commodity/default', 'default'],
-	    ['guaranteeBtn','guarantee','/commodity/guarantee', 'guarantee'],
-	];
-
-	/*********************category buttons initialize************************/
-	tabMap.forEach(([btnId,tab,url,status])=>{
-	    qs('#'+btnId).addEventListener('click',()=>{
-	        currentTab=tab;
-	        setActiveTab(btnId);
-	        if(status === 'fund') fetchAndRender(url,{channel:1, page:0, size: pageSize});
-	        if(status === 'default') fetchAndRender(url, null);
-	        if(status === 'guarantee') fetchAndRender(url, {page:0, size: pageSize, });
-	    });
-	});
-
-	/* ③ 추가 – 터치/클릭 시 열려 있던 드롭다운 닫기 */
-	document.addEventListener('click', e=>{
-	  if(!e.target.closest('.dropdown-box')){
-	    document.querySelectorAll('.dropdown-box.open')
-	            .forEach(b=>b.classList.remove('open'));
-	  }
-	});
-
-}
 
