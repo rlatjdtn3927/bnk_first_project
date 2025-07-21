@@ -1,90 +1,92 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const navItems = document.querySelectorAll('.nav-item');
-  const submenuBox = document.querySelector('.submenu-box');
-  const submenus = document.querySelectorAll('.submenu-box .submenu');
-  const hamburgerBtn = document.querySelector('.hamburger-menu');
+// BNK 퇴직연금 – 헤더 스크립트 (rev 8)
+// ▸ 데스크톱: nav hover → submenu, 햄버거 → 그리드 sitemap
+// ▸ 모바일  : 햄버거 → 아코디언 sitemap
+// ▸ Resize 시 sitemap 열린 상태 유지 & 타입 자동 전환
+// ---------------------------------------------------------
+window.addEventListener("DOMContentLoaded", () => {
+  const DESKTOP_MIN = 769;
 
-  const desktopSitemap = document.querySelector('.desktop-sitemap');
-  const desktopCloseBtn = document.querySelector('.desktop-sitemap .sitemap-close');
+  const body        = document.body;
+  const hamburger   = document.querySelector(".hamburger-menu");
+  const desktopMap  = document.querySelector(".desktop-sitemap");
+  const mobileMap   = document.querySelector(".mobile-sitemap");
+  const closeBtns   = document.querySelectorAll(".sitemap-close");
+  const navItems    = document.querySelectorAll(".main-nav .nav-item");
+  const submenus    = document.querySelectorAll(".submenu");
+  const submenuBox  = document.querySelector(".submenu-box");
 
-  const mobileSitemap = document.querySelector('.mobile-sitemap');
-  const mobileCloseBtn = document.querySelector('.mobile-sitemap .sitemap-close');
-
-  const accordionTitles = document.querySelectorAll('.accordion-title');
-
-  let isHoverBound = false;
-
-  const bindPcHoverEvents = () => {
-    if (isHoverBound) return;
-    isHoverBound = true;
-
-    navItems.forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        const menuId = item.dataset.menu;
-        const targetMenu = document.getElementById(menuId);
-
-        submenuBox.classList.add('active');
-        submenus.forEach(ul => ul.classList.remove('active'));
-
-        if (targetMenu) {
-          targetMenu.classList.add('active');
-        }
-      });
-    });
-
-    document.querySelector('.main-header').addEventListener('mouseleave', () => {
-      submenuBox.classList.remove('active');
-      submenus.forEach(ul => ul.classList.remove('active'));
-    });
+  /* ---------------- Helpers ---------------- */
+  const hasSub = (item) => {
+    const id = item.dataset.menu;
+    const t  = document.getElementById(id);
+    return t && t.children.length > 0;
   };
 
-  // 초기 바인딩
-  if (window.innerWidth > 768) {
-    bindPcHoverEvents();
-  }
+  const openSitemap = () => {
+    body.classList.add("sitemap-open", "no-scroll");
+    // 햄버거 숨기기 (CSS: body.sitemap-open .hamburger-menu{display:none})
 
-  // 햄버거 버튼 클릭 시
-  hamburgerBtn.addEventListener('click', () => {
-    if (window.innerWidth > 768) {
-      desktopSitemap?.classList.add('active');
+    if (window.innerWidth >= DESKTOP_MIN) {
+      desktopMap.classList.add("open");
+      mobileMap.classList.remove("open");
     } else {
-      mobileSitemap?.classList.add('active');
+      mobileMap.classList.add("open");
+      desktopMap.classList.remove("open");
+    }
+  };
+
+  const closeSitemap = () => {
+    body.classList.remove("sitemap-open", "no-scroll");
+    desktopMap.classList.remove("open");
+    mobileMap.classList.remove("open");
+  };
+
+  /* ---------------- Events ---------------- */
+  hamburger.addEventListener("click", openSitemap);
+  closeBtns.forEach(btn => btn.addEventListener("click", closeSitemap));
+
+  // Resize: sitemap가 열려 있으면 타입만 전환 (닫지 않음)
+  window.addEventListener("resize", () => {
+    if (!body.classList.contains("sitemap-open")) return;
+    if (window.innerWidth >= DESKTOP_MIN) {
+      desktopMap.classList.add("open");
+      mobileMap.classList.remove("open");
+    } else {
+      mobileMap.classList.add("open");
+      desktopMap.classList.remove("open");
     }
   });
 
-  desktopCloseBtn?.addEventListener('click', () => {
-    desktopSitemap?.classList.remove('active');
-  });
+  // 데스크톱 hover submenu (nav)
+  navItems.forEach(item => {
+    item.addEventListener("mouseenter", () => {
+      if (window.innerWidth < DESKTOP_MIN) return;
 
-  mobileCloseBtn?.addEventListener('click', () => {
-    mobileSitemap?.classList.remove('active');
-  });
+      // 조건: submenu가 있을 때만 표시
+      const id      = item.dataset.menu;
+      const target  = document.getElementById(id);
+      submenus.forEach(sm => sm.classList.remove("active"));
+      submenuBox.classList.remove("show");
 
-  // 모바일 아코디언 토글
-  accordionTitles.forEach(title => {
-    title.addEventListener('click', () => {
-      const content = title.nextElementSibling;
-      content.classList.toggle('active');
+      if (target && target.children.length) {
+        target.classList.add("active");
+        submenuBox.classList.add("show");
+      }
     });
   });
 
-  // 창 크기 변경 시 메뉴 초기화 + 이벤트 재설정
-  window.addEventListener('resize', () => {
-    const isPC = window.innerWidth > 768;
+  // nav 영역 벗어나면 submenu 닫기
+  document.querySelector(".main-header").addEventListener("mouseleave", () => {
+    if (window.innerWidth < DESKTOP_MIN) return;
+    submenuBox.classList.remove("show");
+    submenus.forEach(sm => sm.classList.remove("active"));
+  });
 
-    // 메뉴 초기화
-    submenuBox.classList.remove('active');
-    submenus.forEach(ul => ul.classList.remove('active'));
-    mobileSitemap.classList.remove('active');
-    desktopSitemap.classList.remove('active');
-
-    document.querySelectorAll('.accordion-content').forEach(el => {
-      el.classList.remove('active');
+  /* 모바일 아코디언 */
+  mobileMap.querySelectorAll(".accordion-item:not(.no-sub) > .accordion-title").forEach(title => {
+    title.addEventListener("click", () => {
+      const item = title.parentElement;
+      item.classList.toggle("open");
     });
-
-    // PC용 hover 이벤트 재설정
-    if (isPC) {
-      bindPcHoverEvents();
-    }
   });
 });
