@@ -247,7 +247,7 @@ html, body {
 .card-content{display:flex;flex-direction:column;flex:1}
 .card-content h3{font-size:18px;font-weight:700;margin:0 0 8px}
 .card-content p{font-size:14px;color:#555;margin:0 0 16px}
-.card-link{font-size:14px;font-weight:500;text-decoration:none;margin-top:auto;align-self:flex-end}
+.card-link{font-size:14px;font-weight:500;text-decoration:none;margin-top:auto;align-self:flex-end;color:#555}
 .card-link:hover{text-decoration:underline}
 
 /* 4. Why 부산은행 섹션 -----------------------------------------*/
@@ -340,6 +340,7 @@ html, body {
   padding: 60px 20px;
   box-sizing: border-box;
   position: relative;
+  font-family: 'Pretendard', sans-serif;
 }
 
 .notice-guide-section::before {
@@ -352,40 +353,70 @@ html, body {
   background: #ddd;
 }
 
-/* 공지 영역 */
+/* 공지사항 영역 */
 .notice-box {
   flex: 0 0 58%;
   padding-right: 40px;
   box-sizing: border-box;
 }
+
 .notice-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
 }
+
 .notice-header h2 {
   font-size: 22px;
   font-weight: 800;
   margin: 0;
 }
+
 .more-link {
   font-size: 14px;
   color: #333;
   text-decoration: none;
 }
+
+.more-link:hover {
+  text-decoration: underline;
+}
+
 .notice-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
+
 .notice-list li {
-  margin-bottom: 10px;
-  padding-bottom: 5px;
+  margin-bottom: 5px;
+  padding-bottom: 3px;
   border-bottom: 1px solid #eee;
 }
-.notice-title { font-size: 16px; font-weight: 500; }
-.notice-date  { font-size: 14px; color: #999; margin-top: 4px; }
+
+.notice-title {
+	margin-bottom: 3px;
+}
+
+.notice-title a {
+  color: #333; 
+  text-decoration: none; 
+  font-weight: 500;
+  
+}
+
+.notice-title a:hover {
+  color: #333;
+}
+
+
+.notice-date {
+  font-size: 14px;
+  color: #999;
+  margin-top: 2.7px;
+  
+}
 
 /* 가이드 박스 */
 .guide-box {

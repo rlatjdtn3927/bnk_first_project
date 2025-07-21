@@ -3,12 +3,14 @@ package com.example.pension_project;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import com.example.pension_project.chatbot.init.AsyncInitializer;
 
 @SpringBootApplication
 @EnableAsync
+@EnableJpaAuditing
 public class PensionProjectApplication implements CommandLineRunner {
 
     private final AsyncInitializer asyncInitializer;

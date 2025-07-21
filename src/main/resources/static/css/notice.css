@@ -1,0 +1,102 @@
+body, button {
+  font-family: 'Pretendard', sans-serif;
+  color: #1e1e1e;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.notice-section {
+  width: 100%;
+  max-width: 960px;
+  margin: 80px auto 60px;
+  padding: 0 20px;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+.notice-section h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.notice-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 2px solid #e30000;
+}
+
+.notice-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.notice-item a {
+  text-decoration: none;
+  color: #1e1e1e;
+  font-weight: 500;
+  flex: 1;
+  word-break: break-word;
+}
+
+.notice-item .date {
+  font-size: 14px;
+  color: #888;
+  white-space: nowrap;
+  margin-left: 20px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  gap: 6px;
+}
+
+.pagination button {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.pagination button.active {
+  background: #e30000;
+  color: #fff;
+  border-color: #e30000;
+  font-weight: bold;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .notice-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .notice-item .date {
+    font-size: 13px;
+    margin-left: 0;
+  }
+
+  .pagination button {
+    padding: 5px 10px;
+  }
+
+  .notice-section {
+    margin: 60px auto 40px;
+    padding: 0 16px;
+  }
+}
