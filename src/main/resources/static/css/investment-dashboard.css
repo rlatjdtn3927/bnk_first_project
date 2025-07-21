@@ -9,7 +9,7 @@ body {
 .section {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 60px 30px;
+  padding: 40px 30px;
 }
 
 /* 제목 */
@@ -22,12 +22,12 @@ body {
   font-size: 18px;
   margin-top: 20px;
   font-weight: 500;
-  line-height: 1.4;
 }
 
-.subtitle span {
+.add {
 	font-weight: 300;
 	font-size: 15px;
+	margin-bottom: 5px;
 }
 
 
