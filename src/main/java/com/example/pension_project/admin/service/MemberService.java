@@ -17,6 +17,7 @@ public class MemberService {
 	private MemberRepository memberRepository;
 	private Member convert(MemberDto dto) {
 	    Member member = new Member();
+	    
 	    member.setUserid(dto.getUserid());
 	    member.setUsername(dto.getUsername());
 	    member.setPassword(dto.getPassword());
@@ -29,6 +30,7 @@ public class MemberService {
 	private MemberDto convertToDto(Member member) {
 	    MemberDto dto = new MemberDto();
 	    
+	    dto.setUserid(member.getUserid());
 	    dto.setUsername(member.getUsername());
 	    dto.setPassword(member.getPassword());
 	    dto.setName(member.getName());
@@ -74,6 +76,10 @@ public class MemberService {
 	//사용자 등록
 	public void registMember(MemberDto memberDto) {
 		memberDto.setUserid(null);
+		memberRepository.save(convert(memberDto));
+	}
+	//사용자 권한 변경
+	public void resetMemberRoll(MemberDto memberDto) {
 		memberRepository.save(convert(memberDto));
 	}
 }
