@@ -388,7 +388,7 @@
           <div class="result-item">
             <div class="item-main">
               <p class="item-title">${highlight(item.prodName, kw)}</p>
-              <p class="item-snippet">은행: ${item.bank}</p>
+              <p class="item-sub">은행: ${item.bank}</p>
               <p class="item-sub">만기일: ${item.maturityDate}</p>
             </div>
           </div>
@@ -427,9 +427,9 @@
         return `
           <div class="result-item">
             <div class="item-main">
+              <p class="item-sub">유형: ${item.mainType}</p>
               <p class="item-title">${highlight(item.question, kw)}</p>
               <p class="item-snippet">${highlight(item.answer, kw)}</p>
-              <p class="item-sub">유형: ${item.mainType}</p>
             </div>
           </div>
         `;
