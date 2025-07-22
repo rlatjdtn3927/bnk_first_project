@@ -22,9 +22,9 @@
   <h1 class="tab-title">퇴직연금 제도의 종류</h1>
 
   <div class="tab-menu">
-    <button class="active" onclick="showTab('db', this)">확정급여형(DB)</button>
-    <button onclick="showTab('dc', this)">확정기여형(DC)</button>
-    <button onclick="showTab('irp', this)">개인형IRP</button>
+    <button class="active" onclick="showTab('db', this)">DB</button>
+    <button onclick="showTab('dc', this)">DC</button>
+    <button onclick="showTab('irp', this)">IRP</button>
     <button onclick="showTab('compare', this)">제도간비교</button>
   </div>
 
@@ -326,91 +326,84 @@
     <div class="section" id="compare" style="display: none;">
       <h2>제도 간 비교</h2>
       <div class="compare-table-wrapper">
-  <div class="compare-header-row">
-    <div class="compare-title"></div>
-    <div class="compare-head">확정급여형(DB)</div>
-    <div class="compare-head">확정기여형(DC)</div>
-    <div class="compare-head">개인형 퇴직연금(IRP)</div>
-  </div>
-
-  <div class="compare-row">
-    <div class="compare-title">개념</div>
-    <div class="compare-col">
-      - 퇴직 시 지급할 급여수준 및 내용을 노사 간 사전에 확정<br>
-      - 근로자 퇴직 시 사용자는 사전에 약정된 퇴직급여를 지급
-    </div>
-    <div class="compare-col">
-      - 기업이 부담할 부담금 수준은 사전에 확정<br>
-      - 근로자 퇴직 시 적립금 운용 결과에 따라 퇴직급여 수령
-    </div>
-    <div class="compare-col">
-      - 퇴직금이나 일시금, 소득이 있는 근로자가 본인 부담금으로 적립 가능<br>
-      - 10인 미만 사업장 적용을 위한 특례제도<br>
-      - 퇴직금 수령자의 일시금 이전 등에도 사용
-    </div>
-  </div>
-
-  <div class="compare-row">
-    <div class="compare-title">적립금 운용주체</div>
-    <div class="compare-col">사용자</div>
-    <div class="compare-col">근로자</div>
-    <div class="compare-col">근로자</div>
-  </div>
-
-  <div class="compare-row">
-    <div class="compare-title">기업부담</div>
-    <div class="compare-col">
-      적립금 운용성과에 따라 기업의 부담금 변동 (운용 수익률이 높을 경우 기업부담 증가 가능)
-    </div>
-    <div class="compare-col">
-      매년 기업의 부담금은 근로자 임금의 일정비율로 확정 (예: 연간 임금 총액의 1/12)
-    </div>
-    <div class="compare-col">없음 (단, 기업형 IRP는 DC와 동일)</div>
-  </div>
-
-  <div class="compare-row">
-    <div class="compare-title">퇴직급여</div>
-    <div class="compare-col">
-      확정 (근무기간과 퇴직 시 임금 수준에 따라 결정)
-    </div>
-    <div class="compare-col">
-      변동 (운용성과에 따라 퇴직금이 달라짐)
-    </div>
-    <div class="compare-col">
-      변동 (운용성과에 따라 퇴직금 수준이 달라짐)
-    </div>
-  </div>
-
-  <div class="compare-row">
-    <div class="compare-title">세액공제 혜택</div>
-    <div class="compare-col">없음</div>
-    <div class="compare-col">있음 (가입자 추가부담금에 한함)</div>
-    <div class="compare-col">있음 (가입자 추가부담금에 한함)</div>
-  </div>
-
-  <div class="compare-row">
-    <div class="compare-title">중도인출</div>
-    <div class="compare-col">불가</div>
-    <div class="compare-col">사유 충족 시 가능</div>
-    <div class="compare-col">사유 충족 시 가능</div>
-  </div>
-
-  <div class="compare-row">
-    <div class="compare-title">적합한 기업·근로자</div>
-    <div class="compare-col">
-      도산 위험이 없고, 장기 고용이 보장된 안정된 기업
-    </div>
-    <div class="compare-col">
-      - 연봉제 도입 기업<br>
-      - 이직률이 높은 기업<br>
-      - 직장 이동이 잦은 근로자
-    </div>
-    <div class="compare-col">
-      - 소규모 기업 근로자<br>
-      - 퇴직금 수령자 및 DB, DC 가입 근로자
-    </div>
-  </div>
-</div>
+		<div class="fee-table-wrapper">
+		  <table class="fee-table table-content">
+		    <thead>
+		      <tr>
+		        <th rowspan="2">항목</th>
+		        <th>확정급여형(DB)</th>
+		        <th>확정기여형(DC)</th>
+		        <th>개인형 퇴직연금(IRP)</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr>
+		        <th>개념</th>
+		        <td>
+		          - 퇴직 시 지급할 급여수준 및 내용을 노사 간 사전에 확정<br>
+		          - 근로자 퇴직 시 사용자는 사전에 약정된 퇴직급여를 지급
+		        </td>
+		        <td>
+		          - 기업이 부담할 부담금 수준은 사전에 확정<br>
+		          - 근로자 퇴직 시 적립금 운용 결과에 따라 퇴직급여 수령
+		        </td>
+		        <td>
+		          - 퇴직금이나 일시금, 소득이 있는 근로자가 본인 부담금으로 적립 가능<br>
+		          - 10인 미만 사업장 적용을 위한 특례제도<br>
+		          - 퇴직금 수령자의 일시금 이전 등에도 사용
+		        </td>
+		      </tr>
+		      <tr>
+		        <th>적립금 운용주체</th>
+		        <td>사용자</td>
+		        <td>근로자</td>
+		        <td>근로자</td>
+		      </tr>
+		      <tr>
+		        <th>기업부담</th>
+		        <td>
+		          적립금 운용성과에 따라 기업의 부담금 변동 (운용 수익률이 높을 경우 기업부담 증가 가능)
+		        </td>
+		        <td>
+		          매년 기업의 부담금은 근로자 임금의 일정비율로 확정 (예: 연간 임금 총액의 1/12)
+		        </td>
+		        <td>없음 (단, 기업형 IRP는 DC와 동일)</td>
+		      </tr>
+		      <tr>
+		        <th>퇴직급여</th>
+		        <td>확정 (근무기간과 퇴직 시 임금 수준에 따라 결정)</td>
+		        <td>변동 (운용성과에 따라 퇴직금이 달라짐)</td>
+		        <td>변동 (운용성과에 따라 퇴직금 수준이 달라짐)</td>
+		      </tr>
+		      <tr>
+		        <th>세액공제 혜택</th>
+		        <td>없음</td>
+		        <td>있음 (가입자 추가부담금에 한함)</td>
+		        <td>있음 (가입자 추가부담금에 한함)</td>
+		      </tr>
+		      <tr>
+		        <th>중도인출</th>
+		        <td>불가</td>
+		        <td>사유 충족 시 가능</td>
+		        <td>사유 충족 시 가능</td>
+		      </tr>
+		      <tr>
+		        <th>적합한 기업·근로자</th>
+		        <td>도산 위험이 없고, 장기 고용이 보장된 안정된 기업</td>
+		        <td>
+		          - 연봉제 도입 기업<br>
+		          - 이직률이 높은 기업<br>
+		          - 직장 이동이 잦은 근로자
+		        </td>
+		        <td>
+		          - 소규모 기업 근로자<br>
+		          - 퇴직금 수령자 및 DB, DC 가입 근로자
+		        </td>
+		      </tr>
+		    </tbody>
+		  </table>
+		</div>
+	</div>
 
     </div>
   </div>

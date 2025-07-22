@@ -252,4 +252,7 @@ body.sitemap-open { overflow: hidden; }
   .main-nav { display: none; }
   /* Hide login link */
   .header-right .login-link { display: none; }
+  
+  .logo img { height: 20px; width: auto; }
+  
 }

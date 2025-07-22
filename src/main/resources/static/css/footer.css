@@ -11,6 +11,9 @@
   max-width: 1200px;
   margin: 0 auto;
   line-height: 1.8;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .footer-links,
@@ -26,4 +29,29 @@
 .footer-copy {
   font-size: 13px;
   color: #c8c6bd;
+}
+
+
+/* ✅ 반응형 설정 */
+@media (max-width: 768px) {
+  .main-footer {
+    font-size: 12px;
+    padding: 16px;
+  }
+
+  .footer-inner {
+    padding: 0 12px;
+    line-height: 1.5;
+    gap: 6px;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+  }
+
+  .footer-links,
+  .footer-contact,
+  .footer-copy {
+    margin-bottom: 6px;
+  }
 }

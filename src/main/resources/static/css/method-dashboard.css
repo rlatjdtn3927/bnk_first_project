@@ -5,7 +5,7 @@ body {
 	color: #222;
 }
 
-button {
+#scrollToTopBtn {
   position: fixed;
   bottom: 40px;
   right: 40px;
