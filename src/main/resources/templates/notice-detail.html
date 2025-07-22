@@ -7,6 +7,7 @@
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <link rel="stylesheet" th:href="@{/css/footer.css}" />
   <link rel="stylesheet" th:href="@{/css/notice-detail.css}" />
+  <link rel="stylesheet" th:href="@{/css/chatbot.css}" />
 </head>
 
 <!-- 공지 ID를 body의 data 속성으로 전달 -->
@@ -29,7 +30,8 @@
 </section>
 
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
-
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script th:src="@{/js/chatbot.js}"></script>
 </div>
 
 

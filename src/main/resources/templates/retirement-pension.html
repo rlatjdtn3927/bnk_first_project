@@ -8,6 +8,7 @@
   <link rel="stylesheet" th:href="@{/css/footer.css}" />
   <link rel="stylesheet" th:href="@{/css/retirement-pension.css}" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css">
+  <link rel="stylesheet" th:href="@{/css/chatbot.css}" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -300,6 +301,6 @@
   }
 </script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script defer th:src="@{/js/chatbot.js}"></script>
+<script th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>
