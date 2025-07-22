@@ -35,6 +35,7 @@ public class MemberController {
 	public ResponseEntity<List<MemberDto>> getMemberList() {
 		try {
 			List<MemberDto> memberList = memberService.getMemberList();
+			
 			return ResponseEntity.ok(memberList);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -160,12 +161,12 @@ public class MemberController {
 		System.out.println("(MemberController)들어온 사용자 등록정보: " + member);
 		try {
 			System.out.println("사용자 등록중...");
-			
 			memberService.registMember(member);
-		} catch (Exception e) {
 			return ResponseEntity.ok("사용자 등록 성공");
+		} catch (Exception e) {
+			return ResponseEntity.ok("사용자 등록 실패");
 		}
-		return null;
+		
 	}
 	@GetMapping("/getUserDetail")
 	public ResponseEntity<?> getUserDetail(@RequestParam("userid") Integer userid) {
@@ -189,7 +190,7 @@ public class MemberController {
 			System.out.println("권한 변경된 userid: "+ member.getUserid());
 			System.out.println("저장된 데이터: "+ member);
 			//DB에 저장
-			memberService.registMember(member);
+			memberService.resetMemberRoll(member);
 			return ResponseEntity.ok("권한 변경 성공");
 		}
 		return ResponseEntity.ok("실패");
