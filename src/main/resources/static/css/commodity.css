@@ -47,24 +47,42 @@
 		}
       
       /* ---------- search bar ---------- */
-        .search-area {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            
-		    /* 애니메이션 관련 속성 추가 */
-		    opacity: 0;                    /* 투명하게 (안 보임) */
-		    transform: translateY(-10px);  /* 위로 10px 이동 (살짝 올라가 있음) */
-		    pointer-events: none;          /* 마우스 클릭 등 모든 이벤트 차단 */
-		    transition: opacity 0.4s ease, transform 0.4s ease; /* 변화 애니메이션 */
-        }
-        
-        .search-area.visible {
-		    opacity: 1;
-		    transform: translateY(0);
-		    pointer-events: auto;          /* 클릭 가능 */
-		    visibility: visible;
+		.search-area {
+		    display: flex;
+		    align-items: center;
+		    gap: 1rem;
+		    pointer-events: auto;
+		    animation: fadeInUp 0.4s ease forwards;
 		}
+		
+		/* 아래에서 위로 올라오며 나타나는 애니메이션 정의 */
+		@keyframes fadeInUp {
+		    from {
+		        opacity: 0;
+		        transform: translateY(10px);
+		    }
+		    to {
+		        opacity: 1;
+		        transform: translateY(0);
+		    }
+		}
+		
+		.search-area.hidden {
+		    pointer-events: none;
+		    animation: fadeAway 0.4s ease forwards;
+		}
+		
+		@keyframes fadeAway {
+		    from {
+		        opacity: 1;
+		        transform: translateY(0);
+		    }
+		    to {
+		        opacity: 0;
+		        transform: translateY(-10px);
+		    }
+		}
+
 		
         .search-input {
             flex: 1;
@@ -190,7 +208,7 @@
             background: #fff;
             border: 1px solid #ccc;
             border-radius: 6px;
-            min-width: 150px;
+            min-width: 140px;
             text-align: center;
         }
         .dropdown-options {
@@ -206,7 +224,8 @@
             padding: .75rem 1rem;
             max-height: 260px;
             overflow-y: auto;
-            min-width: 150px;
+            min-width: 140px;
+            box-sizing: border-box;
         }
         .dropdown-options label {
             display: block;
@@ -215,6 +234,7 @@
         }
         /* show helper */
         .dropdown-box.open .dropdown-options {display: block;}
+        
 
         /* ---------- cards grid ---------- */
         #commodity_main {
@@ -372,6 +392,25 @@
 		    pointer-events:none;
 		    opacity:.35;
 		}
+		
+		#scrollTopBtn {
+		    display: none; /* 처음엔 숨김 */
+		    position: fixed;
+		    bottom: 2rem;
+		    right: 8rem;
+		    z-index: 999;
+		    font-size: 1.2rem;
+		    background-color: #D71921;
+		    color: white;
+		    border: none;
+		    border-radius: 50%;
+		    width: 3rem;
+		    height: 3rem;
+		    cursor: pointer;
+		    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+		    transition: opacity 0.3s ease;
+		}
+		
 	
         /* scrollbars (optional) */
         ::-webkit-scrollbar {width: 8px;}
@@ -379,6 +418,12 @@
         /* === MOBILE (≤768px) =========================================== */
       
 		@media (max-width: 768px){
+			#scrollTopBtn{
+				bottom: 1rem;
+		    	right: 1rem;
+		    	width: 2rem;
+		    	height: 2rem;
+			}
 			.wrapper {margin: .5rem auto .5rem;}
 			.commodity_main {align-items: center;}
 			/*페이지헤더 세팅*/
@@ -487,7 +532,7 @@
 			    display: block;
 			    box-sizing: border-box;
 			    position: static;
-			    min-width: 100%;  
+			    min-width: 140px;  
 			}
 
 			.dropdown-toggle {

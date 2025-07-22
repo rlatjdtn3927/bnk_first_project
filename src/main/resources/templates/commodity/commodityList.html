@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!--모바일용-->
     <title>상품 페이지</title>	
     <!-- external css -->
+    <link rel="stylesheet" th:href="@{/css/commodity.css}" />
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
-    <link rel="stylesheet" th:href="@{/css/commodity.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
@@ -361,7 +361,9 @@
     	keywordDom.value = '';
 		switch(url) {
 			case '/commodity/fund':
-				searchBar.classList.add('visible');
+		        if (searchBar.classList.contains('hidden')) {
+		        	searchBar.classList.remove('hidden');
+		        }
 				form.innerHTML = 
 					`<!-- 위험등급 -->
 		    	    <div class="dropdown-box" id="riskBox">
@@ -409,9 +411,11 @@
 		                    <label><input type="radio" name="interPeriod" value="12"/> 12개월</label>
 		                    <label><input type="radio" name="interPeriod" value="100"/> 누적</label>
 		                </div>
-	            	</div>`;  break;
+	            	</div>`; break;
 			case '/commodity/etf':
-				searchBar.classList.add('visible');
+		        if (searchBar.classList.contains('hidden')) {
+		        	searchBar.classList.remove('hidden');
+		        }
 				form.innerHTML = 
 					`<!-- 위험등급 -->
 		    	    <div class="dropdown-box" id="riskBox">
@@ -460,7 +464,9 @@
 		                </div>
 	            	</div>`; break;
 			case '/commodity/tdf':
-				searchBar.classList.add('visible');
+		        if (searchBar.classList.contains('hidden')) {
+		        	searchBar.classList.remove('hidden');
+		        }
 				form.innerHTML = 
 					`<!-- 위험등급 -->
 		    	    <div class="dropdown-box" id="riskBox">
@@ -487,7 +493,9 @@
 		                </div>
 	            	</div>`; break;
 			case '/commodity/guarantee':
-				searchBar.classList.add('visible');
+		        if (searchBar.classList.contains('hidden')) {
+		        	searchBar.classList.remove('hidden');
+		        }
 				form.innerHTML = 
 					`<!--예금 정렬 카테고리-->
 		    	    <div class="dropdown-box" id="categoryBox">
@@ -500,8 +508,8 @@
 	            	</div>`; break;
 	        default:
 	        	form.innerHTML = '';
-		        if (searchBar.classList.contains('visible')) {
-		            searchBar.classList.remove('visible');
+		        if (!searchBar.classList.contains('hidden')) {
+		        	searchBar.classList.add('hidden');
 		        }
 		}
 		
@@ -708,5 +716,23 @@
     });
 </script>
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
+<button id="scrollTopBtn" title="상단으로"><i class="fas fa-arrow-up"></i></button>
+<script>
+  const scrollBtn = document.getElementById('scrollTopBtn');
+
+  // 스크롤 이벤트 감지 → 일정 이상 스크롤되면 버튼 보이기
+  window.addEventListener('scroll', () => {
+    if (document.documentElement.scrollTop > 500 || document.body.scrollTop > 500) {
+      scrollBtn.style.display = 'block';
+    } else {
+      scrollBtn.style.display = 'none';
+    }
+  });
+
+  // 클릭 시 페이지 상단으로 스크롤
+  scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
 </body>
 </html>
