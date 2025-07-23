@@ -497,25 +497,24 @@
 		</table>
 	</div>
 </div>
-<button id="scrollToTopBtn">↑ 맨 위로</button>
 
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
+<button id="scrollTopBtn" title="상단으로"><i class="fas fa-arrow-up"></i></button>
 <script>
-  // 버튼 요소 가져오기
-  const scrollToTopBtn = document.getElementById("scrollToTopBtn");
+  const scrollBtn = document.getElementById('scrollTopBtn');
 
-  // 스크롤 이벤트 리스너 추가
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      scrollToTopBtn.style.display = "block";
+  // 스크롤 이벤트 감지 → 일정 이상 스크롤되면 버튼 보이기
+  window.addEventListener('scroll', () => {
+    if (document.documentElement.scrollTop > 500 || document.body.scrollTop > 500) {
+      scrollBtn.style.display = 'block';
     } else {
-      scrollToTopBtn.style.display = "none";
+      scrollBtn.style.display = 'none';
     }
   });
 
-  // 클릭 시 맨 위로 스크롤
-  scrollToTopBtn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  // 클릭 시 페이지 상단으로 스크롤
+  scrollBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 </script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>

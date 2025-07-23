@@ -533,7 +533,6 @@
 
 <!-- footer -->
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
-<button id="topBtn" onclick="scrollToTop()">맨 위로 ↑</button>
 
 <!-- 스크롤 이벤트 및 동작 스크립트 -->
 <script>
@@ -561,18 +560,6 @@
 	window.addEventListener('DOMContentLoaded', () => {
 	  showTab('DB', document.querySelector('.tab-menu button'));
 	});
-	
-
-  // 스크롤 감지해서 버튼 표시
-  window.addEventListener("scroll", function () {
-    const btn = document.getElementById("topBtn");
-    btn.style.display = (window.scrollY > 200) ? "block" : "none";
-  });
-
-  // 부드럽게 최상단으로 이동
-  function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
 </script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <script th:src="@{/js/chatbot.js}"></script>
