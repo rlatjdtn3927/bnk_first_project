@@ -126,14 +126,14 @@
 </div> 
 
 <!-- 결과 영역 (처음에는 숨김) -->
-<div id="resultSection" style="display:none; margin-top:30px;">
-	<h2>은퇴 자금 계산 결과</h2>
-    <ul>
-    	<li>현재 총 생활비: <span id="curTotalExp"></span> 만원</li>
-	    <li>은퇴 후 총 생활비: <span id="retTotalExp"></span> 만원</li>
-	    <li>준비 가능 자금: <span id="availAmt"></span> 만원</li>
-	    <li>필요 은퇴 자금: <span id="needAmt"></span> 만원</li>
-	    <li>부족 자금: <span id="shortAmt"></span> 만원</li>
+<div id="result-section" class="result-block" style="display:none;">
+	<h2 class="result-title">은퇴 자금 계산 결과</h2>
+    <ul class="result-list">
+    	<li><strong>현재 총 생활비:</strong> <span id="curTotalExp"></span> 만원</li>
+	    <li><strong>은퇴 후 총 생활비:</strong> <span id="retTotalExp"></span> 만원</li>
+	    <li><strong>준비 가능 자금:</strong> <span id="availAmt"></span> 만원</li>
+	    <li><strong>필요 은퇴 자금:</strong> <span id="needAmt"></span> 만원</li>
+	    <li><strong>부족 자금:</strong> <span id="shortAmt"></span> 만원</li>
     </ul>
 </div>
 
@@ -146,74 +146,87 @@
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <script th:src="@{/js/chatbot.js}"></script>
 
-	<script>
-		//슬라이드 실시간 값 반영
-		const sliders = [
-			{ id: 'curAge', label: 'curAgeVal'},
-			{ id: 'retAge', label: 'retAgeVal' },
-			{ id: 'lifeExp', label: 'lifeExpVal' },
-			{ id: 'yieldRate', label: 'yieldVal' },
-			{ id: 'infRate', label: 'infVal' }
-		];
+<script>
+	//슬라이드 배경 채우기 함수
+	function updateSliderFill(slider) {
+		const min = parseFloat(slider.min);
+		const max = parseFloat(slider.max);
+		const val = parseFloat(slider.value);
+		const percent = ((val - min) / (max - min)) * 100;
+		slider.style.background = `linear-gradient(to right, #4B84CA 0%, #4B84CA ${percent}%, #f5f5f5 ${percent}%, #f5f5f5 100%)`;
+	}
+
+	//슬라이드 실시간 값 반영
+	const sliders = [
+		{ id: 'curAge', label: 'curAgeVal'},
+		{ id: 'retAge', label: 'retAgeVal' },
+		{ id: 'lifeExp', label: 'lifeExpVal' },
+		{ id: 'yieldRate', label: 'yieldVal' },
+		{ id: 'infRate', label: 'infVal' }
+	];
 		
-		sliders.forEach(({id, label}) => {
-			const slider = document.getElementById(id);
-			const display = document.getElementById(label);
+	sliders.forEach(({id, label}) => {
+		const slider = document.getElementById(id);
+		const display = document.getElementById(label);
+		
+		// 초기 상태에도 배경 적용
+		updateSliderFill(slider);
 			
-			slider.addEventListener('input', () => {
-				display.textContent = slider.value;
-			});
+		slider.addEventListener('input', () => {
+			display.textContent = slider.value;
+			updateSliderFill(slider);
 		});
+	});
 		
-		//버튼 클릭시 input 반영
-		const presetButtons = document.querySelectorAll('.preset');
-		presetButtons.forEach(btn => {
-			btn.addEventListener('click', () => {
-				const targetId = btn.dataset.target;
-				const value = btn.dataset.value;
+	//버튼 클릭시 input 반영
+	const presetButtons = document.querySelectorAll('.preset');
+	presetButtons.forEach(btn => {
+		btn.addEventListener('click', () => {
+			const targetId = btn.dataset.target;
+			const value = btn.dataset.value;
 				
-				const input = document.getElementById(targetId);
-				input.value = value;
+			const input = document.getElementById(targetId);
+			input.value = value;
 				
-				//관련 label도 갱신
-				const label = document.getElementById(`${targetId}Val`);
-				if (label) label.textContent = value;
-			});
+			//관련 label도 갱신
+			const label = document.getElementById(`${targetId}Val`);
+			if (label) label.textContent = value;
 		});
+	});
 		
-		//결과보기 버튼 클릭 시 서버에 데이터 전송 
-		document.getElementById("calcBtn").addEventListener("click", async () => {
-			const inputData = {
-				curAge: parseInt(document.getElementById('curAge').value),
-				retireAge: parseInt(document.getElementById('retAge').value),
-				lifeExp: parseInt(document.getElementById('lifeExp').value),
-				curExp: parseInt(document.getElementById('curExp').value),
-				retExp: Math.round(parseInt(document.getElementById('curExp').value) * 0.7),
-				saveYears: parseInt(document.getElementById('saveYears').value),
-				saveAmt: parseInt(document.getElementById('saveAmt').value),
-				yieldRate: parseFloat(document.getElementById('yieldRate').value),
-				infRate: parseFloat(document.getElementById('infRate').value)
-			};
+	//결과보기 버튼 클릭 시 서버에 데이터 전송 
+	document.getElementById("calcBtn").addEventListener("click", async () => {
+		const inputData = {
+			curAge: parseInt(document.getElementById('curAge').value),
+			retireAge: parseInt(document.getElementById('retAge').value),
+			lifeExp: parseInt(document.getElementById('lifeExp').value),
+			curExp: parseInt(document.getElementById('curExp').value),
+			retExp: Math.round(parseInt(document.getElementById('curExp').value) * 0.7),
+			saveYears: parseInt(document.getElementById('saveYears').value),
+			saveAmt: parseInt(document.getElementById('saveAmt').value),
+			yieldRate: parseFloat(document.getElementById('yieldRate').value),
+			infRate: parseFloat(document.getElementById('infRate').value)
+		};
 			
-			const response = await fetch('/retire/retire-calc', {
-				method: 'POST',
-				headers: {'Content-Type': 'application/json'},
-				body: JSON.stringify(inputData)
-			});
+		const response = await fetch('/retire/retire-calc', {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(inputData)
+		});
 			
-			const result = await response.json();
+		const result = await response.json();
 			
-			// 결과값 렌더링
-		    document.getElementById("curTotalExp").textContent = result.curTotalExp;
-		    document.getElementById("retTotalExp").textContent = result.retTotalExp;
-		    document.getElementById("availAmt").textContent = result.availAmt;
-		    document.getElementById("needAmt").textContent = result.needAmt;
-		    document.getElementById("shortAmt").textContent = result.shortAmt;
+		// 결과값 렌더링
+		document.getElementById("curTotalExp").textContent = result.curTotalExp;
+		document.getElementById("retTotalExp").textContent = result.retTotalExp;
+		document.getElementById("availAmt").textContent = result.availAmt;
+		document.getElementById("needAmt").textContent = result.needAmt;
+		document.getElementById("shortAmt").textContent = result.shortAmt;
 		    
-		 	// 입력폼 숨기고 결과 영역만 보이게
-		    document.getElementById("inputSection").style.display = "none";
-		    document.getElementById("resultSection").style.display = "block";
-		});
-	</script>
+		// 입력폼 숨기고 결과 영역만 보이게
+		document.getElementById("input-section").style.display = "none";
+		document.getElementById("result-section").style.display = "block";
+	});
+</script>
 </body>
 </html>

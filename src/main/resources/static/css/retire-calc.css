@@ -80,21 +80,24 @@ body {
   	width: 300px;
 	height: 8px;
 	border-radius: 5px;
-	background: #f5f5f5;
 	outline: none;
+}
+
+/* 슬라이더 색 채워지게 */
+input[type="range"] {
+	background: linear-gradient(to right, #4B84CA 50%, #f5f5f5 50%);
+	transition: background 0.3s ease;
 }
 
 /* 슬라이더 채워지는 왼쪽 트랙 색상 */
 input[type="range"]::-webkit-slider-runnable-track {
 	height: 10px;
 	border-radius: 5px;
-	background: #f5f5f5;
 }
 
 input[type=range]::-moz-range-track {
 	height: 10px;
 	border-radius: 5px;
-	background: #f5f5f5;
 }
 
 /* 슬라이더 핸들 (WebKit) */
@@ -165,15 +168,47 @@ input[type=range]::-moz-range-thumb {
 }
 
 
+/*결과 화면*/
+/* 결과 카드 박스 스타일 */
+.result-block {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 60px 40px;
+  border-radius: 28px;
+  max-width: 840px;
+  margin: 40px auto;
+  text-align: center;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.05);
+  margin-bottom: 35px; /*화면에 딱 맞게 조정해둠*/
+}
 
+/* 제목 */
+.result-title {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
 
+/* 결과 리스트 */
+.result-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  line-height: 2;
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto;
+}
 
+.result-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
 
-
-
-
-
-
+.result-list li:last-child {
+  border-bottom: none;
+}
 
 
 
