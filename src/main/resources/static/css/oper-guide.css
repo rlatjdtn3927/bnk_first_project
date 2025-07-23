@@ -89,9 +89,7 @@ body {
 	justify-content: center;
 	align-items: stretch;
 	border-bottom: 1px solid #ccc;
-	max-width: 1200px;
 	margin: 0 auto;
-	overflow-x: auto; /* 스크롤 허용 */
 	-webkit-overflow-scrolling: touch;
 	flex-wrap: nowrap; /* 줄바꿈 방지 */
 }
@@ -102,8 +100,8 @@ body {
 	background: none;
 	border: none;
 	cursor: pointer;
-	font-size: 18px;
-	font-weight: 700;
+	font-size: 22px;
+	font-weight: 500;
 	color: #333;
 	border-bottom: 3px solid transparent;
 	transition: all 0.3s ease;
@@ -112,16 +110,13 @@ body {
 }
 
 .tab-menu button.active {
-	color: #c30d23;
-	font-family: 'Pretendard', sans-serif;
-	border-bottom: 3px solid #c30d23;
-	font-weight: 800;
+	color: #D71921;
+	border-bottom: 3px solid #D71921;
+	font-weight: 500;
 	background-color: #fff;
 }
 
-.tab-menu button:hover {
-	background-color: #eee;
-}
+
 
 @media (max-width: 768px) {
   	.tab-menu button {
@@ -143,12 +138,10 @@ body {
 .section h2 {
   font-size: 28px;
   font-weight: 700;
-  color: #111;
 }
 
 .section ul {
-	font-size: 18px;
-	color: #333;
+	font-size: 19px;
 	list-style-type: none;
 	padding-left: 10px;
 }
@@ -183,7 +176,7 @@ body {
   max-width: 1200px;
   width: 100%;
   background-color: #f9f9f9;
-  font-size: 14px;
+  font-size: 15px;
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 60px;
@@ -269,16 +262,17 @@ body {
 
 .flex-text ul {
 	list-style: none;
-	padding-left: 1.2em;
-}
-
-
-.flex-text li {
-	font-size: 16px;
+	font-size: 19px;
 }
 
 .flex-text h3 {
-	margin-left: 20px;
+	font-size: 22px;
+	font-weight: 600;
+}
+
+.red-line {
+  border-left: 4px solid #D71921;
+  margin-right: 10px;
 }
 
 .flex-text p {
@@ -338,7 +332,7 @@ body {
 .ban-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 15px;
+  font-size: 16px;
   /*color: #D71921;*/
   margin-bottom: 45px;
 }
