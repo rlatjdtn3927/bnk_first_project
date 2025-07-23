@@ -21,12 +21,12 @@ public class FaqTestController {
         return "index2";
     }
 
-    @GetMapping("/retriement-type")
+//    @GetMapping("/retriement-type")
     public String retriementTypePage(){
         return "retriement-type";
     }
     
-    @GetMapping("/retriement-typetest")
+    @GetMapping("/retriement-type")
     public String retriementTypeTest(){
         return "retriement-typetest";
     }
