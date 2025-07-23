@@ -8,6 +8,7 @@
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <link rel="stylesheet" th:href="@{/css/footer.css}" />
   <link rel="stylesheet" th:href="@{/css/faq.css}" />
+  <link rel="stylesheet" th:href="@{/css/chatbot.css}" />
 
 </head>
 <body>
@@ -45,6 +46,6 @@
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 <script th:src="@{/js/faq.js}" defer></script>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script defer th:src="@{/js/chatbot.js}"></script>
+<script th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>

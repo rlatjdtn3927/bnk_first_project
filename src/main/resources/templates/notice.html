@@ -7,6 +7,7 @@
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <link rel="stylesheet" th:href="@{/css/footer.css}" />
   <link rel="stylesheet" th:href="@{/css/notice.css}" />
+  <link rel="stylesheet" th:href="@{/css/chatbot.css}" />
 </head>
 <body>
 
@@ -20,7 +21,8 @@
 </section>
 
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
-
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script th:src="@{/js/chatbot.js}"></script>
 <script>
 let currentPage = 0;
 const pageSize = 10;

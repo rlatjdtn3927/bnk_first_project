@@ -7,6 +7,7 @@
   <link rel="stylesheet" th:href="@{/css/header.css}" />
   <link rel="stylesheet" th:href="@{/css/footer.css}" />
   <link rel="stylesheet" th:href="@{/css/retirement-type.css}" />
+  <link rel="stylesheet" th:href="@{/css/chatbot.css}" />
   <!-- <link rel="stylesheet" th:href="@{/css/pension_renuwal.css}" /> -->
 </head>
 <body>
@@ -412,7 +413,7 @@
 <!-- 푸터 -->
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
 <div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script defer th:src="@{/js/chatbot.js}"></script>
+<script th:src="@{/js/chatbot.js}"></script>
 <!-- JS -->
 <script>
 function showTab(id, btn) {

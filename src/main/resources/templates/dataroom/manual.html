@@ -6,6 +6,7 @@
 <link rel="stylesheet" th:href="@{/css/header.css}" />
 <link rel="stylesheet" th:href="@{/css/footer.css}" />
 <link rel="stylesheet" th:href="@{/css/manual.css}" />
+<link rel="stylesheet" th:href="@{/css/chatbot.css}" />
 </head>
 <body>
 <!-- header -->
@@ -94,10 +95,9 @@
 </section>
 
 
-<div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <!-- footer -->
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
-
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
 <script th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>

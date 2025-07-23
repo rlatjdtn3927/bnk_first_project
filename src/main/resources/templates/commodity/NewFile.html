@@ -11,6 +11,7 @@
     <link rel="stylesheet" th:href="@{/css/header.css}" />
     <link rel="stylesheet" th:href="@{/css/footer.css}" />
     <link rel="stylesheet" th:href="@{/css/commodity.css}" />
+    <link rel="stylesheet" th:href="@{/css/chatbot.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
@@ -260,8 +261,6 @@
 <button id="loadMoreBtn">더보기</button>
 
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
-<div th:replace="~{fragments/chatbot :: chatbot}"></div>
-<script th:src="@{/js/chatbot.js}"></script>
 
 <!-- helper -->
 <script>
@@ -846,5 +845,7 @@
     });
 </script>
 <div th:replace="~{fragments/footer :: mainFooter}"></div>
+<div th:replace="~{fragments/chatbot :: chatbot}"></div>
+<script th:src="@{/js/chatbot.js}"></script>
 </body>
 </html>

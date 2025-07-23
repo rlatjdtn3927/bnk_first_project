@@ -16,7 +16,7 @@ const topMenu = document.querySelector('.topMenu'); // HTML class="topMenu"
 const sidebarMenu = document.getElementById('sidebarMenu'); // HTML id="sidebarMenu"  
 const mainContentArea = document.getElementById('main-content-area'); // HTML id="main-content-area"
 
-// 소분류 매뉴 배열
+// 소분류 매뉴 배열.
 const submenus = {
 	'approval': ['결재 문서 조회', '결재 대기 목록'],
 	'notice': ['공지사항 목록', '공지사항 등록'],
@@ -226,7 +226,7 @@ function viewNoticeContent(b_id) {
 
                     <div class="actions" style="margin-top: 20px;">
                         <button onclick="showNoticeList()"
-                            style="padding: 10px 20px; background: #007bff; color: white;
+                            style="padding: 8px; background: #007bff; color: white;
                             border: none; border-radius: 5px; cursor: pointer;">
                             목록으로
                         </button>
@@ -1000,7 +1000,7 @@ function userApprovalFunction() {
 		return;
 	}
 
-	const createdAt = new Date().toISOString().split('T')[0];
+	const createdAt = new Date().toISOString();
 	const noticeData = {
 		b_title: title,
 		b_content: content,
