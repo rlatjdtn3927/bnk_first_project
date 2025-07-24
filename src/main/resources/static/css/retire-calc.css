@@ -21,7 +21,7 @@ body {
 /*휜색 카드 느낌*/
 .input-block {
 	background-color: #fff;
-	border: 1px solid #ccc;
+	border: 1px solid #4b84ca;
 	padding: 60px 30px;
 	border-radius: 28px;
 	max-width: 840px;
@@ -71,6 +71,8 @@ body {
 	appearance: none;
 	-webkit-appearance: none;
 	width: 100%;
+	border-radius: 5px;
+	margin-top: 20px;
 }
 
 /*두 개의 슬라이드 너비*/
@@ -131,17 +133,20 @@ input[type=range]::-moz-range-thumb {
 
 /*button*/
 .presets {
-	margin-top: 10px;
+	margin-top: 30px;
 	display: flex;
 	gap: 10px;
+	justify-content: center;
 }
 
 .presets button {
 	padding: 10px 13px;
-	border: 1px solid #ccc;
+	border: 1px solid #bbb;
 	border-radius: 6px;
 	background: #fff;
 	cursor: pointer;
+	font-weight: 500;
+	font-size: 18px;
 }
 
 .presets button.active {
@@ -157,13 +162,15 @@ input[type=range]::-moz-range-thumb {
 }
 
 .actions button {
+	margin-top: 40px;
 	margin-bottom: 100px;
 	padding: 13px 26px;
 	border: none;
-	border-radius: 6px;
+	border-radius: 10px;
 	background: #4b84ca;
 	color: #fff;
-	font-size: 16px;
+	font-size: 18px;
+	font-weight: 600;
 	cursor: pointer;
 }
 
@@ -172,14 +179,13 @@ input[type=range]::-moz-range-thumb {
 /* 결과 카드 박스 스타일 */
 .result-block {
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #4b84ca;
   padding: 60px 40px;
   border-radius: 28px;
   max-width: 840px;
   margin: 40px auto;
   text-align: center;
   box-shadow: 0px 4px 8px rgba(0,0,0,0.05);
-  margin-bottom: 35px; /*화면에 딱 맞게 조정해둠*/
 }
 
 /* 제목 */
@@ -210,7 +216,20 @@ input[type=range]::-moz-range-thumb {
   border-bottom: none;
 }
 
+.reset-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  background-color: #4B84CA;
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 50px;
+}
 
+.reset-button:hover {
+  background-color: #3a6cb2;
+}
 
 
 

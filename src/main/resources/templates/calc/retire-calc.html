@@ -63,7 +63,7 @@
 		<h2>03. 현재 월 생활비 정보를 입력해 주세요</h2>
 	    <div class="single-section">
 	      <label>월 생활비 <span class="bold"><span id="curExpVal">140</span>만원</span></label>
-	      <input type="number" id="curExp" value="140" min="0" style="width:80px;"/> 만원
+	      <input type="text" id="curExp" value="140" min="0" style="width:80px;"/> 만원
 	      <div class="presets">
 	        <button type="button" class="preset" data-target="curExp" data-value="100">100만원</button>
 	        <button type="button" class="preset" data-target="curExp" data-value="200">200만원</button>
@@ -78,7 +78,7 @@
 	    <div class="input-row">
 	      <div class="single-section">
 	        <label>저축기간 <span class="bold"><span id="saveYearsVal">10</span>년</span></label>
-	        <input type="number" id="saveYears" value="10" min="0" style="width:60px;"/> 년
+	        <input type="text" id="saveYears" value="10" min="0" style="width:60px;"/> 년
 	        <div class="presets">
 	          <button type="button" class="preset" data-target="saveYears" data-value="5">5년</button>
 	          <button type="button" class="preset" data-target="saveYears" data-value="10">10년</button>
@@ -88,7 +88,7 @@
 	      </div>
 	      <div class="single-section">
 	        <label>월 저축금액 <span class="bold"><span id="saveAmtVal">100</span>만원</span></label>
-	        <input type="number" id="saveAmt" value="100" min="0" style="width:80px;"/> 만원
+	        <input type="text" id="saveAmt" value="100" min="0" style="width:80px;"/> 만원
 	        <div class="presets">
 	          <button type="button" class="preset" data-target="saveAmt" data-value="10">10만원</button>
 	          <button type="button" class="preset" data-target="saveAmt" data-value="50">50만원</button>
@@ -135,6 +135,9 @@
 	    <li><strong>필요 은퇴 자금:</strong> <span id="needAmt"></span> 만원</li>
 	    <li><strong>부족 자금:</strong> <span id="shortAmt"></span> 만원</li>
     </ul>
+    <div class="btn-wrap" style="text-align:center;">
+  		<button id="resetBtn" class="reset-button">다시 계산하기</button>
+	</div>
 </div>
 
 
@@ -153,7 +156,8 @@
 		const max = parseFloat(slider.max);
 		const val = parseFloat(slider.value);
 		const percent = ((val - min) / (max - min)) * 100;
-		slider.style.background = `linear-gradient(to right, #4B84CA 0%, #4B84CA ${percent}%, #f5f5f5 ${percent}%, #f5f5f5 100%)`;
+		slider.style.background = 
+			`linear-gradient(to right, #4B84CA 0%, #4B84CA ${percent}%, #f5f5f5 ${percent}%, #f5f5f5 100%)`;
 	}
 
 	//슬라이드 실시간 값 반영
@@ -168,7 +172,6 @@
 	sliders.forEach(({id, label}) => {
 		const slider = document.getElementById(id);
 		const display = document.getElementById(label);
-		
 		// 초기 상태에도 배경 적용
 		updateSliderFill(slider);
 			
@@ -177,6 +180,19 @@
 			updateSliderFill(slider);
 		});
 	});
+	
+	// 숫자만 입력되도록 허용
+	function allowOnlyNumbers(selector) {
+		const input = document.getElementById(selector);
+		if (!input) return;
+
+		input.addEventListener("input", function () {
+			this.value = this.value.replace(/[^0-9]/g, "");
+			const display = document.getElementById(selector + "Val");
+			if (display) display.textContent = this.value;
+		});
+	}
+	["saveYears", "saveAmt", "curExp"].forEach(allowOnlyNumbers);
 		
 	//버튼 클릭시 input 반영
 	const presetButtons = document.querySelectorAll('.preset');
@@ -226,6 +242,11 @@
 		// 입력폼 숨기고 결과 영역만 보이게
 		document.getElementById("input-section").style.display = "none";
 		document.getElementById("result-section").style.display = "block";
+	});
+	
+	document.getElementById("resetBtn").addEventListener("click", () => {
+		document.getElementById("result-section").style.display = "none";
+		document.getElementById("input-section").style.display = "block";
 	});
 </script>
 </body>
